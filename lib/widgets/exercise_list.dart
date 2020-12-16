@@ -17,13 +17,13 @@ class _ExerciseListState extends State<ExerciseList> {
   Widget build(BuildContext context) {
     return Consumer<ExerciseData>(
       builder: (context, exerciseData, child) {
+        exerciseData.generateSets(widget.workoutDuration);
         return ListView.builder(
           itemBuilder: (context, index) {
-            exerciseData.generateSets(widget.workoutDuration);
             final exercise = exerciseData.exercises[index];
             return ExerciseTile(
               name: exercise.name,
-              sets: exercise.sets, //Todo: This needs to be dynamic
+              sets: exercise.sets,
               effort: exercise.effort,
               workoutDuration: widget.workoutDuration,
             );

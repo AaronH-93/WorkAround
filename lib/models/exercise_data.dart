@@ -14,11 +14,13 @@ class ExerciseData extends ChangeNotifier{
   }
 
   void generateSets(int duration){
+    for(var i = 0; i < _exercises.length; i++){
       for(Exercise exercise in _exercises){
         if(duration - exercise.effort > 0) {
           exercise.sets += 1;
           duration -= exercise.effort;
         }
+      }
     }
   }
 }
