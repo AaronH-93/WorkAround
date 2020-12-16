@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "365310406026",
+    "project_id": "workaround-1e8fa",
+    "storage_bucket": "workaround-1e8fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365310406026:android:9c5f15ba45fe1e5e01ec73",
+        "android_client_info": {
+          "package_name": "com.techill.workaround"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365310406026-ibqt70gga68jcpumvjn4e52ttjcg5avk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcZNPTvXO9orGyJVwuHDUX_FknIbmUJug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365310406026-ibqt70gga68jcpumvjn4e52ttjcg5avk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
