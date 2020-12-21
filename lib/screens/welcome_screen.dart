@@ -52,7 +52,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     style: TextStyle(
                       fontSize: 50,
                       fontWeight: FontWeight.bold,
-                      color: Colors.red,
+                      color: Colors.redAccent,
                     ),
                   ),
                 ),
@@ -62,13 +62,13 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               height: 48.0,
             ),
             RoundedButton(
-                color: Colors.red,
+                color: Colors.redAccent,
                 title: 'Log in',
                 onPressed: () {
                   Navigator.pushNamed(context, LoginScreen.id);
                 }),
             RoundedButton(
-                color: Colors.white,
+                color: Colors.redAccent,
                 title: 'Register',
                 onPressed: () {
                   Navigator.pushNamed(context, RegistrationScreen.id);

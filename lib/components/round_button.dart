@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:work_around/widgets/rest_timer.dart';
 
 class RoundButton extends StatefulWidget {
 
@@ -21,7 +22,11 @@ class _RoundButtonState extends State<RoundButton> {
       onPressed: () {
         setState(() {
           color = Colors.green;
+          _showRestTimer();
         });
+
+        //Todo: when a set button is pressed, display a rest timer.
+        //Todo: Dynamically adjust workout based on leftover duration
       },
       child: Padding(
         padding: const EdgeInsets.all(10),
@@ -29,6 +34,13 @@ class _RoundButtonState extends State<RoundButton> {
           widget.setNumber.toString(),
         ),
       ),
+    );
+  }
+
+  _showRestTimer() async {
+    await showDialog<String>(
+      context: context,
+      child: RestTimer(context: context),
     );
   }
 }

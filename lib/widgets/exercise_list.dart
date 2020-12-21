@@ -24,6 +24,7 @@ class _ExerciseListState extends State<ExerciseList> {
             return ExerciseTile(
               name: exercise.name,
               sets: exercise.sets,
+              reps: exercise.reps,
               effort: exercise.effort,
               workoutDuration: widget.workoutDuration,
             );

@@ -18,6 +18,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
+      //Todo: Display duration at top of screen
       builder: (context) => ExerciseData(),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),

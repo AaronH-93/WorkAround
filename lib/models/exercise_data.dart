@@ -4,9 +4,9 @@ import 'dart:collection';
 
 class ExerciseData extends ChangeNotifier{
   List<Exercise> _exercises = [
-    Exercise(name: 'Bicep Curl', sets: 0, effort: 2),
-    Exercise(name: 'Hammer Curl', sets: 0, effort: 3),
-    Exercise(name: 'Tricep Curl', sets: 0, effort: 2),
+    Exercise(name: 'Bicep Curl', sets: 0, reps: 10, effort: 2),
+    Exercise(name: 'Hammer Curl', sets: 0, reps: 20,effort: 3),
+    Exercise(name: 'Tricep Curl', sets: 0, reps: 10, effort: 2),
   ];
 
   UnmodifiableListView<Exercise> get exercises{

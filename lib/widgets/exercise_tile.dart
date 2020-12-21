@@ -4,11 +4,12 @@ import 'sets_buttons.dart';
 class ExerciseTile extends StatelessWidget {
   final String name;
   final int effort;
+  final int reps;
   final int workoutDuration;
   final int sets;
 
   ExerciseTile(
-      {this.name, this.sets, this.effort, this.workoutDuration});
+      {this.name, this.sets, this.reps, this.effort, this.workoutDuration});
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +25,12 @@ class ExerciseTile extends StatelessWidget {
           color: Colors.white,
           child: Column(
             children: [
-              ExerciseContainer(text: name,),
-              ExerciseContainer(text: 'Sets',),
+              ExerciseContainer(
+                text: name,
+              ),
+              ExerciseContainer(
+                text: 'Sets by $reps reps',
+              ),
             ],
           ),
         ),
@@ -45,7 +50,6 @@ class ExerciseTile extends StatelessWidget {
 }
 
 class ExerciseContainer extends StatelessWidget {
-
   final String text;
 
   ExerciseContainer({this.text});

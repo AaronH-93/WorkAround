@@ -5,5 +5,5 @@ class Exercise{
   bool isDone;
   int effort;
 
-  Exercise({this.name, this.sets, this.effort});
+  Exercise({this.name, this.sets, this.reps, this.effort});
 }
