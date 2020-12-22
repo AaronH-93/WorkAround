@@ -46,18 +46,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   onChanged: (value) {
                     email = value;
                   },
-                  decoration: kTextFieldDecoration
+                  decoration: kTextFieldDecoration.copyWith(
+                    hintStyle: TextStyle(color: Colors.white),
+                  )
               ),
               SizedBox(
                 height: 8.0,
               ),
               TextField(
+                  obscureText: true,
                   onChanged: (value) {
                     password = value;
                   },
                   decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'Enter your password'
-                  )
+                      hintText: 'Enter your password',
+                    hintStyle: TextStyle(color: Colors.white),
+                  ),
               ),
               SizedBox(
                 height: 24.0,
@@ -65,18 +69,18 @@ class _LoginScreenState extends State<LoginScreen> {
               RoundedButton(
                 color: Colors.red,
                 title: 'Log in',
-                onPressed: () {
+                onPressed: () async {
                   setState(() {
                     spinner = true;
                   });
                   try {
-                    // final returningUser = await _auth.signInWithEmailAndPassword(
-                    //     email: email, password: password);
-                    // if (returningUser != null) {
-                    //   Navigator.pushNamed(context, HomeScreen.id);
-                    // }
+                    final returningUser = await _auth.signInWithEmailAndPassword(
+                        email: email, password: password);
+                    if (returningUser != null) {
+                      Navigator.pushNamed(context, HomeScreen.id);
+                    }
 
-                    Navigator.pushNamed(context, HomeScreen.id);
+                    // Navigator.pushNamed(context, HomeScreen.id);
                     spinner = false;
                   } catch (e) {
                     print(e);

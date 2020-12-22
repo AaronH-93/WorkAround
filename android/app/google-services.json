@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:365310406026:android:9c5f15ba45fe1e5e01ec73",
+        "mobilesdk_app_id": "1:365310406026:android:ecd21ab37e34552401ec73",
         "android_client_info": {
-          "package_name": "com.techill.workaround"
+          "package_name": "com.aaronh93.WorkAround"
         }
       },
       "oauth_client": [

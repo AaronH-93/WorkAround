@@ -48,7 +48,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   onChanged: (value) {
                     email = value;
                   },
-                  decoration: kTextFieldDecoration),
+                  decoration: kTextFieldDecoration.copyWith(
+                    hintStyle: TextStyle(color: Colors.white),
+                  ),
+              ),
               SizedBox(
                 height: 8.0,
               ),
@@ -59,27 +62,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     password = value;
                   },
                   decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'Enter your password')),
+                      hintText: 'Enter your password',
+                  hintStyle: TextStyle(color: Colors.white),),),
               SizedBox(
                 height: 24.0,
               ),
               RoundedButton(
                 color: Colors.redAccent,
                 title: 'Register',
-                onPressed: () {
+                onPressed: () async {
                   setState(() {
                     spinner = true;
                   });
                   try {
-                    // final newUser = await _auth.createUserWithEmailAndPassword(
-                    //     email: email, password: password);
-                    // if (newUser != null) {
-                    //   Navigator.pushNamed(context, HomeScreen.id);
-                    // }
-                    Navigator.pushNamed(context, HomeScreen.id);
-                    setState(() {
-                      spinner = false;
-                    });
+                    final newUser = await _auth.createUserWithEmailAndPassword(
+                        email: email, password: password);
+                    if (newUser != null) {
+                      Navigator.pushNamed(context, HomeScreen.id);
+                    }
+                    // Navigator.pushNamed(context, HomeScreen.id);
+                    // setState(() {
+                    //   spinner = false;
+                    // });
                   } catch (e) {
                     print(e);
                   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:work_around/screens/settings_screen.dart';
 import 'package:work_around/screens/workout_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/welcome_screen.dart';
@@ -8,17 +9,17 @@ import 'screens/workout_screen.dart';
 import 'package:quiver/async.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-
-void main()  {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
-}
-
-// void main() async {
+//
+// void main()  {
 //   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
 //   runApp(MyApp());
 // }
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -30,7 +31,8 @@ class MyApp extends StatelessWidget {
         LoginScreen.id: (context) => LoginScreen(),
         RegistrationScreen.id: (context) => RegistrationScreen(),
         HomeScreen.id: (context) => HomeScreen(),
-        WorkoutScreen.id: (context) => WorkoutScreen()
+        WorkoutScreen.id: (context) => WorkoutScreen(),
+        SettingsScreen.id: (context) => SettingsScreen()
       },
     );
   }

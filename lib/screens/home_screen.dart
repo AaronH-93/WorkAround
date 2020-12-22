@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:work_around/components/rounded_button.dart';
+import 'package:work_around/screens/settings_screen.dart';
 import 'workout_screen.dart';
 import 'file:///C:/Users/Salty/AndroidStudioProjects/work_around/lib/widgets/alert_dialog_box.dart';
 import 'package:work_around/widgets/workout_list.dart';
@@ -52,7 +53,7 @@ class _MyHomeScreenState extends State<HomeScreen> {
               DrawerTile(
                 text: 'Settings',
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pushNamed(context, SettingsScreen.id);
                 },
               ),
               DrawerTile(

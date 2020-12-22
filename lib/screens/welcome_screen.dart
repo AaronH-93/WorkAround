@@ -73,12 +73,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 onPressed: () {
                   Navigator.pushNamed(context, RegistrationScreen.id);
                 }),
-            RoundedButton(
-                color: Colors.greenAccent,
-                title: 'Home',
-                onPressed: () {
-                  Navigator.pushNamed(context, HomeScreen.id);
-                }),
+            // RoundedButton(
+            //     color: Colors.greenAccent,
+            //     title: 'Home',
+            //     onPressed: () {
+            //       Navigator.pushNamed(context, HomeScreen.id);
+            //     }),
           ],
         ),
       ),
