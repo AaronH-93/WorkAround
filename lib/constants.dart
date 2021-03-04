@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+BorderRadius buildBorderRadiusTop() => BorderRadius.only(
+    topRight: Radius.circular(10.0), topLeft: Radius.circular(10.0));
+
 const kTextFieldDecoration = InputDecoration(
   hintText: 'Enter your email',
   filled: true,

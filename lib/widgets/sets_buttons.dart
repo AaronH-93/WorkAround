@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:work_around/components/round_button.dart';
+import 'package:work_around/components/set_button.dart';
 
 class SetsButtons extends StatelessWidget {
   final int sets;
@@ -10,7 +10,7 @@ class SetsButtons extends StatelessWidget {
     List<Widget> list = List<Widget>();
     for (var i = 0; i < sets; i++) {
       list.add(
-        RoundButton(
+        SetButton(
           setNumber: i + 1,
         ),
       );

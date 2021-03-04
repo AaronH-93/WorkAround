@@ -2,8 +2,8 @@ class Exercise{
   final String name;
   int sets;
   int reps;
-  bool isDone;
   int effort;
+  final String muscleGroup;
 
-  Exercise({this.name, this.sets, this.reps, this.effort});
+  Exercise({this.name, this.sets, this.reps, this.effort, this.muscleGroup});
 }

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:work_around/widgets/rest_timer.dart';
 
-class RoundButton extends StatefulWidget {
+class SetButton extends StatefulWidget {
 
   final int setNumber;
 
-  RoundButton({this.setNumber});
+  SetButton({this.setNumber});
 
   @override
-  _RoundButtonState createState() => _RoundButtonState();
+  _SetButtonState createState() => _SetButtonState();
 }
 
-class _RoundButtonState extends State<RoundButton> {
+class _SetButtonState extends State<SetButton> {
   Color color = Colors.grey[400];
 
   @override
@@ -22,7 +22,7 @@ class _RoundButtonState extends State<RoundButton> {
       onPressed: () {
         setState(() {
           color = Colors.green;
-          _showRestTimer();
+          //_showRestTimer();
         });
 
         //Todo: when a set button is pressed, display a rest timer.
@@ -37,11 +37,11 @@ class _RoundButtonState extends State<RoundButton> {
     );
   }
 
-  _showRestTimer() async {
-    await showDialog<String>(
-      context: context,
-      child: RestTimer(context: context),
-    );
-  }
+  // _showRestTimer() async {
+  //   await showDialog<String>(
+  //     context: context,
+  //     builder: (_) => RestTimer(context: context),
+  //   );
+  // }
 }
 
