@@ -16,9 +16,11 @@ class HomeViewModel extends BaseViewModel{
   int getNumOfWorkouts() => _exerciseService.getNumOfWorkouts();
   void pop() => _navigationService.pop();
   void navigateToSettingsView() => _navigationService.navigateToSettingsView();
-  void navigateToWorkoutView(int duration, Workout workout) => _navigationService.navigateToWorkoutView(duration, workout);
+  void navigateToWorkoutView(Duration duration, Workout workout) => _navigationService.navigateToWorkoutView(duration, workout);
   void navigateToExercisesView() => _navigationService.navigateToExercisesView();
   void navigateToCreateWorkoutView() => _navigationService.navigateToCreateWorkoutView();
 
-
+  void setCurrentWorkout(Workout workout) => _exerciseService.setCurrentWorkout(workout);
+  void startWorkoutTimer() => _exerciseService.startWorkoutTimer();
+  void setWorkoutDuration(Duration duration) => _exerciseService.setWorkoutDuration(duration);
 }

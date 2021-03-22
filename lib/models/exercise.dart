@@ -2,7 +2,7 @@ class Exercise{
   final String name;
   int sets;
   int reps;
-  int effort;
+  Duration effort;
   final String muscleGroup;
 
   Exercise({this.name, this.sets, this.reps, this.effort, this.muscleGroup});

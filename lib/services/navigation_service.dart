@@ -47,14 +47,26 @@ class NavigationService {
         ));
   }
 
-  void navigateToWorkoutView(int duration, Workout workout) {
+  void navigateToWorkoutView(Duration duration, Workout workout) {
     navigator.push(
         MaterialPageRoute<void>(
           builder: (context) {
             return WorkoutView(duration, workout);
           },
           settings: const RouteSettings(name: 'workout_view'),
-        ));
+        ),
+    );
+  }
+
+  void navigateToNewWorkoutView(Duration duration, Workout workout) {
+    navigator.pushReplacement(
+      MaterialPageRoute<void>(
+        builder: (context) {
+          return WorkoutView(duration, workout);
+        },
+        settings: const RouteSettings(name: 'workout_view'),
+      ),
+    );
   }
 
   void navigateToExercisesView() {

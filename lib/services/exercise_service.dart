@@ -13,6 +13,9 @@ class ExerciseService{
   get workouts => _workoutData.workouts;
   get temp => _workoutData.temp;
 
+  Stopwatch _workoutTimer = Stopwatch();
+  Duration _workoutDuration;
+
   void setTemp(Workout temp) => _workoutData.setTempWorkout(temp);
 
   void addWorkout(String workoutName){
@@ -40,7 +43,31 @@ class ExerciseService{
     return _workoutData.workouts.length;
   }
 
-  void generateSets(int duration, List<Exercise> workout){
+  void generateSets(Duration duration, List<Exercise> workout){
     _exerciseData.generateSets(duration, workout);
+  }
+
+  void setCurrentWorkout(workout){
+    _workoutData.setCurrentWorkout(workout);
+  }
+
+  Workout getCurrentWorkout(){
+    return _workoutData.currentWorkout;
+  }
+
+  void startWorkoutTimer(){
+    _workoutTimer.start();
+  }
+
+  Duration getWorkoutTimeElapsed(){
+    return _workoutTimer.elapsed;
+  }
+
+  void setWorkoutDuration(Duration duration) {
+    _workoutDuration = duration;
+  }
+
+  Duration getWorkoutDuration(){
+    return _workoutDuration;
   }
 }

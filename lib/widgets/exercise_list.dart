@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:work_around/models/exercise_data.dart';
+import 'package:stacked/stacked.dart';
 import 'package:provider/provider.dart';
+import 'package:work_around/models/workout.dart';
+import 'package:work_around/services/exercise_service.dart';
+import 'package:work_around/services/navigation_service.dart';
+import 'package:work_around/ui/views/exercise/workout_view_model.dart';
 import 'exercise_tile.dart';
 
 class ExerciseList extends StatefulWidget {
-  final int workoutDuration;
+  final Duration workoutDuration;
+  final Workout workout;
 
-  ExerciseList({this.workoutDuration});
+  ExerciseList({this.workoutDuration, this.workout});
 
   @override
   _ExerciseListState createState() => _ExerciseListState();
@@ -15,23 +20,25 @@ class ExerciseList extends StatefulWidget {
 class _ExerciseListState extends State<ExerciseList> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<ExerciseData>(
-      builder: (context, exerciseData, child) {
-        exerciseData.generateSets(widget.workoutDuration);
-        return ListView.builder(
-          itemBuilder: (context, index) {
-            final exercise = exerciseData.exercises[index];
-            return ExerciseTile(
-              name: exercise.name,
-              sets: exercise.sets,
-              reps: exercise.reps,
-              effort: exercise.effort,
-              workoutDuration: widget.workoutDuration,
-            );
-          },
-          itemCount: exerciseData.exercises.length,
-        );
-      },
+    return ViewModelBuilder<WorkoutViewModel>.reactive(
+      onModelReady: (model) => model.generateSets(widget.workoutDuration, widget.workout.workoutList),
+      builder: (context, model, child) => ListView.builder(
+        itemBuilder: (context, index) {
+          final exercise = widget.workout.workoutList[index];
+          return ExerciseTile(
+            name: exercise.name,
+            sets: exercise.sets,
+            reps: exercise.reps,
+            effort: exercise.effort,
+            workoutDuration: widget.workoutDuration,
+          );
+        },
+        itemCount: widget.workout.workoutList.length,
+      ),
+      viewModelBuilder: () => WorkoutViewModel(
+        Provider.of<NavigationService>(context, listen: false),
+        Provider.of<ExerciseService>(context, listen: false),
+      ),
     );
   }
 }

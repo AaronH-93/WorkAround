@@ -7,4 +7,10 @@ class WorkoutData{
   setTempWorkout(Workout value) {
     temp = value;
   }
+
+  Workout currentWorkout = Workout(name: 'Temp', workoutList: []);
+
+  setCurrentWorkout(Workout value) {
+    currentWorkout = value;
+  }
 }

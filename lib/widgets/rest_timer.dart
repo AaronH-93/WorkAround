@@ -1,4 +1,13 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'dart:async';
+
+import 'package:stacked/stacked.dart';
+import 'package:work_around/services/exercise_service.dart';
+import 'package:work_around/services/navigation_service.dart';
+import 'package:work_around/ui/views/exercise/workout_view_model.dart';
 
 class RestTimer extends StatefulWidget {
   final BuildContext context;
@@ -9,45 +18,36 @@ class RestTimer extends StatefulWidget {
   _RestTimerState createState() => _RestTimerState();
 }
 
-class _RestTimerState extends State<RestTimer> with TickerProviderStateMixin {
-  AnimationController controller;
-
-  Duration get duration => controller.duration;
-  bool get expired => duration.inSeconds == 0;
-
-  @override
-  void initState() {
-    controller = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 60),
-    );
-    super.initState();
-  }
-
+class _RestTimerState extends State<RestTimer> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        AlertDialog(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          content: Center(
-            child: AnimatedBuilder(
-                animation: controller,
-                builder: (BuildContext context, Widget child) {
-                  return new Text(
-                    '${duration.inSeconds}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 50.0,
-                      color: Colors.white,
-                    ),
-                  );
-                }),
-          ),
+    return ViewModelBuilder<WorkoutViewModel>.reactive(
+      builder: (context, model, child) => Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AlertDialog(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              content: Center(
+                child: Text(
+                  model.startTimer(model.getCurrentWorkout()).toString(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 50.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
+      viewModelBuilder: () => WorkoutViewModel(
+        Provider.of<NavigationService>(context, listen: false),
+        Provider.of<ExerciseService>(context, listen: false),
+      ),
     );
   }
 }

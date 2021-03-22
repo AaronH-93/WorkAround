@@ -3,9 +3,9 @@ import 'sets_buttons.dart';
 
 class ExerciseTile extends StatelessWidget {
   final String name;
-  final int effort;
+  final Duration effort;
   final int reps;
-  final int workoutDuration;
+  final Duration workoutDuration;
   final int sets;
 
   ExerciseTile(

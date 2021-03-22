@@ -316,7 +316,10 @@ class _AlertDialogBox extends StatelessWidget {
             _AlertDialogButton(
               text: 'Confirm',
               onPressed: () {
-                model.navigateToWorkoutView(int.parse(controller.text), workout);
+                model.setCurrentWorkout(workout);
+                model.startWorkoutTimer();
+                model.setWorkoutDuration(Duration(minutes: int.parse(controller.text)));
+                model.navigateToWorkoutView(Duration(minutes: int.parse(controller.text)), workout);
               },
             ),
           ],

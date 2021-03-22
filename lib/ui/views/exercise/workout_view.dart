@@ -8,7 +8,7 @@ import 'package:work_around/widgets/exercise_list.dart';
 import 'workout_view_model.dart';
 
 class WorkoutView extends StatelessWidget {
-  final int duration;
+  final Duration duration;
   final Workout workout;
 
   WorkoutView(this.duration, this.workout);

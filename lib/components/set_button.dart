@@ -22,11 +22,8 @@ class _SetButtonState extends State<SetButton> {
       onPressed: () {
         setState(() {
           color = Colors.green;
-          //_showRestTimer();
+          _showRestTimer();
         });
-
-        //Todo: when a set button is pressed, display a rest timer.
-        //Todo: Dynamically adjust workout based on leftover duration
       },
       child: Padding(
         padding: const EdgeInsets.all(10),
@@ -37,11 +34,11 @@ class _SetButtonState extends State<SetButton> {
     );
   }
 
-  // _showRestTimer() async {
-  //   await showDialog<String>(
-  //     context: context,
-  //     builder: (_) => RestTimer(context: context),
-  //   );
-  // }
+  _showRestTimer() async {
+    await showDialog<String>(
+      context: context,
+      builder: (_) => RestTimer(context: context),
+    );
+  }
 }
 
