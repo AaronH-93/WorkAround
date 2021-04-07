@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:work_around/models/ExerciseSet.dart';
 import 'sets_buttons.dart';
 
 class ExerciseTile extends StatelessWidget {
   final String name;
-  final Duration effort;
   final int reps;
   final Duration workoutDuration;
-  final int sets;
+  final List<ExerciseSet> sets;
 
   ExerciseTile(
-      {this.name, this.sets, this.reps, this.effort, this.workoutDuration});
+      {this.name, this.sets, this.reps, this.workoutDuration});
 
   @override
   Widget build(BuildContext context) {

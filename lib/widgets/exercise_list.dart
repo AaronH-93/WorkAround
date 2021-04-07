@@ -29,7 +29,6 @@ class _ExerciseListState extends State<ExerciseList> {
             name: exercise.name,
             sets: exercise.sets,
             reps: exercise.reps,
-            effort: exercise.effort,
             workoutDuration: widget.workoutDuration,
           );
         },

@@ -1,34 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:work_around/models/ExerciseSet.dart';
 import 'package:work_around/widgets/rest_timer.dart';
 
 class SetButton extends StatefulWidget {
 
-  final int setNumber;
+  final ExerciseSet set;
 
-  SetButton({this.setNumber});
+  SetButton({this.set});
 
   @override
   _SetButtonState createState() => _SetButtonState();
 }
 
 class _SetButtonState extends State<SetButton> {
-  Color color = Colors.grey[400];
+  Color defaultColor = Colors.grey[400];
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      color: color,
+      color: widget.set.isCompleted? Colors.green : defaultColor,
       shape: CircleBorder(),
       onPressed: () {
         setState(() {
-          color = Colors.green;
+          defaultColor = Colors.green;
+          //Should this be within a service?
+          widget.set.isCompleted = true;
           _showRestTimer();
         });
       },
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Text(
-          widget.setNumber.toString(),
+          widget.set.setNumber.toString(),
         ),
       ),
     );
