@@ -1,8 +1,9 @@
 import 'exercise.dart';
 
 class Workout{
+  String workoutId;
   String name;
-  List<Exercise> workoutList;
+  List<Exercise> exerciseList;
 
-  Workout({this.name, this.workoutList});
+  Workout({this.workoutId, this.name, this.exerciseList});
 }

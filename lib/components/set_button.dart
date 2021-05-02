@@ -1,47 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:stacked/stacked.dart';
 import 'package:work_around/models/ExerciseSet.dart';
+import 'package:work_around/models/user_set.dart';
+import 'package:work_around/widgets/exercise_tile_view_model.dart';
 import 'package:work_around/widgets/rest_timer.dart';
 
-class SetButton extends StatefulWidget {
-
-  final ExerciseSet set;
+class SetButton extends ViewModelWidget<ExerciseTileViewModel> {
+  final UserSet set;
 
   SetButton({this.set});
 
   @override
-  _SetButtonState createState() => _SetButtonState();
-}
-
-class _SetButtonState extends State<SetButton> {
-  Color defaultColor = Colors.grey[400];
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ExerciseTileViewModel model) {
+    Color defaultColor = Colors.grey[400];
     return MaterialButton(
-      color: widget.set.isCompleted? Colors.green : defaultColor,
+      color: set.isCompleted ? Colors.green : defaultColor,
       shape: CircleBorder(),
       onPressed: () {
-        setState(() {
-          defaultColor = Colors.green;
-          //Should this be within a service?
-          widget.set.isCompleted = true;
-          _showRestTimer();
-        });
+        //defaultColor = Colors.green;
+        //So, if set is not completed and a set button is pressed
+        //update db so set isCompleted
+        //Maybe add if set is completed and its pressed, set isComplete to false again
+        if(!set.isCompleted){
+          set.isCompleted = true;
+          model.markSet(set);
+        }
+        else {
+          set.isCompleted = false;
+          model.markSet(set);
+        }
+
+
+        //set.isCompleted = true;
+        _showRestTimer(context);
       },
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Text(
-          widget.set.setNumber.toString(),
+          set.setNumber.toString(),
         ),
       ),
     );
   }
 
-  _showRestTimer() async {
+  _showRestTimer(BuildContext context) async {
     await showDialog<String>(
       context: context,
       builder: (_) => RestTimer(context: context),
     );
   }
 }
-

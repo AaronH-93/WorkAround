@@ -5,8 +5,10 @@ import 'package:provider/provider.dart';
 import 'dart:async';
 
 import 'package:stacked/stacked.dart';
+import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
+import 'package:work_around/services/repository/workout_repository.dart';
 import 'package:work_around/ui/views/exercise/workout_view_model.dart';
 
 class RestTimer extends StatefulWidget {
@@ -32,7 +34,7 @@ class _RestTimerState extends State<RestTimer> {
               elevation: 0,
               content: Center(
                 child: Text(
-                  model.startTimer(model.getCurrentWorkout()).toString(),
+                  model.startTimer().toString(),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 50.0,
@@ -47,6 +49,8 @@ class _RestTimerState extends State<RestTimer> {
       viewModelBuilder: () => WorkoutViewModel(
         Provider.of<NavigationService>(context, listen: false),
         Provider.of<ExerciseService>(context, listen: false),
+        Provider.of<WorkoutRepository>(context, listen: false),
+        Provider.of<AuthenticationService>(context, listen: false),
       ),
     );
   }

@@ -1,90 +1,100 @@
 import 'package:flutter/cupertino.dart';
 import 'package:work_around/models/exercise.dart';
+import 'package:work_around/models/user_set.dart';
 import 'dart:collection';
-import 'workout.dart';
 
 import 'ExerciseSet.dart';
 
 class ExerciseData extends ChangeNotifier {
+
   List<Exercise> _exercises = [
     Exercise(
         name: 'Bicep Curl',
+        effort: 60,
         sets: [
           ExerciseSet(setNumber: 1, effort: Duration(seconds: 45), isCompleted: false, markedForRemove: true),
           ExerciseSet(setNumber: 2, effort: Duration(seconds: 45), isCompleted: false, markedForRemove: true),
           ExerciseSet(setNumber: 3, effort: Duration(seconds: 45), isCompleted: false, markedForRemove: true),
         ],
         reps: 10,
-        muscleGroup: 'Arms'),
+        muscleGroup: 'Biceps'),
     Exercise(
         name: 'Hammer Curl',
+        effort: 60,
         sets: [
           ExerciseSet(setNumber: 1, effort: Duration(seconds: 60), isCompleted: false, markedForRemove: true),
           ExerciseSet(setNumber: 2, effort: Duration(seconds: 60), isCompleted: false, markedForRemove: true),
           ExerciseSet(setNumber: 3, effort: Duration(seconds: 60), isCompleted: false, markedForRemove: true),
         ],
         reps: 20,
-        muscleGroup: 'Arms'),
+        muscleGroup: 'Biceps'),
     Exercise(
         name: 'Tricep Curl',
+        effort: 60,
         sets: [
           ExerciseSet(setNumber: 1, effort: Duration(seconds: 45), isCompleted: false, markedForRemove: true),
           ExerciseSet(setNumber: 2, effort: Duration(seconds: 45), isCompleted: false, markedForRemove: true),
           ExerciseSet(setNumber: 3, effort: Duration(seconds: 45), isCompleted: false, markedForRemove: true),
         ],
         reps: 10,
-        muscleGroup: 'Arms'),
+        muscleGroup: 'Triceps'),
     Exercise(
         name: 'Squat',
+        effort: 60,
         sets: [
-          ExerciseSet(setNumber: 1, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
-          ExerciseSet(setNumber: 2, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
-          ExerciseSet(setNumber: 3, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
+          ExerciseSet(setNumber: 1, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
+          ExerciseSet(setNumber: 2, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
+          ExerciseSet(setNumber: 3, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
         ],
         reps: 10,
-        muscleGroup: 'Lower'),
+        muscleGroup: 'Hamstrings Glutes Quadriceps'),
     Exercise(
         name: 'Good Mornings',
+        effort: 60,
         sets: [
-          ExerciseSet(setNumber: 1, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
-          ExerciseSet(setNumber: 2, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
-          ExerciseSet(setNumber: 3, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
+          ExerciseSet(setNumber: 1, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
+          ExerciseSet(setNumber: 2, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
+          ExerciseSet(setNumber: 3, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
         ],
         reps: 20,
         muscleGroup: 'Lower'),
     Exercise(
         name: 'Crunches',
+        effort: 60,
         sets: [
-          ExerciseSet(setNumber: 1, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
-          ExerciseSet(setNumber: 2, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
-          ExerciseSet(setNumber: 3, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
+          ExerciseSet(setNumber: 1, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
+          ExerciseSet(setNumber: 2, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
+          ExerciseSet(setNumber: 3, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
         ],
         reps: 10,
         muscleGroup: 'Abdominals'),
     Exercise(
         name: 'Laying Leg Raises',
+        effort: 60,
         sets: [
-          ExerciseSet(setNumber: 1, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
-          ExerciseSet(setNumber: 2, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
-          ExerciseSet(setNumber: 3, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
+          ExerciseSet(setNumber: 1, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
+          ExerciseSet(setNumber: 2, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
+          ExerciseSet(setNumber: 3, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
         ],
         reps: 10,
         muscleGroup: 'Abdominals'),
     Exercise(
         name: 'Push ups',
+        effort: 60,
         sets: [
-          ExerciseSet(setNumber: 1, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
-          ExerciseSet(setNumber: 2, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
-          ExerciseSet(setNumber: 3, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
+          ExerciseSet(setNumber: 1, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
+          ExerciseSet(setNumber: 2, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
+          ExerciseSet(setNumber: 3, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
         ],
         reps: 20,
         muscleGroup: 'Upper'),
     Exercise(
         name: 'Incline Push Ups',
+        effort: 60,
         sets: [
-          ExerciseSet(setNumber: 1, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
-          ExerciseSet(setNumber: 2, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
-          ExerciseSet(setNumber: 3, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: false),
+          ExerciseSet(setNumber: 1, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
+          ExerciseSet(setNumber: 2, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
+          ExerciseSet(setNumber: 3, effort: Duration(minutes: 1), isCompleted: false, markedForRemove: true),
         ],
         reps: 10,
         muscleGroup: 'Upper'),
@@ -94,6 +104,12 @@ class ExerciseData extends ChangeNotifier {
     return UnmodifiableListView(_exercises);
   }
 
+  List<Exercise> get exerciseInformation {
+    return _exercises;
+  }
+
+  //Might need to refactor effort back into exercise as a value representing the
+  //time in seconds it should take to complete one set
   void generateSets(Duration duration, List<Exercise> workout) {
     for (var i = 0; i < workout.length; i++) {
       for (ExerciseSet set in workout[i].sets) {
@@ -113,5 +129,4 @@ class ExerciseData extends ChangeNotifier {
       exercise.sets.removeWhere((set) => set.markedForRemove == true);
     }
   }
-
 }

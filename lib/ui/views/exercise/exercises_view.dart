@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
+import 'package:work_around/models/exercise.dart';
+import 'package:work_around/models/user_workout.dart';
+import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
+import 'package:work_around/services/repository/exercise_repository.dart';
+import 'package:work_around/services/repository/workout_repository.dart';
 import 'exercises_view_model.dart';
 
 class ExerciseView extends StatefulWidget {
+  final UserWorkout newWorkout;
+  ExerciseView({this.newWorkout});
+  
   @override
   _ExerciseViewState createState() => _ExerciseViewState();
 }
@@ -19,8 +27,12 @@ class _ExerciseViewState extends State<ExerciseView> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: 40,
+                    ),
+                    //Implement Search Feature
                     Container(
-                      child: ExercisesList(),
+                      child: ExercisesList(newWorkout: widget.newWorkout),
                     ),
                   ],
                 ),
@@ -29,38 +41,41 @@ class _ExerciseViewState extends State<ExerciseView> {
         viewModelBuilder: () => ExerciseViewModel(
               Provider.of<NavigationService>(context, listen: false),
               Provider.of<ExerciseService>(context, listen: false),
+              Provider.of<AuthenticationService>(context, listen: false),
+              Provider.of<ExerciseRepository>(context, listen: false),
             ));
   }
 }
 
-class ExercisesList extends StatefulWidget {
-  @override
-  _ExerciseListState createState() => _ExerciseListState();
-}
+class ExercisesList extends ViewModelWidget<ExerciseViewModel> {
+  final UserWorkout newWorkout;
+  ExercisesList({this.newWorkout});
 
-class _ExerciseListState extends State<ExercisesList> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ExerciseViewModel model) {
     return Expanded(
-      child: ViewModelBuilder<ExerciseViewModel>.reactive(
-        builder: (context, model, child) => ListView.builder(
+      child: ListView.builder(
           itemBuilder: (context, index) {
-            final exercise = model.getExercise(index);
+            final exercise = model.exerciseList[index];
             return TextButton(
-                onPressed: (){
-                  print("clicked");
-                  model.addToTempWorkout(exercise);
-                  model.navigateToCreateWorkoutView();
-                  },
+                onPressed: () {
+                  //Create a new view that has fields for sets and reps and weight?
+                  // model.addToTempWorkout(
+                  //   //Is something like this an option?
+                  //   Exercise(
+                  //     exerciseId: exercise.exerciseId,
+                  //     name: exercise.name,
+                  //     reps: exercise.reps,
+                  //     sets: [],
+                  //     muscleGroup: exercise.muscleGroup,
+                  //   ),
+                  // );
+                  model.navigateToAddExerciseView(newWorkout, exercise);
+                },
                 child: ExerciseTile(name: exercise.name));
           },
           itemCount: model.getNumOfExercises(),
         ),
-        viewModelBuilder: () => ExerciseViewModel(
-          Provider.of<NavigationService>(context, listen: false),
-          Provider.of<ExerciseService>(context, listen: false),
-        ),
-      ),
     );
   }
 }

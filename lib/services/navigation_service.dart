@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:work_around/models/workout.dart';
+import 'package:work_around/models/exercise.dart';
+import 'package:work_around/models/user_workout.dart';
 import 'package:work_around/ui/views/auth/login_view.dart';
 import 'package:work_around/ui/views/auth/register_view.dart';
+import 'package:work_around/ui/views/exercise/add_exercise_view.dart';
 import 'package:work_around/ui/views/exercise/create_workout_view.dart';
+import 'package:work_around/ui/views/exercise/exercise_information_view.dart';
 import 'package:work_around/ui/views/exercise/exercises_view.dart';
 import 'package:work_around/ui/views/exercise/workout_view.dart';
 import 'package:work_around/ui/views/home/home_view.dart';
 import 'package:work_around/ui/views/settings/account_view.dart';
 import 'package:work_around/ui/views/settings/help_view.dart';
 import 'package:work_around/ui/views/settings/settings_view.dart';
+import 'package:work_around/ui/views/exercise/view_exercises_view.dart';
+
 
 class NavigationService {
 
@@ -40,40 +45,38 @@ class NavigationService {
   void navigateToHomeView() {
     navigator.push(
         MaterialPageRoute<void>(
-          builder: (context) {
-            return HomeView();
-          },
+          builder: (context) => HomeView(),
           settings: const RouteSettings(name: 'home_view'),
         ));
   }
 
-  void navigateToWorkoutView(Duration duration, Workout workout) {
+  void navigateToWorkoutView(Duration duration, String workoutId) {
     navigator.push(
         MaterialPageRoute<void>(
           builder: (context) {
-            return WorkoutView(duration, workout);
+            return WorkoutView(duration, workoutId);
           },
           settings: const RouteSettings(name: 'workout_view'),
         ),
     );
   }
 
-  void navigateToNewWorkoutView(Duration duration, Workout workout) {
+  void navigateToNewWorkoutView(Duration duration, String workoutId) {
     navigator.pushReplacement(
       MaterialPageRoute<void>(
         builder: (context) {
-          return WorkoutView(duration, workout);
+          return WorkoutView(duration, workoutId);
         },
         settings: const RouteSettings(name: 'workout_view'),
       ),
     );
   }
 
-  void navigateToExercisesView() {
+  void navigateToExercisesView(UserWorkout newWorkout) {
     navigator.push(
         MaterialPageRoute<void>(
           builder: (context) {
-            return ExerciseView();
+            return ExerciseView(newWorkout: newWorkout);
           },
           settings: const RouteSettings(name: 'exercise_view'),
         ));
@@ -109,13 +112,43 @@ class NavigationService {
         ));
   }
 
-  void navigateToCreateWorkoutView() {
+  void navigateToCreateWorkoutView(UserWorkout newWorkout) {
     navigator.push(
         MaterialPageRoute<void>(
           builder: (context) {
-            return CreateWorkoutView();
+            return CreateWorkoutView(newWorkout: newWorkout);
           },
           settings: const RouteSettings(name: 'create_workout_view'),
+        ));
+  }
+
+  void navigateToViewExercisesView() {
+    navigator.push(
+        MaterialPageRoute<void>(
+          builder: (context) {
+            return ViewExercisesView();
+          },
+          settings: const RouteSettings(name: 'view_exercises_view'),
+        ));
+  }
+
+  void navigateToExerciseInformationView(Exercise exercise) {
+    navigator.push(
+        MaterialPageRoute<void>(
+          builder: (context) {
+            return ExerciseInformationView(exercise: exercise);
+          },
+          settings: const RouteSettings(name: 'exercise_information_view'),
+        ));
+  }
+
+  navigateToAddExerciseView(UserWorkout newWorkout, Exercise exercise) {
+    navigator.push(
+        MaterialPageRoute<void>(
+          builder: (context) {
+            return AddExerciseView(newWorkout, exercise);
+          },
+          settings: const RouteSettings(name: 'exercise_information_view'),
         ));
   }
 }

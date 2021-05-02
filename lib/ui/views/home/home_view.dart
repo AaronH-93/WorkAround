@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
-import 'package:work_around/models/workout.dart';
+import 'package:uuid/uuid.dart';
+import 'package:work_around/models/user_workout.dart';
+import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/constants.dart';
+import 'package:work_around/services/repository/user_repository.dart';
+import 'package:work_around/services/repository/workout_repository.dart';
+import 'package:work_around/ui/views/exercise/workout_view_model.dart';
 
 import 'home_view_model.dart';
-
-final controller = TextEditingController();
 
 class HomeView extends StatefulWidget {
   @override
@@ -20,126 +23,206 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
-        builder: (context, model, child) => Scaffold(
-              body: Scaffold(
-                drawer: Container(
-                  width: 250,
-                  child: Drawer(
-                    child: ListView(
-                      padding: EdgeInsets.zero,
-                      children: <Widget>[
-                        DrawerHeader(
-                          child: Row(
-                            children: [
-                              Text(
-                                'User :)',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
+      viewModelBuilder: () => HomeViewModel(
+        Provider.of<NavigationService>(context, listen: false),
+        Provider.of<ExerciseService>(context, listen: false),
+        Provider.of<AuthenticationService>(context, listen: false),
+        Provider.of<UserRepository>(context, listen: false),
+      ),
+      builder: (context, model, child) => Scaffold(
+        body: Scaffold(
+          drawer: Container(
+            width: 250,
+            child: Drawer(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                  DrawerHeader(
+                    child: Row(
+                      children: [
+                        Text(
+                          model.isBusy
+                              ? 'Hello'
+                              : 'Welcome, ${model.data.firstName}',
+                          style: TextStyle(
+                            color: Colors.white,
                           ),
-                          decoration: BoxDecoration(
-                            color: Colors.redAccent,
-                          ),
-                        ),
-                        _DrawerTile(
-                          text: 'Account',
-                          onPressed: () {
-                            model.pop();
-                          },
-                        ),
-                        _DrawerTile(
-                          text: 'Exercises',
-                          onPressed: () {
-                            model.navigateToExercisesView();
-                          },
-                        ),
-                        _DrawerTile(
-                          text: 'Settings',
-                          onPressed: () {
-                            model.navigateToSettingsView();
-                          },
-                        ),
-                        _DrawerTile(
-                          text: 'Help',
-                          onPressed: () {
-                            model.pop();
-                          },
                         ),
                       ],
                     ),
+                    decoration: BoxDecoration(
+                      color: Colors.redAccent,
+                    ),
                   ),
-                ),
-                appBar: AppBar(
-                  title: Text(
-                    'WorkAround',
+                  _DrawerTile(
+                    text: 'Account',
+                    onPressed: () {
+                      model.pop();
+                    },
                   ),
-                  backgroundColor: Colors.redAccent,
-                ),
-                body: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        child: Center(
-                          child: Text(
-                            'Welcome, User!',
-                            style: TextStyle(
-                              fontSize: 25.0,
-                              color: Colors.redAccent,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 140,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 50, right: 50),
-                        child: Material(
-                          elevation: 5,
-                          borderRadius: buildBorderRadiusTop(),
-                          color: Colors.redAccent,
-                          child: Center(
-                            child: TextButton(
-                              onPressed: () {
-                                model.navigateToCreateWorkoutView();
-                              },
-                              child: Text(
-                                'CREATE WORKOUT',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                          child: Material(
-                            borderRadius: buildBorderRadiusTop(),
-                            color: Colors.grey[300],
-                            child: WorkoutList(),
-                          ),
-                        ),
-                      )
-                    ],
+                  _DrawerTile(
+                    text: 'Exercises',
+                    onPressed: () {
+                      model.navigateToViewExercisesView();
+                    },
                   ),
-                ),
+                  _DrawerTile(
+                    text: 'Settings',
+                    onPressed: () {
+                      model.navigateToSettingsView();
+                    },
+                  ),
+                  _DrawerTile(
+                    text: 'Help',
+                    onPressed: () {
+                      model.pop();
+                    },
+                  ),
+                ],
               ),
             ),
-        viewModelBuilder: () => HomeViewModel(
-              Provider.of<NavigationService>(context, listen: false),
-              Provider.of<ExerciseService>(context, listen: false),
-            ));
+          ),
+          appBar: AppBar(
+            title: Text(
+              'WorkAround',
+            ),
+            backgroundColor: Colors.redAccent,
+          ),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: Center(
+                    child: Text(
+                      //model.isBusy ? 'Hello' : 'Welcome, User',
+                      model.isBusy
+                          ? 'Hello'
+                          : 'Welcome, ${model.data.firstName}',
+                      style: TextStyle(
+                        fontSize: 25.0,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 140,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 50, right: 50),
+                  child: Material(
+                    elevation: 5,
+                    borderRadius: buildBorderRadiusTop(),
+                    color: Colors.redAccent,
+                    child: Center(
+                      child: TextButton(
+                        onPressed: () {
+                          //add Dialog option to name workout
+                          _createWorkoutDialog();
+                        },
+                        child: Text(
+                          'CREATE WORKOUT',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                    child: Material(
+                      borderRadius: buildBorderRadiusTop(),
+                      color: Colors.grey[300],
+                      child: WorkoutList(),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  _createWorkoutDialog() async {
+    await showDialog<String>(
+      context: context,
+      builder: (_) => _CreateWorkoutDialogBox(context: context),
+    );
+  }
+}
+
+class _CreateWorkoutDialogBox extends StatelessWidget {
+  final BuildContext context;
+  final controller = TextEditingController();
+
+  _CreateWorkoutDialogBox({this.context});
+
+  @override
+  Widget build(BuildContext context) {
+    return ViewModelBuilder<WorkoutViewModel>.reactive(
+        builder: (context, model, child) => AlertDialog(
+          contentPadding: EdgeInsets.all(16.0),
+          content: Row(
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  controller: controller,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                      labelText: 'Enter Workout Name',
+                      hintText: 'eg. 25 minutes'),
+                ),
+              )
+            ],
+          ),
+          actions: <Widget>[
+            _CreateWorkoutDialogButton(
+              text: 'Cancel',
+              onPressed: () {
+                model.pop();
+              },
+            ),
+            _CreateWorkoutDialogButton(
+              text: 'Confirm',
+              onPressed: () {
+                UserWorkout newWorkout = UserWorkout(Uuid().v4(), controller.text);
+                model.addWorkoutToFirestore(newWorkout);
+                model.navigateToCreateWorkoutView(newWorkout);
+              },
+            ),
+          ],
+        ),
+        viewModelBuilder: () => WorkoutViewModel(
+          Provider.of<NavigationService>(context, listen: false),
+          Provider.of<ExerciseService>(context, listen: false),
+          Provider.of<WorkoutRepository>(context, listen: false),
+          Provider.of<AuthenticationService>(context, listen: false),
+        ));
+  }
+}
+
+class _CreateWorkoutDialogButton extends StatelessWidget {
+  final String text;
+  final Function onPressed;
+
+  _CreateWorkoutDialogButton({this.text, this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      child: Text(text),
+      onPressed: onPressed,
+    );
   }
 }
 
@@ -166,24 +249,26 @@ class WorkoutList extends StatefulWidget {
 class _WorkoutListState extends State<WorkoutList> {
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<HomeViewModel>.reactive(
+    return ViewModelBuilder<WorkoutViewModel>.reactive(
       builder: (context, model, child) => ListView.builder(
         itemBuilder: (context, index) {
-          final workout = model.getWorkout(index);
+          final workout = model.workouts[index];
           return WorkoutTile(workout: workout);
         },
-        itemCount: model.getNumOfWorkouts(),
+        itemCount: model.workouts.length,
       ),
-      viewModelBuilder: () => HomeViewModel(
+      viewModelBuilder: () => WorkoutViewModel(
         Provider.of<NavigationService>(context, listen: false),
         Provider.of<ExerciseService>(context, listen: false),
+        Provider.of<WorkoutRepository>(context, listen: false),
+        Provider.of<AuthenticationService>(context, listen: false),
       ),
     );
   }
 }
 
 class WorkoutTile extends StatefulWidget {
-  final Workout workout;
+  final UserWorkout workout;
 
   WorkoutTile({this.workout});
 
@@ -218,7 +303,7 @@ class _WorkoutTileState extends State<WorkoutTile> {
 }
 
 class WorkoutContainer extends StatefulWidget {
-  final Workout workout;
+  final UserWorkout workout;
 
   WorkoutContainer({this.workout});
 
@@ -229,43 +314,41 @@ class WorkoutContainer extends StatefulWidget {
 class _WorkoutContainerState extends State<WorkoutContainer> {
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<HomeViewModel>.nonReactive(
+    return ViewModelBuilder<WorkoutViewModel>.nonReactive(
       builder: (context, model, child) => Container(
         padding: EdgeInsets.all(5.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton(
-              child: TileText(text: widget.workout.name),
+              child: WorkoutTileText(text: widget.workout.name),
               onPressed: () {
-                print('clicked');
-                _showDialog(widget.workout);
-              },
-              onLongPress: () {
-                //Edit, Delete
+                _startWorkoutDialog(widget.workout);
               },
             ),
           ],
         ),
       ),
-      viewModelBuilder: () => HomeViewModel(
+      viewModelBuilder: () => WorkoutViewModel(
         Provider.of<NavigationService>(context, listen: false),
         Provider.of<ExerciseService>(context, listen: false),
+        Provider.of<WorkoutRepository>(context, listen: false),
+        Provider.of<AuthenticationService>(context, listen: false),
       ),
     );
   }
-  _showDialog(Workout workout) async {
+  _startWorkoutDialog(UserWorkout workout) async {
     await showDialog<String>(
       context: context,
-      builder: (_) => _AlertDialogBox(context: context, workout: workout),
+      builder: (_) => _StartWorkoutDialogBox(context: context, workout: workout),
     );
   }
 }
 
-class TileText extends StatelessWidget {
+class WorkoutTileText extends StatelessWidget {
   final String text;
 
-  TileText({this.text});
+  WorkoutTileText({this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -278,15 +361,17 @@ class TileText extends StatelessWidget {
   }
 }
 
-class _AlertDialogBox extends StatelessWidget {
+class _StartWorkoutDialogBox extends StatelessWidget {
   final BuildContext context;
-  final Workout workout;
+  final UserWorkout workout;
+  final controller = TextEditingController();
 
-  _AlertDialogBox({this.context, this.workout});
+
+  _StartWorkoutDialogBox({this.context, this.workout});
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<HomeViewModel>.reactive(
+    return ViewModelBuilder<WorkoutViewModel>.reactive(
         builder: (context, model, child) => AlertDialog(
           contentPadding: EdgeInsets.all(16.0),
           content: Row(
@@ -307,35 +392,37 @@ class _AlertDialogBox extends StatelessWidget {
             ],
           ),
           actions: <Widget>[
-            _AlertDialogButton(
+            _StartWorkoutDialogButton(
               text: 'Cancel',
               onPressed: () {
                 model.pop();
               },
             ),
-            _AlertDialogButton(
+            _StartWorkoutDialogButton(
               text: 'Confirm',
               onPressed: () {
-                model.setCurrentWorkout(workout);
+                model.setWorkoutID(workout.workoutId);
                 model.startWorkoutTimer();
-                model.setWorkoutDuration(Duration(minutes: int.parse(controller.text)));
-                model.navigateToWorkoutView(Duration(minutes: int.parse(controller.text)), workout);
+                model.setInitialWorkoutDuration(Duration(minutes: int.parse(controller.text)));
+                model.navigateToWorkoutView(Duration(minutes: int.parse(controller.text)), workout.workoutId);
               },
             ),
           ],
         ),
-        viewModelBuilder: () => HomeViewModel(
+        viewModelBuilder: () => WorkoutViewModel(
           Provider.of<NavigationService>(context, listen: false),
           Provider.of<ExerciseService>(context, listen: false),
+          Provider.of<WorkoutRepository>(context, listen: false),
+          Provider.of<AuthenticationService>(context, listen: false),
         ));
   }
 }
 
-class _AlertDialogButton extends StatelessWidget {
+class _StartWorkoutDialogButton extends StatelessWidget {
   final String text;
   final Function onPressed;
 
-  _AlertDialogButton({this.text, this.onPressed});
+  _StartWorkoutDialogButton({this.text, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -347,4 +434,7 @@ class _AlertDialogButton extends StatelessWidget {
 }
 
 BorderRadius buildBorderRadius() => BorderRadius.only(
-    topRight: Radius.circular(10.0), topLeft: Radius.circular(10.0), bottomLeft: Radius.circular(10.0), bottomRight: Radius.circular(10.0));
+    topRight: Radius.circular(10.0),
+    topLeft: Radius.circular(10.0),
+    bottomLeft: Radius.circular(10.0),
+    bottomRight: Radius.circular(10.0));

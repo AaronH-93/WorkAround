@@ -1,10 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:work_around/components/rounded_button.dart';
 import 'package:work_around/constants.dart';
+import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 
 import 'login_view_model.dart';
@@ -15,7 +15,6 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView>{
-  final _auth = FirebaseAuth.instance;
   String email;
   String password;
   bool spinner = false;
@@ -79,11 +78,7 @@ class _LoginViewState extends State<LoginView>{
                             spinner = true;
                           });
                           try {
-                            final returningUser = await _auth.signInWithEmailAndPassword(
-                                email: email, password: password);
-                            if (returningUser != null) {
-                              model.navigateToHomeView();
-                            }
+                            model.validateAndSubmitSignIn(email, password);
                             spinner = false;
                           } catch (e) {
                             print(e);
@@ -96,7 +91,8 @@ class _LoginViewState extends State<LoginView>{
               ),
             ),
         viewModelBuilder: () => LoginViewModel(
-            Provider.of<NavigationService>(context, listen: false)
+            Provider.of<AuthenticationService>(context, listen: false),
+            Provider.of<NavigationService>(context, listen: false),
         ),
     );
   }

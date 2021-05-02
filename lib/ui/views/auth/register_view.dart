@@ -4,6 +4,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:work_around/components/rounded_button.dart';
+import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 
 import '../../../constants.dart';
@@ -16,6 +17,8 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   final _auth = FirebaseAuth.instance;
+  String firstName;
+  String lastName;
   String email;
   String password;
   bool spinner = false;
@@ -47,10 +50,36 @@ class _RegisterViewState extends State<RegisterView> {
                   height: 48.0,
                 ),
                 TextField(
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {
+                    model.firstName = value;
+                  },
+                  decoration: kTextFieldDecoration.copyWith(
+                    hintText: 'Firstname',
+                    hintStyle: TextStyle(color: Colors.white),
+                  ),
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                TextField(
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {
+                    model.lastName = value;
+                  },
+                  decoration: kTextFieldDecoration.copyWith(
+                    hintText: 'Lastname',
+                    hintStyle: TextStyle(color: Colors.white),
+                  ),
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                TextField(
                   keyboardType: TextInputType.emailAddress,
                   textAlign: TextAlign.center,
                   onChanged: (value) {
-                    email = value;
+                    model.email = value;
                   },
                   decoration: kTextFieldDecoration.copyWith(
                     hintStyle: TextStyle(color: Colors.white),
@@ -63,7 +92,7 @@ class _RegisterViewState extends State<RegisterView> {
                   textAlign: TextAlign.center,
                   obscureText: true,
                   onChanged: (value) {
-                    password = value;
+                    model.password = value;
                   },
                   decoration: kTextFieldDecoration.copyWith(
                     hintText: 'Enter your password',
@@ -77,21 +106,7 @@ class _RegisterViewState extends State<RegisterView> {
                   color: Colors.redAccent,
                   title: 'Register',
                   onPressed: () async {
-                    setState(() {
-                      spinner = true;
-                    });
-                    try {
-                      final newUser =
-                          await _auth.createUserWithEmailAndPassword(
-                              email: email, password: password);
-                      if (newUser != null) {}
-                      // Navigator.pushNamed(context, HomeScreen.id);
-                      // setState(() {
-                      //   spinner = false;
-                      // });
-                    } catch (e) {
-                      print(e);
-                    }
+                    model.validateAndRegister();
                   },
                 ),
               ],
@@ -100,7 +115,9 @@ class _RegisterViewState extends State<RegisterView> {
         ),
       ),
       viewModelBuilder: () => RegisterViewModel(
-          Provider.of<NavigationService>(context, listen: false)),
+        Provider.of<NavigationService>(context, listen: false),
+        Provider.of<AuthenticationService>(context, listen: false),
+      ),
     );
   }
 }
