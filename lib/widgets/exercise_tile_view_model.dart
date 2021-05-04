@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:work_around/models/user_set.dart';
 import 'package:work_around/services/authentication_service.dart';
@@ -33,13 +34,34 @@ class ExerciseTileViewModel extends StreamViewModel<List<UserSet>>{
 
   bool isSetWithinDuration(UserSet set) => _exerciseService.isSetWithinDuration(set);
 
-  void markSet(UserSet set) => _exerciseRepository.markSet(_authenticationService.currentId, _exerciseService.workoutId, set);
+  void updateSet(UserSet set) => _exerciseRepository.updateSet(_authenticationService.currentId, _exerciseService.workoutId, set);
 
-  //void generateSets(List<UserSet> userSets) => _exerciseService.generateSetsII(userSets);
-  //void generateSets() => _exerciseService.generateSetsII(userSets);
-  //
-  // @override
-  // void onData(List<UserSet> data) {
-  //   _exerciseService.generateSetsII(data);
-  // }
+  void addSetToBeResetAfterWorkout(UserSet set) => _exerciseService.addSetToResetList(set);
+
+  final snackBar = SnackBar(
+    content: Text('Rest!'),
+    action: SnackBarAction(
+      label: 'OK',
+      onPressed: (){
+
+      },
+    ),
+  );
+
+  String getCurrentWorkoutId() =>_exerciseService.getCurrentWorkoutId();
+  void navigateToNewWorkoutView(Duration duration, String workoutId) => _navigationService.navigateToNewWorkoutView(duration, workoutId);
+  void setNewDuration(Duration duration) => _exerciseService.setWorkoutDuration(duration);
+  Duration getWorkoutTimeElapsed() => _exerciseService.getWorkoutTimeElapsed();
+  Duration getInitialWorkoutDuration() => _exerciseService.getInitialWorkoutDuration();
+  void navigateToWorkoutView(Duration duration, String workoutId) => _navigationService.navigateToWorkoutView(duration, workoutId);
+
+  void adjustWorkout() {
+    setNewDuration(newWorkoutDuration());
+    navigateToWorkoutView(newWorkoutDuration(), getCurrentWorkoutId());
+  }
+
+  Duration newWorkoutDuration() {
+    return getInitialWorkoutDuration() - getWorkoutTimeElapsed();
+  }
+
 }

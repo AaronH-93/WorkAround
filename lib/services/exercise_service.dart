@@ -18,14 +18,26 @@ class ExerciseService {
   final ExerciseData _exerciseData;
   final WorkoutData _workoutData;
 
+  bool isEditPath = false;
+  setEditPath(bool editPath) {
+    isEditPath = editPath;
+  }
+
   //MAKE THESE PRIVATE
   List<UserExercise> newExercises = [];
   List<UserSet> newExercisesSets = [];
   String workoutId;
+
   String get currentWorkoutId => workoutId;
+
+  String workoutIdToEdit;
+  String get getWorkoutIdToEdit => workoutIdToEdit;
 
   String exerciseId;
   String get currentExerciseId => exerciseId;
+
+  String exerciseIdToEdit;
+  String get getExerciseIdToEdit => exerciseIdToEdit;
 
   String setId;
   String get currentSetId => setId;
@@ -39,14 +51,23 @@ class ExerciseService {
   String tempSetId;
   String get newSetId => tempSetId;
 
+
   //Workout currentWorkout = Workout();
 
   void setCurrentWorkoutId(String id) {
     workoutId = id;
   }
 
+  void setCurrentEditWorkoutId(String id) {
+    workoutIdToEdit = id;
+  }
+
   void setCurrentExerciseId(String id) {
     exerciseId = id;
+  }
+
+  setCurrentExerciseIdToEdit(String id) {
+    exerciseIdToEdit = id;
   }
 
   void setCurrentSetId(String id) {
@@ -145,29 +166,6 @@ class ExerciseService {
     return _initialWorkoutDuration;
   }
 
-  // void generateSetsII(List<UserSet> userSet) {
-  //   for (UserSet set in userSet) {
-  //     if (set.isCompleted) {
-  //       set.markedForRemove = false;
-  //     }
-  //     if (!set.isCompleted) {
-  //       set.markedForRemove = true;
-  //       if (_workoutDuration -
-  //               Duration(seconds: int.parse(set.effort.toString())) >=
-  //           Duration.zero) {
-  //         set.markedForRemove = false;
-  //         _workoutDuration -=
-  //             Duration(seconds: int.parse(set.effort.toString()));
-  //       }
-  //     }
-  //   }
-  //   for (UserSet set in userSet) {
-  //     if (set.markedForRemove) {
-  //       //_exerciseRepository.deleteSet(_authenticationService.currentId, workoutId, exerciseId, set.setId);
-  //     }
-  //   }
-  // }
-
   bool isSetWithinDuration(UserSet set) {
     bool withinDuration;
     if (set.isCompleted) {
@@ -181,4 +179,24 @@ class ExerciseService {
     }
     return false;
   }
+
+  List<UserSet> resetList = [];
+  addSetToResetList(UserSet set) => resetList.add(set);
+  resetResetList() => resetList.clear();
+
+  Map<String, int> effortMap ={
+    'Bicep Curl' : 60,
+    'Tricep Curl' : 60,
+    'Hammer Curl' : 60,
+    'Squat' : 60,
+    'Good Mornings' : 60,
+    'Crunches' : 60,
+    'Laying Leg Raises' : 60,
+    'Push ups' : 60,
+    'Incline Push Ups' : 60,
+  };
+
+
+
+
 }

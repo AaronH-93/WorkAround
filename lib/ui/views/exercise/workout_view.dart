@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:work_around/components/rounded_button.dart';
-import 'package:work_around/models/user_workout.dart';
-import 'package:work_around/models/workout.dart';
 import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
+import 'package:work_around/services/repository/exercise_repository.dart';
 import 'package:work_around/services/repository/workout_repository.dart';
 import 'package:work_around/widgets/exercise_list.dart';
 import 'workout_view_model.dart';
@@ -38,6 +37,9 @@ class WorkoutView extends StatelessWidget {
                 color: Colors.red[300],
                 onPressed: () {
                   //model.finishWorkoutAndNavigateToHomeView();
+                  //Could take ev
+                  model.resetWorkout(workoutId);
+                  model.resetResetList();
                   model.navigateToHomeView();
                 }),
           ],
@@ -48,6 +50,7 @@ class WorkoutView extends StatelessWidget {
         Provider.of<ExerciseService>(context, listen: false),
         Provider.of<WorkoutRepository>(context, listen: false),
         Provider.of<AuthenticationService>(context, listen: false),
+        Provider.of<ExerciseRepository>(context, listen: false),
       ),
     );
   }

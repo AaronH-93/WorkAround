@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:stacked/stacked.dart';
 import 'package:work_around/models/exercise.dart';
+import 'package:work_around/models/user_set.dart';
 import 'package:work_around/models/user_workout.dart';
 import 'package:work_around/models/workout.dart';
 import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
+import 'package:work_around/services/repository/exercise_repository.dart';
 import 'package:work_around/services/repository/workout_repository.dart';
 
 class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
@@ -16,8 +18,9 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
   final ExerciseService _exerciseService;
   final WorkoutRepository _workoutRepository;
   final AuthenticationService _authenticationService;
+  final ExerciseRepository _exerciseRepository;
 
-  WorkoutViewModel(this._navigationService, this._exerciseService, this._workoutRepository, this._authenticationService);
+  WorkoutViewModel(this._navigationService, this._exerciseService, this._workoutRepository, this._authenticationService, this._exerciseRepository);
 
   //This will take in duration and workout?
   _startTimer() {
@@ -25,10 +28,16 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
     _timer = Timer(Duration(seconds: _restCounter), (){
         _timer.cancel();
         setNewDuration(newWorkoutDuration());
-        navigateToNewWorkoutView(newWorkoutDuration(), getCurrentWorkoutId());
+        navigateToWorkoutView(newWorkoutDuration(), getCurrentWorkoutId());
       }
     );
     return _restCounter;
+  }
+
+  _cancelTimer(){
+    _timer.cancel();
+    setNewDuration(newWorkoutDuration());
+    navigateToWorkoutView(newWorkoutDuration(), getCurrentWorkoutId());
   }
 
   Duration newWorkoutDuration() {
@@ -36,6 +45,7 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
   }
 
   int startTimer() => _startTimer();
+  int cancelTimer() => _cancelTimer();
 
   void setNewDuration(Duration duration) => _exerciseService.setWorkoutDuration(duration);
   Workout getWorkout(int index) => _exerciseService.getWorkout(index);
@@ -47,6 +57,7 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
   //maybe in the exercise service?
   void generateSets(Duration duration, List<Exercise> workout) => _exerciseService.generateSets(duration, workout);
   void setWorkoutID(String id) => _exerciseService.setCurrentWorkoutId(id);
+  void setWorkoutIdToEdit(String workoutIdToEdit) => _exerciseService.setCurrentEditWorkoutId(workoutIdToEdit);
   //void setCurrentWorkout(UserWorkout workout) => _exerciseService.setCurrentWorkout(workout);
   void startWorkoutTimer() => _exerciseService.startWorkoutTimer();
   void setInitialWorkoutDuration(Duration duration) => _exerciseService. setInitialWorkoutDuration(duration);
@@ -58,6 +69,7 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
   void navigateToCreateWorkoutView(UserWorkout newWorkout) => _navigationService.navigateToCreateWorkoutView(newWorkout);
   void navigateToNewWorkoutView(Duration duration, String workoutId) => _navigationService.navigateToNewWorkoutView(duration, workoutId);
   void navigateToWorkoutView(Duration duration, String workoutId) => _navigationService.navigateToWorkoutView(duration, workoutId);
+  void navigateToEditWorkoutView(UserWorkout workout) => _navigationService.navigateToEditWorkoutView(workout);
 
   @override
   Stream<List<UserWorkout>> get stream => _workoutRepository.getWorkouts(_authenticationService.currentId);
@@ -65,5 +77,15 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
   List<UserWorkout> get workouts => data;
 
   void addWorkoutToFirestore(UserWorkout newWorkout) => _workoutRepository.addOrUpdateWorkout(_authenticationService.currentId, newWorkout);
+  void deleteWorkout(String workoutId) => _workoutRepository.deleteWorkout(_authenticationService.currentId, workoutId);
+
+  void resetWorkout(String workoutId){
+    for(UserSet set in _exerciseService.resetList){
+      set.isCompleted = false;
+      _exerciseRepository.updateSet(_authenticationService.currentId, workoutId, set);
+    }
+  }
+
+  void resetResetList() => _exerciseService.resetResetList();
 
 }

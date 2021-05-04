@@ -28,19 +28,18 @@ class _ExerciseListState extends State<ExerciseList> {
       },
       builder: (context, model, child) => ListView.builder(
         itemBuilder: (context, index) {
-          final exercise = model.exercises[index];
-          //model.setExerciseId(exercise.exerciseId);
-          return model.isBusy
-              ? Container(child: Text('Loading Exercise...'),)
-              : ExerciseTile(
-            name: exercise.name,
-            exerciseId: exercise.exerciseId,
-            // sets: exercise.sets,
-            reps: exercise.reps,
-            workoutDuration: widget.workoutDuration,
-          );
+          return model.dataReady
+              ? ExerciseTile(
+                  name: model.exercises[index].name,
+                  exerciseId: model.exercises[index].exerciseId,
+                  reps: model.exercises[index].reps,
+                  workoutDuration: widget.workoutDuration,
+                )
+              : Container(
+                  child: Text('Loading Exercise...'),
+                );
         },
-        itemCount: model.exercises.length,
+        itemCount: model.dataReady ? model.exercises.length : 1,
       ),
       viewModelBuilder: () => ExerciseViewModel(
         Provider.of<NavigationService>(context, listen: false),

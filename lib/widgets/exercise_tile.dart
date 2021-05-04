@@ -65,10 +65,10 @@ class _ExerciseTileState extends State<ExerciseTile> {
             color: Colors.red[300],
             child: Column(
               children: [
-                SetsButtons(workoutDuration: widget.workoutDuration)
-                //Instead of using usersets, maybe just turn the usersets into Exercise sets?
-                //Alternatively, exercises can have a field called sets that's just a number, and we generate the sets from this number and do it the old way
-                //TO GET GENERATE SETS TO WORK, TRY SENDING IN THE EXERCISE ID AND CALL USERSETS FROM IN THE SETSBUTTONS OR MAKE A NEW SET OR SOMETHING, THINK ABOUT IT
+                model.dataReady
+                    ? SetsButtons(workoutDuration: widget.workoutDuration)
+                    : SizedBox(),
+                //Change this to render a loading indicator instead of a blank sizedbox
               ],
             ),
           ),

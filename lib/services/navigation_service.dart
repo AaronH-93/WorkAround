@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:work_around/models/exercise.dart';
+import 'package:work_around/models/user_exercise.dart';
 import 'package:work_around/models/user_workout.dart';
 import 'package:work_around/ui/views/auth/login_view.dart';
 import 'package:work_around/ui/views/auth/register_view.dart';
 import 'package:work_around/ui/views/exercise/add_exercise_view.dart';
 import 'package:work_around/ui/views/exercise/create_workout_view.dart';
+import 'package:work_around/ui/views/exercise/edit_exercise_view.dart';
+import 'package:work_around/ui/views/exercise/edit_workout_view.dart';
 import 'package:work_around/ui/views/exercise/exercise_information_view.dart';
 import 'package:work_around/ui/views/exercise/exercises_view.dart';
 import 'package:work_around/ui/views/exercise/workout_view.dart';
@@ -76,7 +79,7 @@ class NavigationService {
     navigator.push(
         MaterialPageRoute<void>(
           builder: (context) {
-            return ExerciseView(newWorkout: newWorkout);
+            return ExerciseView(workout: newWorkout);
           },
           settings: const RouteSettings(name: 'exercise_view'),
         ));
@@ -149,6 +152,26 @@ class NavigationService {
             return AddExerciseView(newWorkout, exercise);
           },
           settings: const RouteSettings(name: 'exercise_information_view'),
+        ));
+  }
+
+  navigateToEditWorkoutView(UserWorkout workout) {
+    navigator.push(
+        MaterialPageRoute<void>(
+          builder: (context) {
+            return EditWorkoutView(workout: workout);
+          },
+          settings: const RouteSettings(name: 'edit_workout_view'),
+        ));
+  }
+
+  navigateToEditExerciseView(UserWorkout workout, UserExercise exercise) {
+    navigator.push(
+        MaterialPageRoute<void>(
+          builder: (context) {
+            return EditExerciseView(workout: workout, exercise: exercise);
+          },
+          settings: const RouteSettings(name: 'edit_exercise_view'),
         ));
   }
 }

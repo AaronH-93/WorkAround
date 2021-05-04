@@ -2,28 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:work_around/components/rounded_button.dart';
-import 'package:work_around/models/exercise.dart';
+import 'package:work_around/models/user_exercise.dart';
 import 'package:work_around/models/user_workout.dart';
 import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/services/repository/exercise_repository.dart';
-import 'package:work_around/services/repository/workout_repository.dart';
-import 'package:work_around/ui/views/exercise/add_exercise_view_model.dart';
+import 'package:work_around/ui/views/exercise/edit_exercise_view_model.dart';
 
-class AddExerciseView extends StatefulWidget {
+class EditExerciseView extends StatefulWidget {
+  final UserExercise exercise;
   final UserWorkout workout;
-  final Exercise exercise;
-  AddExerciseView(this.workout, this.exercise);
+
+  const EditExerciseView({this.workout, this.exercise});
+
 
   @override
-  _AddExerciseViewState createState() => _AddExerciseViewState();
+  _EditExerciseViewState createState() => _EditExerciseViewState();
 }
 
-class _AddExerciseViewState extends State<AddExerciseView> {
+class _EditExerciseViewState extends State<EditExerciseView> {
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder.reactive(
+    return ViewModelBuilder<EditExerciseViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
         body: Form(
           child: ListView(
@@ -46,52 +47,54 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                   SizedBox(
                     height: 20,
                   ),
-                  _CompleteButton(widget.workout, widget.exercise),
+                  _CompleteButton(widget.exercise, widget.workout),
                 ],
               ),
             ],
           ),
         ),
       ),
-      viewModelBuilder: () => AddExerciseViewModel(
-        Provider.of<NavigationService>(context, listen: false),
+      viewModelBuilder: () => EditExerciseViewModel(
         Provider.of<AuthenticationService>(context, listen: false),
+        Provider.of<NavigationService>(context, listen: false),
         Provider.of<ExerciseService>(context, listen: false),
-        Provider.of<WorkoutRepository>(context, listen: false),
         Provider.of<ExerciseRepository>(context, listen: false),
       ),
     );
   }
 }
 
-class _CompleteButton extends ViewModelWidget<AddExerciseViewModel> {
-  final UserWorkout workout;
-  final Exercise exercise;
+//This fields are recycled code from AddExerciseView, maybe extract them to their own file and add
+//onPressed parameter sometime?
 
-  _CompleteButton(this.workout, this.exercise);
+class _CompleteButton extends ViewModelWidget<EditExerciseViewModel> {
+  final UserExercise exercise;
+  final UserWorkout workout;
+
+  _CompleteButton(this.exercise, this.workout);
 
   @override
-  Widget build(BuildContext context, AddExerciseViewModel model) {
+  Widget build(BuildContext context, EditExerciseViewModel model) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: RoundedButton(
         color: Colors.redAccent,
         title: 'Done',
         onPressed: (){
-          model.generateExercise(workout, exercise);
-          model.editPath
-              ? model.navigateToEditWorkoutView(workout)
-              : model.navigateToCreateWorkoutView(workout);
+          model.updateExercise(exercise);
+          model.navigateToEditWorkoutView(workout);
+          //maybe call the firestore to delete the current sets, then make new sets with the new value
+          //retrieve workoutIdToEdit from exerciseService
         },
       ),
     );
   }
 }
 
-class _WeightField extends ViewModelWidget<AddExerciseViewModel> {
+class _WeightField extends ViewModelWidget<EditExerciseViewModel> {
   final TextEditingController controller = TextEditingController();
   @override
-  Widget build(BuildContext context, AddExerciseViewModel model) {
+  Widget build(BuildContext context, EditExerciseViewModel model) {
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: TextField(
@@ -106,10 +109,10 @@ class _WeightField extends ViewModelWidget<AddExerciseViewModel> {
   }
 }
 
-class _RepsField extends ViewModelWidget<AddExerciseViewModel> {
+class _RepsField extends ViewModelWidget<EditExerciseViewModel> {
   final TextEditingController controller = TextEditingController();
   @override
-  Widget build(BuildContext context, AddExerciseViewModel model) {
+  Widget build(BuildContext context, EditExerciseViewModel model) {
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: TextField(
@@ -124,10 +127,10 @@ class _RepsField extends ViewModelWidget<AddExerciseViewModel> {
   }
 }
 
-class _SetsField extends ViewModelWidget<AddExerciseViewModel> {
+class _SetsField extends ViewModelWidget<EditExerciseViewModel> {
   final TextEditingController controller = TextEditingController();
   @override
-  Widget build(BuildContext context, AddExerciseViewModel model) {
+  Widget build(BuildContext context, EditExerciseViewModel model) {
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: TextField(

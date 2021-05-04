@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:work_around/models/exercise.dart';
-import 'package:work_around/models/user_set.dart';
 import 'dart:collection';
 
 import 'ExerciseSet.dart';

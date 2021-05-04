@@ -212,69 +212,6 @@ class TileText extends StatelessWidget {
   }
 }
 
-// class _AlertDialogBox extends StatelessWidget {
-//   final BuildContext context;
-//
-//   _AlertDialogBox({this.context});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return ViewModelBuilder<CreateWorkoutViewModel>.reactive(
-//         builder: (context, model, child) => AlertDialog(
-//               contentPadding: EdgeInsets.all(16.0),
-//               content: Row(
-//                 children: <Widget>[
-//                   Expanded(
-//                     child: TextField(
-//                       controller: controller,
-//                       autofocus: true,
-//                       decoration: InputDecoration(
-//                           labelText: 'Enter Workout Name',
-//                           hintText: 'Workout 1'),
-//                     ),
-//                   )
-//                 ],
-//               ),
-//               actions: <Widget>[
-//                 _AlertDialogButton(
-//                   text: 'Cancel',
-//                   onPressed: () {
-//                     model.pop();
-//                   },
-//                 ),
-//                 _AlertDialogButton(
-//                   text: 'Confirm',
-//                   onPressed: () {
-//                     model.addWorkout(controller.text);
-//                     model.navigateToHomeView();
-//                   },
-//                 ),
-//               ],
-//             ),
-//         viewModelBuilder: () => CreateWorkoutViewModel(
-//               Provider.of<ExerciseService>(context, listen: false),
-//               Provider.of<NavigationService>(context, listen: false),
-//               Provider.of<ExerciseRepository>(context, listen: false),
-//               Provider.of<WorkoutRepository>(context, listen: false),
-//             ));
-//   }
-// }
-//
-// class _AlertDialogButton extends StatelessWidget {
-//   final String text;
-//   final Function onPressed;
-//
-//   _AlertDialogButton({this.text, this.onPressed});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextButton(
-//       child: Text(text),
-//       onPressed: onPressed,
-//     );
-//   }
-// }
-
 BorderRadius buildCircleBorderRadius() => BorderRadius.only(
     topRight: Radius.circular(10.0),
     topLeft: Radius.circular(10.0),

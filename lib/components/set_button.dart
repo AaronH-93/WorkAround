@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:work_around/models/ExerciseSet.dart';
 import 'package:work_around/models/user_set.dart';
 import 'package:work_around/widgets/exercise_tile_view_model.dart';
 import 'package:work_around/widgets/rest_timer.dart';
@@ -17,22 +16,21 @@ class SetButton extends ViewModelWidget<ExerciseTileViewModel> {
       color: set.isCompleted ? Colors.green : defaultColor,
       shape: CircleBorder(),
       onPressed: () {
-        //defaultColor = Colors.green;
-        //So, if set is not completed and a set button is pressed
-        //update db so set isCompleted
-        //Maybe add if set is completed and its pressed, set isComplete to false again
+        model.addSetToBeResetAfterWorkout(set);
+        //Extract these to view model?
         if(!set.isCompleted){
           set.isCompleted = true;
-          model.markSet(set);
+          model.updateSet(set);
         }
         else {
           set.isCompleted = false;
-          model.markSet(set);
+          model.updateSet(set);
         }
-
-
-        //set.isCompleted = true;
-        _showRestTimer(context);
+        //showRestTimer can display the dismissible snackbar
+        //but the workout adjustment is handled separately
+        ScaffoldMessenger.of(context).showSnackBar(model.snackBar);
+        model.adjustWorkout();
+        //_showRestTimer(context);
       },
       child: Padding(
         padding: const EdgeInsets.all(10),
@@ -43,10 +41,10 @@ class SetButton extends ViewModelWidget<ExerciseTileViewModel> {
     );
   }
 
-  _showRestTimer(BuildContext context) async {
-    await showDialog<String>(
-      context: context,
-      builder: (_) => RestTimer(context: context),
-    );
-  }
+  // _showRestTimer(BuildContext context) async {
+  //   await showDialog<String>(
+  //     context: context,
+  //     builder: (_) => RestTimer(context: context),
+  //   );
+  // }
 }

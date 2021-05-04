@@ -22,6 +22,8 @@ class AddExerciseViewModel extends BaseViewModel{
 
   AddExerciseViewModel(this._navigationService, this._authenticationService, this._exerciseService, this._workoutRepository, this._exerciseRepository);
 
+  get editPath => _exerciseService.isEditPath;
+
   void addToTempWorkout(UserExercise exercise) {
     _exerciseService.addToTempWorkout(exercise);
     notifyListeners();
@@ -38,14 +40,15 @@ class AddExerciseViewModel extends BaseViewModel{
     }
 
     UserExercise userExercise = UserExercise(exerciseId: exercise.exerciseId, name: exercise.name, reps: reps, muscleGroup: exercise.muscleGroup);
-    _exerciseRepository.addOrUpdateExercise(_authenticationService.currentId, newWorkout, userExercise);
+    _exerciseRepository.addOrUpdateExercise(_authenticationService.currentId, newWorkout.workoutId, userExercise);
 
     for(UserSet set in userSets){
-      _exerciseRepository.addOrUpdateExerciseSets(_authenticationService.currentId, newWorkout, set);
+      _exerciseRepository.addOrUpdateExerciseSets(_authenticationService.currentId, newWorkout.workoutId, set);
     }
 
     addToTempWorkout(userExercise);
   }
 
-  void navigateToCreateWorkoutView(UserWorkout newWorkout) => _navigationService.navigateToCreateWorkoutView(newWorkout);
+  void navigateToCreateWorkoutView(UserWorkout workout) => _navigationService.navigateToCreateWorkoutView(workout);
+  void navigateToEditWorkoutView(UserWorkout workout) => _navigationService.navigateToEditWorkoutView(workout);
 }

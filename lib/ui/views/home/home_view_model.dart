@@ -6,7 +6,6 @@ import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/services/repository/user_repository.dart';
-import 'package:work_around/services/repository/workout_repository.dart';
 
 class HomeViewModel extends FutureViewModel<User>{
   final NavigationService _navigationService;

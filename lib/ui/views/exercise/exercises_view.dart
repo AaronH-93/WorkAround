@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
-import 'package:work_around/models/exercise.dart';
 import 'package:work_around/models/user_workout.dart';
 import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/services/repository/exercise_repository.dart';
-import 'package:work_around/services/repository/workout_repository.dart';
 import 'exercises_view_model.dart';
 
 class ExerciseView extends StatefulWidget {
-  final UserWorkout newWorkout;
-  ExerciseView({this.newWorkout});
+  final UserWorkout workout;
+  ExerciseView({this.workout});
   
   @override
   _ExerciseViewState createState() => _ExerciseViewState();
@@ -32,7 +30,7 @@ class _ExerciseViewState extends State<ExerciseView> {
                     ),
                     //Implement Search Feature
                     Container(
-                      child: ExercisesList(newWorkout: widget.newWorkout),
+                      child: ExercisesList(workout: widget.workout),
                     ),
                   ],
                 ),
@@ -48,8 +46,8 @@ class _ExerciseViewState extends State<ExerciseView> {
 }
 
 class ExercisesList extends ViewModelWidget<ExerciseViewModel> {
-  final UserWorkout newWorkout;
-  ExercisesList({this.newWorkout});
+  final UserWorkout workout;
+  ExercisesList({this.workout});
 
   @override
   Widget build(BuildContext context, ExerciseViewModel model) {
@@ -59,18 +57,7 @@ class ExercisesList extends ViewModelWidget<ExerciseViewModel> {
             final exercise = model.exerciseList[index];
             return TextButton(
                 onPressed: () {
-                  //Create a new view that has fields for sets and reps and weight?
-                  // model.addToTempWorkout(
-                  //   //Is something like this an option?
-                  //   Exercise(
-                  //     exerciseId: exercise.exerciseId,
-                  //     name: exercise.name,
-                  //     reps: exercise.reps,
-                  //     sets: [],
-                  //     muscleGroup: exercise.muscleGroup,
-                  //   ),
-                  // );
-                  model.navigateToAddExerciseView(newWorkout, exercise);
+                  model.navigateToAddExerciseView(workout, exercise);
                 },
                 child: ExerciseTile(name: exercise.name));
           },

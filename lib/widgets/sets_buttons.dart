@@ -11,7 +11,7 @@ class SetsButtons extends ViewModelWidget<ExerciseTileViewModel> {
 
   @override
   Widget build(BuildContext context, ExerciseTileViewModel model) {
-    return model.isBusy ? Container(child: Text('Loading sets')) : buildRowOfButtons(model);
+    return model.dataReady ? buildRowOfButtons(model) : Container(child: Text('Loading sets'));
   }
 
   Widget buildRowOfButtons(ExerciseTileViewModel model) {
@@ -20,8 +20,6 @@ class SetsButtons extends ViewModelWidget<ExerciseTileViewModel> {
     for(UserSet set in setList) {
       if (model.isSetWithinDuration(set) == true) {
         list.add(
-          //it looks like its not updating the new page with the original duration - elapsed time, look at that
-          //
           SetButton(
               set: set
           ),
