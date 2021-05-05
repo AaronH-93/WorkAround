@@ -26,7 +26,7 @@ class AddExerciseViewModel extends BaseViewModel{
 
   void addToTempWorkout(UserExercise exercise) {
     _exerciseService.addToTempWorkout(exercise);
-    notifyListeners();
+    //notifyListeners();
   }
 
   //Lots of this can probably go in a service

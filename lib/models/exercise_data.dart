@@ -9,6 +9,8 @@ class ExerciseData extends ChangeNotifier {
   List<Exercise> _exercises = [
     Exercise(
         name: 'Bicep Curl',
+        instructions: '1. Stand up straight with a dumbbell in each hand at arm\'s length.\n2. Raise one dumbbell and twist your forearm until it is vertical and your palm faces the shoulder.\n3. Lower to original position and repeat with opposite arm',
+        gifUrl: 'https://musclewiki.com/media/uploads/BicepCurl-Front-021316.gif',
         effort: 60,
         sets: [
           ExerciseSet(setNumber: 1, effort: Duration(seconds: 45), isCompleted: false, markedForRemove: true),

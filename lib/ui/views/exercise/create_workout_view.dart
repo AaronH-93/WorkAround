@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
+import 'package:work_around/components/rounded_button.dart';
 import 'package:work_around/models/user_workout.dart';
 import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
@@ -16,7 +17,6 @@ class CreateWorkoutView extends StatefulWidget {
   final UserWorkout newWorkout;
 
   const CreateWorkoutView({this.newWorkout});
-
 
   @override
   _CreateWorkoutViewState createState() => _CreateWorkoutViewState();
@@ -43,26 +43,16 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Material(
-                        elevation: 5,
+                      RoundedButton(
+                        onPressed: () {
+                          model.navigateToExercisesView(widget.newWorkout);
+                        },
                         color: Colors.redAccent,
-                        child: TextButton(
-                          onPressed: () {
-                            model.navigateToExercisesView(widget.newWorkout);
-                          },
-                          child: Text(
-                            'ADD EXERCISE',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
+                        title: 'Add Exercise',
                       ),
                     ],
                   ),
-
                   TempWorkoutList(),
-
                   SizedBox(
                     height: 30,
                   ),
@@ -121,7 +111,7 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
               Provider.of<ExerciseRepository>(context, listen: false),
               Provider.of<WorkoutRepository>(context, listen: false),
               Provider.of<AuthenticationService>(context, listen: false),
-        ));
+            ));
   }
 
   // _showDialog() async {
@@ -138,6 +128,7 @@ class TempWorkoutList extends ViewModelWidget<CreateWorkoutViewModel> {
     return Expanded(
       child: ListView.builder(
         itemBuilder: (context, index) {
+          //TODO: figure out why this isn't working, but it should probably be done like the EditWorkoutView anyway
           final workout = model.getTempWorkout(index);
           return ExerciseTile(name: workout.name);
         },

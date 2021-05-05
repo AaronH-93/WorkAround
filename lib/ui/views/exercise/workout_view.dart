@@ -37,7 +37,6 @@ class WorkoutView extends StatelessWidget {
                 color: Colors.red[300],
                 onPressed: () {
                   //model.finishWorkoutAndNavigateToHomeView();
-                  //Could take ev
                   model.resetWorkout(workoutId);
                   model.resetResetList();
                   model.navigateToHomeView();

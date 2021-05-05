@@ -146,7 +146,7 @@ class _HomeViewState extends State<HomeView> {
                       child: WorkoutList(),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -286,7 +286,6 @@ class WorkoutTile extends ViewModelWidget<WorkoutViewModel> {
           height: 20,
         ),
         //Material widgets is repeat code
-
         Material(
           elevation: 5,
           borderRadius: buildBorderRadius(),

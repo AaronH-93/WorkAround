@@ -30,6 +30,9 @@ class _EditWorkoutViewState extends State<EditWorkoutView> {
               SizedBox(
                 height: 20,
               ),
+              Text(
+                '${widget.workout.name}'
+              ),
               RoundedButton(onPressed: (){
                 model.setEditPath(true);
                 model.navigateToAddExerciseView(widget.workout);
