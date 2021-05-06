@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
+import 'package:work_around/components/rounded_button.dart';
 import 'package:work_around/models/exercise.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
@@ -89,6 +90,12 @@ class _ExerciseViewListState extends State<ExerciseViewList> {
                 itemCount: filteredList.length,
               ),
             ),
+            RoundedButton(
+              title: 'Back',
+              color: Colors.redAccent,
+              onPressed: (){
+              Navigator.pop(context);
+            },),
           ],
         ),
       ),

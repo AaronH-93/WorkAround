@@ -199,6 +199,7 @@ class _CreateWorkoutDialogBox extends StatelessWidget {
                   onPressed: () {
                     UserWorkout newWorkout =
                         UserWorkout(Uuid().v4(), controller.text);
+                    model.setTempWorkoutId(newWorkout.workoutId);
                     model.addWorkoutToFirestore(newWorkout);
                     model.navigateToCreateWorkoutView(newWorkout);
                   },

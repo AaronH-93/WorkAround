@@ -49,9 +49,29 @@ class _ExerciseTileState extends State<ExerciseTile> {
             borderRadius: buildBorderRadiusTop(),
             color: Colors.white,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ExerciseContainer(
-                  text: widget.name,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.info_sharp),
+                      color: Colors.redAccent,
+                      onPressed: (){
+                        //Open Exercise info/instructions
+                      },
+                    ),
+                    ExerciseContainer(
+                      text: widget.name,
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.notes_sharp),
+                      color: Colors.redAccent,
+                      onPressed: (){
+                        //Open Exercise info/instructions
+                      },
+                    ),
+                  ],
                 ),
                 ExerciseContainer(
                   text: 'Sets by ${widget.reps} reps',

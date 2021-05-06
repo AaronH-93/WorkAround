@@ -88,4 +88,5 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
 
   void resetResetList() => _exerciseService.resetResetList();
 
+  void setTempWorkoutId(String workoutId) => _exerciseService.setNewTempWorkoutId(workoutId);
 }

@@ -27,11 +27,13 @@ class ExerciseService {
   List<UserExercise> newExercises = [];
   List<UserSet> newExercisesSets = [];
   String workoutId;
-
   String get currentWorkoutId => workoutId;
 
   String workoutIdToEdit;
   String get getWorkoutIdToEdit => workoutIdToEdit;
+
+  String newTempWorkoutId;
+  String get getNewTempWorkoutId => newTempWorkoutId;
 
   String exerciseId;
   String get currentExerciseId => exerciseId;
@@ -60,6 +62,10 @@ class ExerciseService {
 
   void setCurrentEditWorkoutId(String id) {
     workoutIdToEdit = id;
+  }
+
+  setNewTempWorkoutId(String workoutId) {
+    newTempWorkoutId = workoutId;
   }
 
   void setCurrentExerciseId(String id) {
@@ -195,8 +201,4 @@ class ExerciseService {
     'Push ups' : 60,
     'Incline Push Ups' : 60,
   };
-
-
-
-
 }

@@ -52,6 +52,9 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 30,
+                  ),
                   TempWorkoutList(),
                   SizedBox(
                     height: 30,
@@ -67,6 +70,7 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
                             // _showDialog();
                             //Maybe add a prompt asking if they're sure
                             model.deleteWorkout(widget.newWorkout.workoutId);
+                            model.setTempWorkoutId('');
                             model.navigateToHomeView();
                           },
                           child: Text(
@@ -128,11 +132,11 @@ class TempWorkoutList extends ViewModelWidget<CreateWorkoutViewModel> {
     return Expanded(
       child: ListView.builder(
         itemBuilder: (context, index) {
-          //TODO: figure out why this isn't working, but it should probably be done like the EditWorkoutView anyway
-          final workout = model.getTempWorkout(index);
-          return ExerciseTile(name: workout.name);
+          return model.dataReady
+              ? ExerciseTile(name: model.exercises[index].name)
+              : SizedBox();
         },
-        itemCount: model.getNumOfExercises(),
+        itemCount: model.dataReady ? model.exercises.length : 1,
       ),
     );
   }

@@ -9,7 +9,7 @@ import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/services/repository/exercise_repository.dart';
 import 'package:work_around/services/repository/workout_repository.dart';
 
-class CreateWorkoutViewModel extends BaseViewModel{
+class CreateWorkoutViewModel extends StreamViewModel<List<UserExercise>>{
   String _title = 'Create Workout View';
   String get title => _title;
 
@@ -35,4 +35,10 @@ class CreateWorkoutViewModel extends BaseViewModel{
   }
 
   void deleteWorkout(String workoutId) => _workoutRepository.deleteWorkout(_authenticationService.currentId, workoutId);
+
+  @override
+  Stream<List<UserExercise>> get stream => _exerciseRepository.getExercises(_authenticationService.currentId, _exerciseService.getNewTempWorkoutId);
+  List<UserExercise> get exercises => data;
+
+  void setTempWorkoutId(String id) => _exerciseService.setNewTempWorkoutId(id);
 }

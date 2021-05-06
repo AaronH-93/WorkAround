@@ -20,7 +20,7 @@ class ExerciseInformationView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               Container(
                 //Style this.
@@ -32,8 +32,14 @@ class ExerciseInformationView extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 20,
+              ),
               Container(
-                height: 200,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                  child: GifLoader(gifUrl: exercise.gifUrl),
+                ),
               ),
               Expanded(
                 child: Padding(
@@ -43,6 +49,9 @@ class ExerciseInformationView extends StatelessWidget {
                     color: Colors.grey[300],
                     child: ListView(
                       children: [
+                        SizedBox(
+                          height: 10,
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
@@ -50,7 +59,7 @@ class ExerciseInformationView extends StatelessWidget {
                               child: Text(
                                 'INSTRUCTIONS',
                                 style: TextStyle(
-                                  color: Colors.redAccent,
+                                  color: Colors.black,
                                   fontSize: 18,
                                 ),
                               ),
@@ -63,7 +72,7 @@ class ExerciseInformationView extends StatelessWidget {
                             child: Text(
                               exercise.instructions,
                               style: TextStyle(
-                                color: Colors.redAccent,
+                                color: Colors.black,
                                 fontSize: 18,
                               ),
                             ),
@@ -71,10 +80,6 @@ class ExerciseInformationView extends StatelessWidget {
                         ),
                         SizedBox(
                           height: 10,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-                          child: GifLoader(gifUrl: exercise.gifUrl),
                         ),
                       ],
                     ),
