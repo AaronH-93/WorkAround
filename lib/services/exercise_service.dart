@@ -19,11 +19,14 @@ class ExerciseService {
   final WorkoutData _workoutData;
 
   bool isEditPath = false;
+
   setEditPath(bool editPath) {
     isEditPath = editPath;
   }
 
   //MAKE THESE PRIVATE
+  List<UserExercise> historyExercises = [];
+  List<UserSet> historySets = [];
   List<UserExercise> newExercises = [];
   List<UserSet> newExercisesSets = [];
   String workoutId;
@@ -35,11 +38,17 @@ class ExerciseService {
   String newTempWorkoutId;
   String get getNewTempWorkoutId => newTempWorkoutId;
 
+  String workoutHistoryId;
+  String get getWorkoutHistoryId => workoutHistoryId;
+
   String exerciseId;
   String get currentExerciseId => exerciseId;
 
   String exerciseIdToEdit;
   String get getExerciseIdToEdit => exerciseIdToEdit;
+
+  String exerciseHistoryId;
+  String get getExerciseHistoryId => exerciseHistoryId;
 
   String setId;
   String get currentSetId => setId;
@@ -64,8 +73,12 @@ class ExerciseService {
     workoutIdToEdit = id;
   }
 
-  setNewTempWorkoutId(String workoutId) {
-    newTempWorkoutId = workoutId;
+  setNewTempWorkoutId(String id) {
+    newTempWorkoutId = id;
+  }
+
+  setWorkoutHistoryId(String id) {
+    workoutHistoryId = id;
   }
 
   void setCurrentExerciseId(String id) {
@@ -74,6 +87,10 @@ class ExerciseService {
 
   setCurrentExerciseIdToEdit(String id) {
     exerciseIdToEdit = id;
+  }
+
+  setExerciseHistoryId(String id) {
+    exerciseHistoryId = id;
   }
 
   void setCurrentSetId(String id) {
@@ -119,8 +136,24 @@ class ExerciseService {
     newExercises.add(exercise);
   }
 
+  void addToHistoricExercises(UserExercise exercise) {
+    historyExercises.add(exercise);
+  }
+
+  void addToHistoricSets(UserSet set) {
+    historySets.add(set);
+  }
+
   UserExercise getTempWorkout(int index) {
     return newExercises[index];
+  }
+
+  UserExercise getExerciseFromHistory(int index) {
+    return historyExercises[index];
+  }
+
+  UserSet getSetFromHistory(int index) {
+    return historySets[index];
   }
 
   Workout getWorkout(int index) {

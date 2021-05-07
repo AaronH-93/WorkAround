@@ -18,6 +18,7 @@ class SetsButtons extends ViewModelWidget<ExerciseTileViewModel> {
     List<Widget> list = [];
     List<UserSet> setList = model.userSets;
     for(UserSet set in setList) {
+      model.addToSetHistory(set);
       if (model.isSetWithinDuration(set) == true) {
         list.add(
           SetButton(
