@@ -64,4 +64,5 @@ class ExerciseTileViewModel extends StreamViewModel<List<UserSet>>{
     return getInitialWorkoutDuration() - getWorkoutTimeElapsed();
   }
 
+  void addToSetHistory(UserSet set) => _exerciseService.addToHistoricSets(set);
 }

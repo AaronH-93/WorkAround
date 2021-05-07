@@ -6,6 +6,8 @@ part 'user_workout.g.dart';
 class UserWorkout {
   final String workoutId;
   final String name;
+  String workoutDuration;
+  String date;
 
   UserWorkout(this.workoutId, this.name);
 

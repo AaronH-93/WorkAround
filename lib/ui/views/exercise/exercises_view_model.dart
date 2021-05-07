@@ -48,4 +48,6 @@ class ExerciseViewModel extends StreamViewModel<List<UserExercise>> {
   }
 
   void setExerciseId(String id) => _exerciseService.setCurrentExerciseId(id);
+
+  void addToExercisesHistory(UserExercise exercise) => _exerciseService.addToHistoricExercises(exercise);
 }

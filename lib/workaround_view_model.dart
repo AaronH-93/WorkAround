@@ -6,6 +6,7 @@ import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/services/repository/exercise_repository.dart';
+import 'package:work_around/services/repository/history_repository.dart';
 import 'package:work_around/services/repository/user_repository.dart';
 import 'package:work_around/services/repository/workout_repository.dart';
 import 'package:work_around/services/workout_service.dart';
@@ -15,7 +16,6 @@ import 'models/workout_data.dart';
 
 class WorkAroundViewModel extends BaseViewModel{
   NavigationService navigationService;
-  //WorkoutService workoutService;
   ExerciseService exerciseService;
   ExerciseTileViewModel exerciseTileViewModel;
   ExerciseData exerciseData;
@@ -24,7 +24,7 @@ class WorkAroundViewModel extends BaseViewModel{
   UserRepository userRepository;
   WorkoutRepository workoutRepository;
   ExerciseRepository exerciseRepository;
-
+  HistoryRepository historyRepository;
 
   bool _isUserLoggedIn;
 
@@ -35,6 +35,7 @@ class WorkAroundViewModel extends BaseViewModel{
     userRepository = UserRepository(FirebaseFirestore.instance);
     workoutRepository = WorkoutRepository(FirebaseFirestore.instance);
     exerciseRepository = ExerciseRepository(FirebaseFirestore.instance);
+    historyRepository = HistoryRepository(FirebaseFirestore.instance);
     exerciseData = ExerciseData();
     workoutData = WorkoutData();
     navigationService = NavigationService();

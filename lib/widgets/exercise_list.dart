@@ -24,10 +24,10 @@ class _ExerciseListState extends State<ExerciseList> {
     return ViewModelBuilder<ExerciseViewModel>.reactive(
       onModelReady: (model) {
         model.setWorkoutId(widget.workoutId);
-        //model.generateSets(widget.workoutDuration, model.exercises);
       },
       builder: (context, model, child) => ListView.builder(
         itemBuilder: (context, index) {
+          model.dataReady ? model.addToExercisesHistory(model.exercises[index]) : (){};
           return model.dataReady
               ? ExerciseTile(
                   name: model.exercises[index].name,

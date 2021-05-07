@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:stacked/stacked.dart';
 import 'package:work_around/models/exercise.dart';
+import 'package:work_around/models/user_exercise.dart';
 import 'package:work_around/models/user_set.dart';
 import 'package:work_around/models/user_workout.dart';
 import 'package:work_around/models/workout.dart';
@@ -9,6 +10,7 @@ import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/services/repository/exercise_repository.dart';
+import 'package:work_around/services/repository/history_repository.dart';
 import 'package:work_around/services/repository/workout_repository.dart';
 
 class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
@@ -19,8 +21,9 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
   final WorkoutRepository _workoutRepository;
   final AuthenticationService _authenticationService;
   final ExerciseRepository _exerciseRepository;
+  final HistoryRepository _historyRepository;
 
-  WorkoutViewModel(this._navigationService, this._exerciseService, this._workoutRepository, this._authenticationService, this._exerciseRepository);
+  WorkoutViewModel(this._navigationService, this._exerciseService, this._workoutRepository, this._authenticationService, this._exerciseRepository, this._historyRepository);
 
   //This will take in duration and workout?
   _startTimer() {
@@ -89,4 +92,20 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
   void resetResetList() => _exerciseService.resetResetList();
 
   void setTempWorkoutId(String workoutId) => _exerciseService.setNewTempWorkoutId(workoutId);
+
+  void addWorkoutToHistory(String workoutId) {
+    UserWorkout workout = workouts.firstWhere((workout) => workout.workoutId == workoutId);
+    workout.workoutDuration = _exerciseService.getInitialWorkoutDuration().toString();
+    workout.date = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).toString();
+
+    _historyRepository.addOrUpdateWorkout(_authenticationService.currentId, workout);
+
+    for(UserExercise exercise in _exerciseService.historyExercises){
+      _historyRepository.addOrUpdateExercise(_authenticationService.currentId, workoutId, exercise);
+    }
+
+    for(UserSet set in _exerciseService.historySets){
+      _historyRepository.addOrUpdateExerciseSets(_authenticationService.currentId, workoutId, set);
+    }
+  }
 }

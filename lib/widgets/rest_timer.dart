@@ -10,6 +10,7 @@ import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/services/repository/exercise_repository.dart';
+import 'package:work_around/services/repository/history_repository.dart';
 import 'package:work_around/services/repository/workout_repository.dart';
 import 'package:work_around/ui/views/exercise/workout_view_model.dart';
 
@@ -73,6 +74,7 @@ class _RestTimerState extends State<RestTimer> {
         Provider.of<WorkoutRepository>(context, listen: false),
         Provider.of<AuthenticationService>(context, listen: false),
         Provider.of<ExerciseRepository>(context, listen: false),
+        Provider.of<HistoryRepository>(context, listen: false),
       ),
     );
   }

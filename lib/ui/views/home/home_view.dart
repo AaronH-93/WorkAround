@@ -9,6 +9,7 @@ import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/constants.dart';
 import 'package:work_around/services/repository/exercise_repository.dart';
+import 'package:work_around/services/repository/history_repository.dart';
 import 'package:work_around/services/repository/user_repository.dart';
 import 'package:work_around/services/repository/workout_repository.dart';
 import 'package:work_around/ui/views/exercise/workout_view_model.dart';
@@ -56,9 +57,9 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                   _DrawerTile(
-                    text: 'Account',
+                    text: 'History',
                     onPressed: () {
-                      model.pop();
+                      model.navigateToWorkoutHistoryView();
                     },
                   ),
                   _DrawerTile(
@@ -197,8 +198,7 @@ class _CreateWorkoutDialogBox extends StatelessWidget {
                 _CreateWorkoutDialogButton(
                   text: 'Confirm',
                   onPressed: () {
-                    UserWorkout newWorkout =
-                        UserWorkout(Uuid().v4(), controller.text);
+                    UserWorkout newWorkout = UserWorkout(Uuid().v4(), controller.text);
                     model.setTempWorkoutId(newWorkout.workoutId);
                     model.addWorkoutToFirestore(newWorkout);
                     model.navigateToCreateWorkoutView(newWorkout);
@@ -212,7 +212,8 @@ class _CreateWorkoutDialogBox extends StatelessWidget {
               Provider.of<WorkoutRepository>(context, listen: false),
               Provider.of<AuthenticationService>(context, listen: false),
               Provider.of<ExerciseRepository>(context, listen: false),
-            ));
+              Provider.of<HistoryRepository>(context, listen: false),
+        ),);
   }
 }
 
@@ -269,6 +270,7 @@ class _WorkoutListState extends State<WorkoutList> {
         Provider.of<WorkoutRepository>(context, listen: false),
         Provider.of<AuthenticationService>(context, listen: false),
         Provider.of<ExerciseRepository>(context, listen: false),
+        Provider.of<HistoryRepository>(context, listen: false),
       ),
     );
   }
@@ -354,6 +356,7 @@ class _WorkoutContainerState extends State<WorkoutContainer> {
         Provider.of<WorkoutRepository>(context, listen: false),
         Provider.of<AuthenticationService>(context, listen: false),
         Provider.of<ExerciseRepository>(context, listen: false),
+        Provider.of<HistoryRepository>(context, listen: false),
       ),
     );
   }
@@ -424,11 +427,8 @@ class _StartWorkoutDialogBox extends StatelessWidget {
                   onPressed: () {
                     model.setWorkoutID(workout.workoutId);
                     model.startWorkoutTimer();
-                    model.setInitialWorkoutDuration(
-                        Duration(minutes: int.parse(controller.text)));
-                    model.navigateToWorkoutView(
-                        Duration(minutes: int.parse(controller.text)),
-                        workout.workoutId);
+                    model.setInitialWorkoutDuration(Duration(minutes: int.parse(controller.text)));
+                    model.navigateToWorkoutView(Duration(minutes: int.parse(controller.text)), workout.workoutId);
                   },
                 ),
               ],
@@ -439,7 +439,9 @@ class _StartWorkoutDialogBox extends StatelessWidget {
               Provider.of<WorkoutRepository>(context, listen: false),
               Provider.of<AuthenticationService>(context, listen: false),
               Provider.of<ExerciseRepository>(context, listen: false),
-            ));
+              Provider.of<HistoryRepository>(context, listen: false),
+        ),
+    );
   }
 }
 
