@@ -137,7 +137,7 @@ class NavigationService {
         ));
   }
 
-  void navigateToExerciseInformationView(Exercise exercise) {
+  void navigateToExerciseInformationView(UserExercise exercise) {
     navigator.push(
         MaterialPageRoute<void>(
           builder: (context) {
@@ -147,7 +147,7 @@ class NavigationService {
         ));
   }
 
-  navigateToAddExerciseView(UserWorkout newWorkout, Exercise exercise) {
+  navigateToAddExerciseView(UserWorkout newWorkout, UserExercise exercise) {
     navigator.push(
         MaterialPageRoute<void>(
           builder: (context) {

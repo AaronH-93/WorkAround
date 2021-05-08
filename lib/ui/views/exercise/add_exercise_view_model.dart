@@ -30,23 +30,24 @@ class AddExerciseViewModel extends BaseViewModel{
   }
 
   //Lots of this can probably go in a service
-  void generateExercise(UserWorkout newWorkout, Exercise exercise) {
+  void generateExercise(UserWorkout newWorkout, UserExercise exercise) {
     exercise.exerciseId = Uuid().v4();
+    exercise.reps = reps;
     List<UserSet> userSets = [];
     for(int i = 0; i < sets; i++){
       userSets.add(
-        UserSet(exerciseId: exercise.exerciseId, setId: Uuid().v4(), effort: exercise.effort, isCompleted: false, setNumber: i + 1, weight: weight)
+        UserSet(exerciseId: exercise.exerciseId, setId: Uuid().v4(), effort: _exerciseService.effortMap[exercise.name], isCompleted: false, setNumber: i + 1, weight: weight)
       );
     }
 
-    UserExercise userExercise = UserExercise(exerciseId: exercise.exerciseId, name: exercise.name, reps: reps, muscleGroup: exercise.muscleGroup);
-    _exerciseRepository.addOrUpdateExercise(_authenticationService.currentId, newWorkout.workoutId, userExercise);
+    //UserExercise userExercise = UserExercise(exerciseId: exercise.exerciseId, name: exercise.name, reps: reps, muscleGroup: exercise.muscleGroup);
+    _exerciseRepository.addOrUpdateExercise(_authenticationService.currentId, newWorkout.workoutId, exercise);
 
     for(UserSet set in userSets){
       _exerciseRepository.addOrUpdateExerciseSets(_authenticationService.currentId, newWorkout.workoutId, set);
     }
 
-    addToTempWorkout(userExercise);
+    addToTempWorkout(exercise);
   }
 
   void navigateToCreateWorkoutView(UserWorkout workout) => _navigationService.navigateToCreateWorkoutView(workout);

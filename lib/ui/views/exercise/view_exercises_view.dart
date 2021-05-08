@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:work_around/components/rounded_button.dart';
 import 'package:work_around/models/exercise.dart';
+import 'package:work_around/models/user_exercise.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/ui/views/exercise/view_exercises_view_model.dart';
@@ -39,8 +40,8 @@ class ExerciseViewList extends StatefulWidget {
 
 class _ExerciseViewListState extends State<ExerciseViewList> {
   TextEditingController controller = TextEditingController();
-  List<Exercise> searchableList = [];
-  List<Exercise> filteredList = [];
+  List<UserExercise> searchableList = [];
+  List<UserExercise> filteredList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +105,7 @@ class _ExerciseViewListState extends State<ExerciseViewList> {
 }
 
 class ViewExerciseButton extends StatefulWidget {
-  final Exercise exercise;
+  final UserExercise exercise;
 
   ViewExerciseButton({this.exercise});
 

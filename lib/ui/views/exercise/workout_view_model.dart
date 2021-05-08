@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:stacked/stacked.dart';
+import 'package:uuid/uuid.dart';
 import 'package:work_around/models/exercise.dart';
 import 'package:work_around/models/user_exercise.dart';
 import 'package:work_around/models/user_set.dart';
@@ -12,6 +13,7 @@ import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/services/repository/exercise_repository.dart';
 import 'package:work_around/services/repository/history_repository.dart';
 import 'package:work_around/services/repository/workout_repository.dart';
+
 
 class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
   Timer _timer;
@@ -95,17 +97,18 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
 
   void addWorkoutToHistory(String workoutId) {
     UserWorkout workout = workouts.firstWhere((workout) => workout.workoutId == workoutId);
+    workout.workoutId = Uuid().v4();
     workout.workoutDuration = _exerciseService.getInitialWorkoutDuration().toString();
     workout.date = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).toString();
 
     _historyRepository.addOrUpdateWorkout(_authenticationService.currentId, workout);
 
     for(UserExercise exercise in _exerciseService.historyExercises){
-      _historyRepository.addOrUpdateExercise(_authenticationService.currentId, workoutId, exercise);
+      _historyRepository.addOrUpdateExercise(_authenticationService.currentId, workout.workoutId, exercise);
     }
 
     for(UserSet set in _exerciseService.historySets){
-      _historyRepository.addOrUpdateExerciseSets(_authenticationService.currentId, workoutId, set);
+      _historyRepository.addOrUpdateExerciseSets(_authenticationService.currentId, workout.workoutId, set);
     }
   }
 }

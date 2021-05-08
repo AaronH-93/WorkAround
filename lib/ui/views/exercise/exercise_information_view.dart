@@ -6,7 +6,7 @@ import 'package:work_around/models/exercise.dart';
 import 'package:work_around/models/user_exercise.dart';
 
 class ExerciseInformationView extends StatelessWidget {
-  final Exercise exercise;
+  final UserExercise exercise;
   ExerciseInformationView({this.exercise});
 
   //This page will display all the information for an exercise, check musclewiki for ideas

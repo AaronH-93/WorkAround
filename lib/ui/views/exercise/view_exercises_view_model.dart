@@ -1,5 +1,6 @@
 import 'package:stacked/stacked.dart';
 import 'package:work_around/models/exercise.dart';
+import 'package:work_around/models/user_exercise.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 
@@ -9,14 +10,14 @@ class ViewExercisesViewModel extends BaseViewModel {
 
   ViewExercisesViewModel(this._navigationService, this._exerciseService);
 
-  List<Exercise> get searchableList => _exerciseService.exerciseInformation;
-  List<Exercise> searchList = [];
+  List<UserExercise> get searchableList => _exerciseService.exercises;
+  List<UserExercise> searchList = [];
 
   void initList(){
     searchList.addAll(searchableList);
   }
 
-  void navigateToExerciseInformationView(Exercise exercise) =>
+  void navigateToExerciseInformationView(UserExercise exercise) =>
       _navigationService.navigateToExerciseInformationView(exercise);
 
   void filterSearchResults(String query) {
@@ -29,23 +30,4 @@ class ViewExercisesViewModel extends BaseViewModel {
     searchList = exercises;
     notifyListeners();
   }
-
-// void filterSearchResults(String query) {
-  //   List<Exercise> dummySearchList = [];
-  //   dummySearchList.addAll(searchableList);
-  //   if(query.isNotEmpty) {
-  //     List<Exercise> dummyListData = [];
-  //     dummySearchList.forEach((item) {
-  //       if(item.name.contains(query)) {
-  //         dummyListData.add(item);
-  //       }
-  //     });
-  //     searchableList.clear();
-  //     searchableList.addAll(dummyListData);
-  //     return;
-  //   } else {
-  //     searchableList.clear();
-  //     searchableList.addAll(searchableList);
-  //   }
-  // }
 }

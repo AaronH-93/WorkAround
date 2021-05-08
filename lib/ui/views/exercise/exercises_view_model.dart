@@ -23,7 +23,7 @@ class ExerciseViewModel extends StreamViewModel<List<UserExercise>> {
 
   void pop() => _navigationService.pop();
   void navigateToSettingsView() => _navigationService.navigateToSettingsView();
-  void navigateToAddExerciseView(UserWorkout newWorkout, Exercise exercise) => _navigationService.navigateToAddExerciseView(newWorkout, exercise);
+  void navigateToAddExerciseView(UserWorkout newWorkout, UserExercise exercise) => _navigationService.navigateToAddExerciseView(newWorkout, exercise);
   //void navigateToWorkoutView() => _navigationService.navigateToWorkoutView();
 
   void addToTempWorkout(UserExercise exercise) {
@@ -39,7 +39,7 @@ class ExerciseViewModel extends StreamViewModel<List<UserExercise>> {
   Stream<List<UserExercise>> get stream => _exerciseRepository.getExercises(
       _authenticationService.currentId, _exerciseService.workoutId);
 
-  List<Exercise> get exerciseList => _exerciseService.exercises;
+  List<UserExercise> get exerciseList => _exerciseService.exercises;
 
   List<UserExercise> get exercises => data;
 

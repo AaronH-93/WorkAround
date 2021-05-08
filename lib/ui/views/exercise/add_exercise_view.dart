@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:work_around/components/rounded_button.dart';
 import 'package:work_around/models/exercise.dart';
+import 'package:work_around/models/user_exercise.dart';
 import 'package:work_around/models/user_workout.dart';
 import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
@@ -13,7 +14,7 @@ import 'package:work_around/ui/views/exercise/add_exercise_view_model.dart';
 
 class AddExerciseView extends StatefulWidget {
   final UserWorkout workout;
-  final Exercise exercise;
+  final UserExercise exercise;
   AddExerciseView(this.workout, this.exercise);
 
   @override
@@ -66,7 +67,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
 
 class _CompleteButton extends ViewModelWidget<AddExerciseViewModel> {
   final UserWorkout workout;
-  final Exercise exercise;
+  final UserExercise exercise;
 
   _CompleteButton(this.workout, this.exercise);
 

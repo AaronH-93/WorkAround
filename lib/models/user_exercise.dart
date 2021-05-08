@@ -4,12 +4,15 @@ part 'user_exercise.g.dart';
 
 @JsonSerializable()
 class UserExercise{
-  final String exerciseId;
+  String exerciseId;
   final String name;
-  final int reps;
+  int reps;
   final String muscleGroup;
+  final String equipment;
+  final String instructions;
+  final String gifUrl;
 
-  UserExercise({this.exerciseId, this.name, this.reps, this.muscleGroup});
+  UserExercise({this.exerciseId, this.name, this.reps, this.muscleGroup, this.instructions, this.gifUrl, this.equipment});
 
   Map<String, dynamic> toJson() => _$UserExerciseToJson(this);
   factory UserExercise.fromJson(Map<String, dynamic> json) => _$UserExerciseFromJson(json);
