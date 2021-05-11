@@ -19,8 +19,5 @@ class WorkoutHistoryViewModel extends StreamViewModel<List<UserWorkout>>{
 
   void navigateToExerciseHistoryView() => _navigationService.navigateToExerciseHistoryView();
   void navigateToHomeView() => _navigationService.navigateToHomeView();
-
   void setWorkoutHistoryId(String workoutId) => _exerciseService.setWorkoutHistoryId(workoutId);
-
-
 }

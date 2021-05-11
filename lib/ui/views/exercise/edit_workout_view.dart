@@ -23,6 +23,7 @@ class _EditWorkoutViewState extends State<EditWorkoutView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<EditWorkoutViewModel>.reactive(
+      key: Key('editWorkoutView'),
       builder: (context, model, child) => Scaffold(
         body: SafeArea(
           child: Column(
@@ -39,6 +40,7 @@ class _EditWorkoutViewState extends State<EditWorkoutView> {
               },
                 title: 'Add Exercise',
                 color: Colors.redAccent,
+                widgetKey: Key('addExerciseButton'),
               ),
               SizedBox(
                 height: 20,
@@ -59,6 +61,7 @@ class _EditWorkoutViewState extends State<EditWorkoutView> {
                 height: 20,
               ),
               RoundedButton(
+                widgetKey: Key('finishEditExerciseButton'),
                 onPressed: () {
                   model.setEditPath(false);
                   model.navigateToHomeView();
@@ -88,7 +91,7 @@ class EditExerciseTile extends ViewModelWidget<EditWorkoutViewModel> {
 
   @override
   Widget build(BuildContext context, EditWorkoutViewModel model) {
-    return EditExerciseContainer(exercise: exercise);
+    return EditExerciseContainer(exercise: exercise, workout: workout);
   }
 }
 
@@ -106,6 +109,7 @@ class EditExerciseContainer extends ViewModelWidget<EditWorkoutViewModel> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           TextButton(
+            key: Key('${exercise.name}_deleteExerciseButton'),
             onPressed: () {
               //TODO: add Prompt to delete exercise
               model.deleteExercise(exercise.exerciseId);
@@ -114,6 +118,7 @@ class EditExerciseContainer extends ViewModelWidget<EditWorkoutViewModel> {
           ),
           EditTileText(text: exercise.name),
           TextButton(
+            key: Key('${exercise.name}_editExerciseButton'),
             onPressed: () {
               model.setEditPath(true);
               model.setExerciseToEditId(exercise.exerciseId);

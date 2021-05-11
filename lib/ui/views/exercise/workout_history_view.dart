@@ -19,6 +19,7 @@ class _WorkoutHistoryViewState extends State<WorkoutHistoryView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<WorkoutHistoryViewModel>.reactive(
+      key: Key('historyView'),
       builder: (context, model, child) => Scaffold(
         body: Column(
           children: [
@@ -52,6 +53,7 @@ class _WorkoutHistoryViewState extends State<WorkoutHistoryView> {
               ),
             ),
             RoundedButton(
+              widgetKey: Key('backButton'),
               title: "Back",
               color: Colors.redAccent,
               onPressed: () {
@@ -78,6 +80,7 @@ class HistoricWorkoutContainer extends ViewModelWidget<WorkoutHistoryViewModel> 
   @override
   Widget build(BuildContext context, WorkoutHistoryViewModel model) {
     return TextButton(
+      key: Key('${workout.name}_viewHistoryButton'),
       onPressed: () {
         model.navigateToExerciseHistoryView();
         model.setWorkoutHistoryId(workout.workoutId);

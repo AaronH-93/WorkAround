@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uuid/uuid.dart';
+import 'package:work_around/components/rounded_button.dart';
 import 'package:work_around/models/user_workout.dart';
 import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
@@ -31,11 +32,13 @@ class _HomeViewState extends State<HomeView> {
         Provider.of<AuthenticationService>(context, listen: false),
         Provider.of<UserRepository>(context, listen: false),
       ),
+      key: Key('homeView'),
       builder: (context, model, child) => Scaffold(
         body: Scaffold(
           drawer: Container(
             width: 250,
             child: Drawer(
+              key: Key('homeViewDrawer'),
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: <Widget>[
@@ -57,24 +60,28 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                   _DrawerTile(
+                    //widgetKey: Key('historyButton'),
                     text: 'History',
                     onPressed: () {
                       model.navigateToWorkoutHistoryView();
                     },
                   ),
                   _DrawerTile(
+                    //widgetKey: Key('exercisesButton'),
                     text: 'Exercises',
                     onPressed: () {
                       model.navigateToViewExercisesView();
                     },
                   ),
                   _DrawerTile(
+                    widgetKey: Key('settingsButton'),
                     text: 'Settings',
                     onPressed: () {
                       model.navigateToSettingsView();
                     },
                   ),
                   _DrawerTile(
+                    widgetKey: Key('helpButton'),
                     text: 'Help',
                     onPressed: () {
                       model.pop();
@@ -101,20 +108,57 @@ class _HomeViewState extends State<HomeView> {
                 Container(
                   padding: EdgeInsets.all(10),
                   child: Center(
-                    child: Text(
-                      //model.isBusy ? 'Hello' : 'Welcome, User',
-                      model.isBusy
-                          ? 'Hello'
-                          : 'Welcome, ${model.data.firstName}',
-                      style: TextStyle(
-                        fontSize: 25.0,
-                        color: Colors.redAccent,
-                      ),
-                    ),
+                    child: model.isBusy
+                        ? Text(
+                        'Hello',
+                            style: TextStyle(
+                              fontSize: 25.0,
+                              color: Colors.redAccent,
+                            ))
+                        : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Welcome, ${model.data.firstName}',
+                                style: TextStyle(
+                                  fontSize: 25.0,
+                                  color: Colors.redAccent,
+                                ),
+                              ),
+                              TextButton(
+                                key: Key('signOut'),
+                                onPressed: () {
+                                  model.signOut();
+                                  model.navigateToWelcomeView();
+                                },
+                                child: Text('Sign Out'),
+                              )
+                            ],
+                          ),
+                  ),
+                ),
+                Center(
+                  child: RoundedButton(
+                    widgetKey: Key('historyButton'),
+                    title: 'Workout History',
+                    color: Colors.redAccent,
+                    onPressed: () {
+                      model.navigateToWorkoutHistoryView();
+                    },
+                  ),
+                ),
+                Center(
+                  child: RoundedButton(
+                    widgetKey: Key('exercisesButton'),
+                    title: 'Exercise Catalogue',
+                    color: Colors.redAccent,
+                    onPressed: () {
+                      model.navigateToViewExercisesView();
+                    },
                   ),
                 ),
                 SizedBox(
-                  height: 140,
+                  height: 20,
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 50, right: 50),
@@ -124,6 +168,7 @@ class _HomeViewState extends State<HomeView> {
                     color: Colors.redAccent,
                     child: Center(
                       child: TextButton(
+                        key: Key('createWorkoutButton'),
                         onPressed: () {
                           //add Dialog option to name workout
                           _createWorkoutDialog();
@@ -173,59 +218,65 @@ class _CreateWorkoutDialogBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<WorkoutViewModel>.reactive(
-        builder: (context, model, child) => AlertDialog(
-              contentPadding: EdgeInsets.all(16.0),
-              content: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      controller: controller,
-                      autofocus: true,
-                      decoration: InputDecoration(
-                          labelText: 'Enter Workout Name',
-                          hintText: 'Workout 1'),
-                    ),
-                  )
-                ],
+      builder: (context, model, child) => AlertDialog(
+        contentPadding: EdgeInsets.all(16.0),
+        content: Row(
+          children: <Widget>[
+            Expanded(
+              child: TextField(
+                key: Key('createWorkoutDialogBox'),
+                controller: controller,
+                autofocus: true,
+                decoration: InputDecoration(
+                    labelText: 'Enter Workout Name', hintText: 'Workout 1'),
               ),
-              actions: <Widget>[
-                _CreateWorkoutDialogButton(
-                  text: 'Cancel',
-                  onPressed: () {
-                    model.pop();
-                  },
-                ),
-                _CreateWorkoutDialogButton(
-                  text: 'Confirm',
-                  onPressed: () {
-                    UserWorkout newWorkout = UserWorkout(Uuid().v4(), controller.text);
-                    model.setTempWorkoutId(newWorkout.workoutId);
-                    model.addWorkoutToFirestore(newWorkout);
-                    model.navigateToCreateWorkoutView(newWorkout);
-                  },
-                ),
-              ],
-            ),
-        viewModelBuilder: () => WorkoutViewModel(
-              Provider.of<NavigationService>(context, listen: false),
-              Provider.of<ExerciseService>(context, listen: false),
-              Provider.of<WorkoutRepository>(context, listen: false),
-              Provider.of<AuthenticationService>(context, listen: false),
-              Provider.of<ExerciseRepository>(context, listen: false),
-              Provider.of<HistoryRepository>(context, listen: false),
-        ),);
+            )
+          ],
+        ),
+        actions: <Widget>[
+          _CreateWorkoutDialogButton(
+            widgetKey: Key('cancelCreateWorkoutButton'),
+            text: 'Cancel',
+            onPressed: () {
+              model.pop();
+            },
+          ),
+          _CreateWorkoutDialogButton(
+            widgetKey: Key('confirmCreateWorkoutButton'),
+            text: 'Confirm',
+            onPressed: () {
+              UserWorkout newWorkout =
+                  UserWorkout(Uuid().v4(), controller.text);
+              model.setTempWorkoutId(newWorkout.workoutId);
+              model.addWorkoutToFirestore(newWorkout);
+              model.navigateToCreateWorkoutView(newWorkout);
+            },
+          ),
+        ],
+      ),
+      viewModelBuilder: () => WorkoutViewModel(
+        Provider.of<NavigationService>(context, listen: false),
+        Provider.of<ExerciseService>(context, listen: false),
+        Provider.of<WorkoutRepository>(context, listen: false),
+        Provider.of<AuthenticationService>(context, listen: false),
+        Provider.of<ExerciseRepository>(context, listen: false),
+        Provider.of<HistoryRepository>(context, listen: false),
+      ),
+    );
   }
 }
 
 class _CreateWorkoutDialogButton extends StatelessWidget {
+  final Key widgetKey;
   final String text;
   final Function onPressed;
 
-  _CreateWorkoutDialogButton({this.text, this.onPressed});
+  _CreateWorkoutDialogButton({this.text, this.onPressed, this.widgetKey});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
+      key: widgetKey,
       child: Text(text),
       onPressed: onPressed,
     );
@@ -235,12 +286,14 @@ class _CreateWorkoutDialogButton extends StatelessWidget {
 class _DrawerTile extends StatelessWidget {
   final String text;
   final Function onPressed;
+  final Key widgetKey;
 
-  _DrawerTile({this.text, this.onPressed});
+  _DrawerTile({this.text, this.onPressed, this.widgetKey});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      key: widgetKey,
       title: Text(text),
       onTap: onPressed,
     );
@@ -325,12 +378,14 @@ class _WorkoutContainerState extends State<WorkoutContainer> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton(
+              key: Key('${widget.workout.name}_deleteWorkoutButton'),
               onPressed: () {
                 model.deleteWorkout(widget.workout.workoutId);
               },
               child: Text('Delete'),
             ),
             TextButton(
+              key: Key('${widget.workout.name}_startWorkoutButton'),
               child: WorkoutTileText(text: widget.workout.name),
               onPressed: () {
                 _startWorkoutDialog(widget.workout);
@@ -340,6 +395,7 @@ class _WorkoutContainerState extends State<WorkoutContainer> {
               },
             ),
             TextButton(
+              key: Key('${widget.workout.name}_editWorkoutButton'),
               onPressed: () {
                 //If workout is being sent in anyway, we don't need setWorkoutIdToEdit?
                 model.setWorkoutIdToEdit(widget.workout.workoutId);
@@ -396,51 +452,57 @@ class _StartWorkoutDialogBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<WorkoutViewModel>.reactive(
-        builder: (context, model, child) => AlertDialog(
-              contentPadding: EdgeInsets.all(16.0),
-              content: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      controller: controller,
-                      autofocus: true,
-                      decoration: InputDecoration(
-                          labelText: 'Enter Workout Duration',
-                          hintText: 'eg. 25 minutes'),
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                    ),
-                  )
+      builder: (context, model, child) => AlertDialog(
+        contentPadding: EdgeInsets.all(16.0),
+        content: Row(
+          children: <Widget>[
+            Expanded(
+              child: TextField(
+                key: Key('workoutDurationField'),
+                controller: controller,
+                autofocus: true,
+                decoration: InputDecoration(
+                    labelText: 'Enter Workout Duration',
+                    hintText: 'eg. 25 minutes'),
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly,
                 ],
               ),
-              actions: <Widget>[
-                _StartWorkoutDialogButton(
-                  text: 'Cancel',
-                  onPressed: () {
-                    model.pop();
-                  },
-                ),
-                _StartWorkoutDialogButton(
-                  text: 'Confirm',
-                  onPressed: () {
-                    model.setWorkoutID(workout.workoutId);
-                    model.startWorkoutTimer();
-                    model.setInitialWorkoutDuration(Duration(minutes: int.parse(controller.text)));
-                    model.navigateToWorkoutView(Duration(minutes: int.parse(controller.text)), workout.workoutId);
-                  },
-                ),
-              ],
-            ),
-        viewModelBuilder: () => WorkoutViewModel(
-              Provider.of<NavigationService>(context, listen: false),
-              Provider.of<ExerciseService>(context, listen: false),
-              Provider.of<WorkoutRepository>(context, listen: false),
-              Provider.of<AuthenticationService>(context, listen: false),
-              Provider.of<ExerciseRepository>(context, listen: false),
-              Provider.of<HistoryRepository>(context, listen: false),
+            )
+          ],
         ),
+        actions: <Widget>[
+          _StartWorkoutDialogButton(
+            widgetKey: Key('cancelWorkoutButton'),
+            text: 'Cancel',
+            onPressed: () {
+              model.pop();
+            },
+          ),
+          _StartWorkoutDialogButton(
+            widgetKey: Key('beginWorkoutButton'),
+            text: 'Confirm',
+            onPressed: () {
+              model.setWorkoutID(workout.workoutId);
+              model.startWorkoutTimer();
+              model.setInitialWorkoutDuration(
+                  Duration(minutes: int.parse(controller.text)));
+              model.navigateToWorkoutView(
+                  Duration(minutes: int.parse(controller.text)),
+                  workout.workoutId);
+            },
+          ),
+        ],
+      ),
+      viewModelBuilder: () => WorkoutViewModel(
+        Provider.of<NavigationService>(context, listen: false),
+        Provider.of<ExerciseService>(context, listen: false),
+        Provider.of<WorkoutRepository>(context, listen: false),
+        Provider.of<AuthenticationService>(context, listen: false),
+        Provider.of<ExerciseRepository>(context, listen: false),
+        Provider.of<HistoryRepository>(context, listen: false),
+      ),
     );
   }
 }
@@ -448,12 +510,14 @@ class _StartWorkoutDialogBox extends StatelessWidget {
 class _StartWorkoutDialogButton extends StatelessWidget {
   final String text;
   final Function onPressed;
+  final Key widgetKey;
 
-  _StartWorkoutDialogButton({this.text, this.onPressed});
+  _StartWorkoutDialogButton({this.text, this.onPressed, this.widgetKey});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
+      key: widgetKey,
       child: Text(text),
       onPressed: onPressed,
     );

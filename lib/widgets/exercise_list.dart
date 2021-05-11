@@ -34,6 +34,7 @@ class _ExerciseListState extends State<ExerciseList> {
                   exerciseId: model.exercises[index].exerciseId,
                   reps: model.exercises[index].reps,
                   workoutDuration: widget.workoutDuration,
+                  instructions: model.exercises[index].instructions,
                 )
               : Container(
                   child: Text('Loading Exercise...'),

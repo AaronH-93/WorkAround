@@ -20,6 +20,7 @@ class WorkoutView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<WorkoutViewModel>.reactive(
+      key: Key('workoutView'),
       builder: (context, model, child) => Scaffold(
         backgroundColor: Colors.grey,
         body: Column(
@@ -34,6 +35,7 @@ class WorkoutView extends StatelessWidget {
             ),
             //Maybe make Finish Workout button its own widget?
             RoundedButton(
+                widgetKey: Key('finishWorkoutButton'),
                 title: 'Finish Workout',
                 color: Colors.red[300],
                 onPressed: () {

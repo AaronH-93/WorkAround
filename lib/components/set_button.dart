@@ -17,7 +17,6 @@ class SetButton extends ViewModelWidget<ExerciseTileViewModel> {
       shape: CircleBorder(),
       onPressed: () {
         model.addSetToBeResetAfterWorkout(set);
-        //Extract these to view model?
         if(!set.isCompleted){
           set.isCompleted = true;
           model.updateSet(set);
@@ -26,8 +25,6 @@ class SetButton extends ViewModelWidget<ExerciseTileViewModel> {
           set.isCompleted = false;
           model.updateSet(set);
         }
-        //showRestTimer can display the dismissible snackbar
-        //but the workout adjustment is handled separately
         ScaffoldMessenger.of(context).showSnackBar(model.snackBar);
         model.adjustWorkout();
         //_showRestTimer(context);

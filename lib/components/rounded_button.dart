@@ -4,12 +4,14 @@ class RoundedButton extends StatelessWidget {
   final Color color;
   final String title;
   final Function onPressed;
+  final Key widgetKey;
 
-  RoundedButton({this.color, this.title, @required this.onPressed});
+  RoundedButton({this.color, this.title, @required this.onPressed, this.widgetKey});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
+      key: widgetKey,
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: Material(
         elevation: 5.0,

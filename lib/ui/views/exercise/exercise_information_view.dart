@@ -14,6 +14,7 @@ class ExerciseInformationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key('exerciseInformationView'),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -87,6 +88,7 @@ class ExerciseInformationView extends StatelessWidget {
                 ),
               ),
               RoundedButton(
+                widgetKey: Key('backButton'),
                 title: 'Back',
                 color: Colors.redAccent,
                 onPressed: () {
@@ -119,6 +121,7 @@ class GifLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.network(
       gifUrl,
+      key: Key('gif'),
       fit: BoxFit.cover,
       loadingBuilder:
           (BuildContext context, Widget child, ImageChunkEvent progress) {

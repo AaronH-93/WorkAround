@@ -12,23 +12,11 @@ class WelcomeView extends StatefulWidget {
 }
 
 class _WelcomeViewState extends State<WelcomeView> with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation animation;
-
-  @override
-  void initState() {
-    super.initState();
-
-    controller = AnimationController(
-      duration: Duration(seconds: 3),
-      vsync: this,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<WelcomeViewModel>.reactive(
         builder: (context, model, child) => Scaffold(
+          key: Key('welcomeView'),
           backgroundColor: Colors.white,
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: 24.0),
@@ -55,23 +43,19 @@ class _WelcomeViewState extends State<WelcomeView> with SingleTickerProviderStat
                   height: 48.0,
                 ),
                 RoundedButton(
+                    widgetKey: Key('loginButton'),
                     color: Colors.redAccent,
                     title: 'Log in',
                     onPressed: () {
                       model.navigateToLoginView();
                     }),
                 RoundedButton(
+                    widgetKey: Key('registerButton'),
                     color: Colors.redAccent,
                     title: 'Register',
                     onPressed: () {
                       model.navigateToRegisterView();
                     }),
-                // RoundedButton(
-                //     color: Colors.greenAccent,
-                //     title: 'Home',
-                //     onPressed: () {
-                //       Navigator.pushNamed(context, HomeScreen.id);
-                //     }),
               ],
             ),
           ),

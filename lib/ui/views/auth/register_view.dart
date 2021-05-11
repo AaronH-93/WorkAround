@@ -27,6 +27,7 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return ViewModelBuilder<RegisterViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
+        key: Key('registerView'),
         backgroundColor: Colors.white,
         body: ModalProgressHUD(
           inAsyncCall: spinner,
@@ -50,6 +51,7 @@ class _RegisterViewState extends State<RegisterView> {
                   height: 48.0,
                 ),
                 TextField(
+                  key: Key('firstNameField'),
                   textAlign: TextAlign.center,
                   onChanged: (value) {
                     model.firstName = value;
@@ -63,6 +65,7 @@ class _RegisterViewState extends State<RegisterView> {
                   height: 8.0,
                 ),
                 TextField(
+                  key: Key('lastNameField'),
                   textAlign: TextAlign.center,
                   onChanged: (value) {
                     model.lastName = value;
@@ -76,6 +79,7 @@ class _RegisterViewState extends State<RegisterView> {
                   height: 8.0,
                 ),
                 TextField(
+                  key: Key('registerEmailField'),
                   keyboardType: TextInputType.emailAddress,
                   textAlign: TextAlign.center,
                   onChanged: (value) {
@@ -89,6 +93,7 @@ class _RegisterViewState extends State<RegisterView> {
                   height: 8.0,
                 ),
                 TextField(
+                  key: Key('registerPasswordField'),
                   textAlign: TextAlign.center,
                   obscureText: true,
                   onChanged: (value) {
@@ -103,6 +108,7 @@ class _RegisterViewState extends State<RegisterView> {
                   height: 24.0,
                 ),
                 RoundedButton(
+                  widgetKey: Key('submitRegisterButton'),
                   color: Colors.redAccent,
                   title: 'Register',
                   onPressed: () async {

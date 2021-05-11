@@ -53,14 +53,11 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
   int cancelTimer() => _cancelTimer();
 
   void setNewDuration(Duration duration) => _exerciseService.setWorkoutDuration(duration);
-  Workout getWorkout(int index) => _exerciseService.getWorkout(index);
   String getCurrentWorkoutId() =>_exerciseService.getCurrentWorkoutId();
-  int getNumOfWorkouts() => _exerciseService.getNumOfWorkouts();
   Duration getWorkoutTimeElapsed() => _exerciseService.getWorkoutTimeElapsed();
   Duration getInitialWorkoutDuration() => _exerciseService.getInitialWorkoutDuration();
   //Need to convert the user_exercise object into exercise,
   //maybe in the exercise service?
-  void generateSets(Duration duration, List<Exercise> workout) => _exerciseService.generateSets(duration, workout);
   void setWorkoutID(String id) => _exerciseService.setCurrentWorkoutId(id);
   void setWorkoutIdToEdit(String workoutIdToEdit) => _exerciseService.setCurrentEditWorkoutId(workoutIdToEdit);
   //void setCurrentWorkout(UserWorkout workout) => _exerciseService.setCurrentWorkout(workout);

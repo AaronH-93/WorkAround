@@ -20,6 +20,7 @@ class _ExerciseViewState extends State<ExerciseView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ExerciseViewModel>.reactive(
+        key: Key('exercisesView'),
         builder: (context, model, child) => Scaffold(
               body: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -105,6 +106,7 @@ class ExerciseContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: Key(text),
       padding: EdgeInsets.all(5.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

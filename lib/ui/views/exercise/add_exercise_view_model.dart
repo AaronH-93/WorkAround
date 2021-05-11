@@ -26,7 +26,6 @@ class AddExerciseViewModel extends BaseViewModel{
 
   void addToTempWorkout(UserExercise exercise) {
     _exerciseService.addToTempWorkout(exercise);
-    //notifyListeners();
   }
 
   //Lots of this can probably go in a service
@@ -40,7 +39,6 @@ class AddExerciseViewModel extends BaseViewModel{
       );
     }
 
-    //UserExercise userExercise = UserExercise(exerciseId: exercise.exerciseId, name: exercise.name, reps: reps, muscleGroup: exercise.muscleGroup);
     _exerciseRepository.addOrUpdateExercise(_authenticationService.currentId, newWorkout.workoutId, exercise);
 
     for(UserSet set in userSets){

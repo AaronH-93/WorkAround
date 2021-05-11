@@ -12,11 +12,6 @@ import 'package:work_around/services/repository/exercise_repository.dart';
 import 'package:work_around/services/repository/workout_repository.dart';
 
 class ExerciseService {
-  final AuthenticationService _authenticationService;
-  final ExerciseRepository _exerciseRepository;
-  final WorkoutRepository _workoutRepository;
-  final ExerciseData _exerciseData;
-  final WorkoutData _workoutData;
 
   bool isEditPath = false;
 
@@ -106,19 +101,9 @@ class ExerciseService {
     tempExerciseId = id;
   }
 
-  ExerciseService(this._authenticationService, this._exerciseData,
-      this._workoutData, this._exerciseRepository, this._workoutRepository);
-
   Stopwatch _workoutTimer = Stopwatch();
   Duration _initialWorkoutDuration;
   Duration _workoutDuration;
-
-  void setTemp(Workout temp) => _workoutData.setTempWorkout(temp);
-
-  void addWorkout(String workoutName) {
-    _workoutData.temp.name = workoutName;
-    _workoutData.workouts.add(_workoutData.temp);
-  }
 
   void addToTempWorkout(UserExercise exercise) {
     newExercises.add(exercise);
@@ -142,22 +127,6 @@ class ExerciseService {
 
   UserSet getSetFromHistory(int index) {
     return historySets[index];
-  }
-
-  Workout getWorkout(int index) {
-    return _workoutData.workouts[index];
-  }
-
-  int getNumOfExercises() {
-    return _workoutData.temp.exerciseList.length;
-  }
-
-  int getNumOfWorkouts() {
-    return _workoutData.workouts.length;
-  }
-
-  void generateSets(Duration duration, List<Exercise> workout) {
-    _exerciseData.generateSets(duration, workout);
   }
 
   String getCurrentWorkoutId() {

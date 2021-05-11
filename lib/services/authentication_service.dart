@@ -1,16 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:work_around/models/user.dart';
 import 'package:work_around/services/repository/user_repository.dart';
 
 typedef firebaseAuthFunction<P> = Future<P> Function();
 
-class AuthenticationService {
+class AuthenticationService{
   final auth.FirebaseAuth _firebaseAuth;
   final UserRepository _userRepository;
   auth.User _currentUser;
 
   AuthenticationService(this._firebaseAuth, this._userRepository);
+
+  Stream<auth.User> get firebaseUser => _firebaseAuth.authStateChanges();
 
   Future<String> register(String firstName, String lastName, String email,
       String password) async =>
@@ -51,6 +54,8 @@ class AuthenticationService {
   String get currentEmail => _currentUser.email;
 
   String get currentId => _currentUser.uid;
+
+
 
   Future<T> _translatePlatformException<T>(
       firebaseAuthFunction<T> authFunction) async {

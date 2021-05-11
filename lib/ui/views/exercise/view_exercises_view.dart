@@ -18,6 +18,7 @@ class _ViewExercisesViewState extends State<ViewExercisesView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ViewExercisesViewModel>.reactive(
+      key: Key('viewExercisesView'),
       viewModelBuilder: () => ViewExercisesViewModel(
         Provider.of<NavigationService>(context, listen: false),
         Provider.of<ExerciseService>(context, listen: false),
@@ -62,6 +63,7 @@ class _ExerciseViewListState extends State<ExerciseViewList> {
               height: 10,
             ),
             TextField(
+              key: Key('searchField'),
               controller: controller,
               decoration: InputDecoration(
                   labelText: "Search",
@@ -92,6 +94,7 @@ class _ExerciseViewListState extends State<ExerciseViewList> {
               ),
             ),
             RoundedButton(
+              widgetKey: Key('backButton'),
               title: 'Back',
               color: Colors.redAccent,
               onPressed: (){
@@ -128,6 +131,7 @@ class _ViewExerciseButtonState extends State<ViewExerciseButton> {
           color: Colors.redAccent,
           borderRadius: BorderRadius.circular(30.0),
           child: MaterialButton(
+            key: Key('${widget.exercise.name}_viewButton'),
             onPressed: () {
               model.navigateToExerciseInformationView(widget.exercise);
             },

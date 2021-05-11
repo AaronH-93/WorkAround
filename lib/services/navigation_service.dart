@@ -15,6 +15,7 @@ import 'package:work_around/ui/views/exercise/exercises_view.dart';
 import 'package:work_around/ui/views/exercise/workout_history_view.dart';
 import 'package:work_around/ui/views/exercise/workout_view.dart';
 import 'package:work_around/ui/views/home/home_view.dart';
+import 'package:work_around/ui/views/home/welcome_view.dart';
 import 'package:work_around/ui/views/settings/account_view.dart';
 import 'package:work_around/ui/views/settings/help_view.dart';
 import 'package:work_around/ui/views/settings/settings_view.dart';
@@ -25,6 +26,16 @@ class NavigationService {
 
   void pop<T extends Object>([T result]) {
     navigator.pop(result);
+  }
+
+  void navigateToWelcomeView() {
+    navigator.push(
+        MaterialPageRoute<void>(
+          builder: (context) {
+            return WelcomeView();
+          },
+          settings: const RouteSettings(name: 'welcome_view'),
+        ));
   }
 
   void navigateToLoginInView() {

@@ -14,8 +14,14 @@ class ExerciseTile extends StatefulWidget {
   final String name;
   final int reps;
   final Duration workoutDuration;
+  final String instructions;
 
-  ExerciseTile({this.exerciseId, this.name, this.reps, this.workoutDuration});
+  ExerciseTile(
+      {this.exerciseId,
+      this.name,
+      this.reps,
+      this.workoutDuration,
+      this.instructions});
 
   @override
   _ExerciseTileState createState() => _ExerciseTileState();
@@ -25,7 +31,8 @@ class _ExerciseTileState extends State<ExerciseTile> {
   @override
   void initState() {
     super.initState();
-    Provider.of<ExerciseService>(context, listen: false).exerciseId = widget.exerciseId;
+    Provider.of<ExerciseService>(context, listen: false).exerciseId =
+        widget.exerciseId;
   }
 
   @override
@@ -57,8 +64,8 @@ class _ExerciseTileState extends State<ExerciseTile> {
                     IconButton(
                       icon: Icon(Icons.info_sharp),
                       color: Colors.redAccent,
-                      onPressed: (){
-                        //Open Exercise info/instructions
+                      onPressed: () {
+                        _showExerciseInstructions(widget.instructions);
                       },
                     ),
                     ExerciseContainer(
@@ -67,7 +74,8 @@ class _ExerciseTileState extends State<ExerciseTile> {
                     IconButton(
                       icon: Icon(Icons.notes_sharp),
                       color: Colors.redAccent,
-                      onPressed: (){
+                      onPressed: () {
+
                         //Open Exercise info/instructions
                       },
                     ),
@@ -92,6 +100,48 @@ class _ExerciseTileState extends State<ExerciseTile> {
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  _showExerciseInstructions(String instructions) async {
+    await showDialog<String>(
+      context: context,
+      builder: (_) => _InstructionsDialogBox(
+        context: context,
+        instructions: instructions,
+      ),
+    );
+  }
+}
+
+class _InstructionsDialogBox extends StatelessWidget {
+  final BuildContext context;
+  final String instructions;
+
+  _InstructionsDialogBox({this.context, this.instructions});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Column(
+        children: [
+          Text(
+            instructions,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text(
+              'OK',
+            ),
+          )
         ],
       ),
     );

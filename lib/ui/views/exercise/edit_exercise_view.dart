@@ -25,6 +25,7 @@ class _EditExerciseViewState extends State<EditExerciseView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<EditExerciseViewModel>.reactive(
+      key: Key('editExerciseView'),
       builder: (context, model, child) => Scaffold(
         body: Form(
           child: ListView(
@@ -78,13 +79,12 @@ class _CompleteButton extends ViewModelWidget<EditExerciseViewModel> {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: RoundedButton(
+        widgetKey: Key('completeEditButton'),
         color: Colors.redAccent,
         title: 'Done',
         onPressed: (){
           model.updateExercise(exercise);
           model.navigateToEditWorkoutView(workout);
-          //maybe call the firestore to delete the current sets, then make new sets with the new value
-          //retrieve workoutIdToEdit from exerciseService
         },
       ),
     );
@@ -98,6 +98,7 @@ class _WeightField extends ViewModelWidget<EditExerciseViewModel> {
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: TextField(
+          key: Key('editWeightField'),
           controller: controller,
           decoration: InputDecoration(
             hintText: 'Weight (Optional)',
@@ -116,6 +117,7 @@ class _RepsField extends ViewModelWidget<EditExerciseViewModel> {
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: TextField(
+          key: Key('editRepsField'),
           controller: controller,
           decoration: InputDecoration(
             hintText: 'Reps',
@@ -134,6 +136,7 @@ class _SetsField extends ViewModelWidget<EditExerciseViewModel> {
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: TextField(
+          key: Key('editSetsField'),
           controller: controller,
           decoration: InputDecoration(
             hintText: 'Sets',

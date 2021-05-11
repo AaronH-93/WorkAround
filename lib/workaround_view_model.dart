@@ -17,9 +17,6 @@ import 'models/workout_data.dart';
 class WorkAroundViewModel extends BaseViewModel{
   NavigationService navigationService;
   ExerciseService exerciseService;
-  ExerciseTileViewModel exerciseTileViewModel;
-  ExerciseData exerciseData;
-  WorkoutData workoutData;
   AuthenticationService auth;
   UserRepository userRepository;
   WorkoutRepository workoutRepository;
@@ -36,11 +33,9 @@ class WorkAroundViewModel extends BaseViewModel{
     workoutRepository = WorkoutRepository(FirebaseFirestore.instance);
     exerciseRepository = ExerciseRepository(FirebaseFirestore.instance);
     historyRepository = HistoryRepository(FirebaseFirestore.instance);
-    exerciseData = ExerciseData();
-    workoutData = WorkoutData();
     navigationService = NavigationService();
     auth = AuthenticationService(FirebaseAuth.instance, userRepository);
-    exerciseService = ExerciseService(auth, exerciseData, workoutData, exerciseRepository, workoutRepository);
+    exerciseService = ExerciseService();
 
     _isUserLoggedIn = await auth.isUserLoggedIn();
 

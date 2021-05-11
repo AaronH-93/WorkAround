@@ -33,17 +33,3 @@ class SetsButtons extends ViewModelWidget<ExerciseTileViewModel> {
     );
   }
 }
-
-  // @override
-  // Widget build(BuildContext context, ExerciseTileViewModel model) {
-  //   return ListView.builder(
-  //     scrollDirection: Axis.horizontal,
-  //     itemBuilder: (context, index) {
-  //       final set = model.userSets[index];
-  //       return model.isBusy
-  //           ? Container(child: Text('Loading Set'))
-  //           : SetButton(set: set);
-  //     },
-  //     itemCount: model.userSets.length,
-  //   );
-  // }

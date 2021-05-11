@@ -24,6 +24,7 @@ class _LoginViewState extends State<LoginView>{
     return ViewModelBuilder<LoginViewModel>.reactive(
         builder: (context, model, child) =>
             Scaffold(
+              key: Key('loginView'),
               backgroundColor: Colors.white,
               body: ModalProgressHUD(
                 inAsyncCall: spinner,
@@ -47,6 +48,7 @@ class _LoginViewState extends State<LoginView>{
                         height: 48.0,
                       ),
                       TextField(
+                          key: Key('emailField'),
                           onChanged: (value) {
                             email = value;
                           },
@@ -58,6 +60,7 @@ class _LoginViewState extends State<LoginView>{
                         height: 8.0,
                       ),
                       TextField(
+                        key: Key('passwordField'),
                         obscureText: true,
                         onChanged: (value) {
                           password = value;
@@ -71,6 +74,7 @@ class _LoginViewState extends State<LoginView>{
                         height: 24.0,
                       ),
                       RoundedButton(
+                        widgetKey: Key('submit'),
                         color: Colors.red,
                         title: 'Log in',
                         onPressed: () async {

@@ -25,6 +25,7 @@ class _AddExerciseViewState extends State<AddExerciseView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
+      key: Key('addExerciseView'),
       builder: (context, model, child) => Scaffold(
         body: Form(
           child: ListView(
@@ -76,6 +77,7 @@ class _CompleteButton extends ViewModelWidget<AddExerciseViewModel> {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: RoundedButton(
+        widgetKey: Key('submitExerciseButton'),
         color: Colors.redAccent,
         title: 'Done',
         onPressed: (){
@@ -96,6 +98,7 @@ class _WeightField extends ViewModelWidget<AddExerciseViewModel> {
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: TextField(
+          key: Key('weightField'),
           controller: controller,
           decoration: InputDecoration(
             hintText: 'Weight (Optional)',
@@ -114,6 +117,7 @@ class _RepsField extends ViewModelWidget<AddExerciseViewModel> {
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: TextField(
+          key: Key('repsField'),
           controller: controller,
           decoration: InputDecoration(
             hintText: 'Reps',
@@ -132,6 +136,7 @@ class _SetsField extends ViewModelWidget<AddExerciseViewModel> {
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: TextField(
+          key: Key('setsField'),
           controller: controller,
           decoration: InputDecoration(
             hintText: 'Sets',

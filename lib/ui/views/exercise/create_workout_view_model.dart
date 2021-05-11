@@ -26,13 +26,6 @@ class CreateWorkoutViewModel extends StreamViewModel<List<UserExercise>>{
   void navigateToExercisesView(UserWorkout newWorkout) => _navigationService.navigateToExercisesView(newWorkout);
   void navigateToHomeView() => _navigationService.navigateToHomeView();
   UserExercise getTempWorkout(index) => _exerciseService.getTempWorkout(index);
-  int getNumOfExercises() => _exerciseService.getNumOfExercises();
-
-  void addWorkout(String workoutName){
-    _exerciseService.addWorkout(workoutName);
-    _exerciseService.setTemp(Workout(name: 'Temp', exerciseList: []));
-    notifyListeners();
-  }
 
   void deleteWorkout(String workoutId) => _workoutRepository.deleteWorkout(_authenticationService.currentId, workoutId);
 

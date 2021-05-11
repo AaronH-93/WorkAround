@@ -21,6 +21,7 @@ class _ExerciseHistoryViewState extends State<ExerciseHistoryView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ExerciseHistoryViewModel>.reactive(
+      key: Key('exerciseHistoryView'),
       builder: (context, model, child) => Scaffold(
         backgroundColor: Colors.grey,
         body: Column(
@@ -39,6 +40,7 @@ class _ExerciseHistoryViewState extends State<ExerciseHistoryView> {
               ),
             ),
             RoundedButton(
+              widgetKey: Key('exerciseHistoryBackButton'),
               title: 'Back',
               color: Colors.redAccent,
               onPressed: () {

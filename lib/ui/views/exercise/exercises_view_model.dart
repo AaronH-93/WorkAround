@@ -18,13 +18,9 @@ class ExerciseViewModel extends StreamViewModel<List<UserExercise>> {
   ExerciseViewModel(this._navigationService, this._exerciseService,
       this._authenticationService, this._exerciseRepository);
 
-  void generateSets(Duration duration, List<Exercise> workout) =>
-      _exerciseService.generateSets(duration, workout);
-
   void pop() => _navigationService.pop();
   void navigateToSettingsView() => _navigationService.navigateToSettingsView();
   void navigateToAddExerciseView(UserWorkout newWorkout, UserExercise exercise) => _navigationService.navigateToAddExerciseView(newWorkout, exercise);
-  //void navigateToWorkoutView() => _navigationService.navigateToWorkoutView();
 
   void addToTempWorkout(UserExercise exercise) {
     _exerciseService.addToTempWorkout(exercise);

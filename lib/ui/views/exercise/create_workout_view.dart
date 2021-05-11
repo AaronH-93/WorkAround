@@ -13,7 +13,6 @@ import 'create_workout_view_model.dart';
 final controller = TextEditingController();
 
 class CreateWorkoutView extends StatefulWidget {
-  //This should go into exercise service
   final UserWorkout newWorkout;
 
   const CreateWorkoutView({this.newWorkout});
@@ -26,6 +25,7 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<CreateWorkoutViewModel>.reactive(
+        key: Key('createWorkoutView'),
         builder: (context, model, child) => Scaffold(
                 body: Center(
               child: Column(
@@ -44,6 +44,7 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       RoundedButton(
+                        widgetKey: Key('addExerciseButton'),
                         onPressed: () {
                           model.navigateToExercisesView(widget.newWorkout);
                         },
@@ -66,6 +67,7 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
                         elevation: 5,
                         color: Colors.redAccent,
                         child: TextButton(
+                          key: Key('cancelWorkoutCreation'),
                           onPressed: () {
                             // _showDialog();
                             //Maybe add a prompt asking if they're sure
@@ -88,6 +90,7 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
                         elevation: 5,
                         color: Colors.redAccent,
                         child: TextButton(
+                          key: Key('finishWorkoutCreation'),
                           onPressed: () {
                             // _showDialog();
                             //Maybe add a prompt asking if they're sure
@@ -118,12 +121,12 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
             ));
   }
 
-  // _showDialog() async {
-  //   await showDialog<String>(
-  //     context: context,
-  //     builder: (_) => _AlertDialogBox(context: context),
-  //   );
-  // }
+// _showDialog() async {
+//   await showDialog<String>(
+//     context: context,
+//     builder: (_) => _AlertDialogBox(context: context),
+//   );
+// }
 }
 
 class TempWorkoutList extends ViewModelWidget<CreateWorkoutViewModel> {
@@ -131,6 +134,7 @@ class TempWorkoutList extends ViewModelWidget<CreateWorkoutViewModel> {
   Widget build(BuildContext context, CreateWorkoutViewModel model) {
     return Expanded(
       child: ListView.builder(
+        key: Key('tempWorkoutList'),
         itemBuilder: (context, index) {
           return model.dataReady
               ? ExerciseTile(name: model.exercises[index].name)
@@ -150,6 +154,7 @@ class ExerciseTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      key: Key('exerciseTile'),
       children: [
         SizedBox(
           height: 20,
@@ -180,6 +185,7 @@ class ExerciseContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: Key('exerciseContainer'),
       padding: EdgeInsets.all(5.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

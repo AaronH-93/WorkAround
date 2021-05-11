@@ -16,29 +16,24 @@ class HomeViewModel extends FutureViewModel<User>{
 
   HomeViewModel(this._navigationService, this._exerciseService, this._authenticationService, this._userRepository);
 
-
+  void signOut() => _authenticationService.signOut();
   void pop() => _navigationService.pop();
   void navigateToSettingsView() => _navigationService.navigateToSettingsView();
   void navigateToWorkoutView(Duration duration, String workoutId) => _navigationService.navigateToWorkoutView(duration, workoutId);
   void navigateToCreateWorkoutView(UserWorkout newWorkout) => _navigationService.navigateToCreateWorkoutView(newWorkout);
   void navigateToViewExercisesView() => _navigationService.navigateToViewExercisesView();
   void navigateToWorkoutHistoryView() => _navigationService.navigateToWorkoutHistoryView();
+  void navigateToWelcomeView() => _navigationService.navigateToWelcomeView();
 
   void setWorkoutID(String id) => _exerciseService.setCurrentWorkoutId(id);
   //void setCurrentWorkout(UserWorkout workout) => _exerciseService.setCurrentWorkout(workout);
   void startWorkoutTimer() => _exerciseService.startWorkoutTimer();
   void setInitialWorkoutDuration(Duration duration) => _exerciseService. setInitialWorkoutDuration(duration);
 
-  Workout getWorkout(int index) => _exerciseService.getWorkout(index);
-  int getNumOfWorkouts() => _exerciseService.getNumOfWorkouts();
-
-
   @override
   Future<User> futureToRun() async {
     return _userRepository.getUser(_authenticationService.currentId);
   }
-
-
 
 
 }

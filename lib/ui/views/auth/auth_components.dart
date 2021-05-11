@@ -23,7 +23,7 @@ class BaseAuthViewModel extends BaseViewModel {
     _errorMessage = "";
     setBusy(true);
 
-    //Add validation check
+    //TODO: Add validation check
       try {
         await performAction();
       } on AuthenticationServiceException catch (exception) {
