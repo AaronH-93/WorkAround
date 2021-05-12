@@ -15,7 +15,6 @@ class ExerciseHistoryViewModel extends StreamViewModel<List<UserExercise>>{
 
   void setExerciseHistoryId(String exerciseId) => _exerciseService.setExerciseHistoryId(exerciseId);
 
-
   @override
   Stream<List<UserExercise>> get stream => _historyRepository.getExercises(_authenticationService.currentId, _exerciseService.getWorkoutHistoryId);
   List<UserExercise> get exercises => data;

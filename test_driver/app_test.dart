@@ -1,15 +1,15 @@
-// Imports the Flutter Driver API.
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
+
+//The command to run the integration tests in the terminal is:
+// flutter drive --target=test_driver/app.dart
 
 void main() {
   FlutterDriver driver;
 
-  //TODO: This can be automated by randomizing an email?
-  final String registrationEmail = 'test1@test.com';
+  final String registrationEmail = 'test@test.com';
 
   group('WorkAround App', () {
-
     setUpAll(() async {
       driver = await FlutterDriver.connect();
     });
@@ -22,6 +22,21 @@ void main() {
 
     test('Navigate to Register View', () async{
       await driver.tap(find.byValueKey('registerButton'));
+      await driver.waitFor(find.byValueKey('registerView'), timeout: Duration(seconds: 3));
+    });
+
+    test('Navigate to Login View', () async{
+      await driver.tap(find.byValueKey('redirectToLoginButton'));
+      await driver.waitFor(find.byValueKey('loginView'), timeout: Duration(seconds: 3));
+    });
+
+    test('Navigate to ResetPassword View', () async {
+      await driver.tap(find.byValueKey('redirectToResetPasswordButton'));
+      await driver.waitFor(find.byValueKey('resetPasswordView'), timeout: Duration(seconds: 3));
+    });
+
+    test('Navigate back to Register View', () async {
+      await driver.tap(find.byValueKey('redirectToRegisterButton'));
       await driver.waitFor(find.byValueKey('registerView'), timeout: Duration(seconds: 3));
     });
 

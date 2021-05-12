@@ -41,6 +41,7 @@ dependencies:
   json_serializable: ^3.3.0
   uuid: 2.2.0
   url_launcher: ^5.7.10
+  flutter_countdown_timer: ^3.0.1
 
 dev_dependencies:
   flutter_test:

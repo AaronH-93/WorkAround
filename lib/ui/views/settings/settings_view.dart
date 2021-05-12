@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-
 import 'settings_view_model.dart';
-
-//TODO: INCLUDE MUSCLEWIKI COPYRIGHT JAZZ
 
 class SettingsView extends StatelessWidget {
   @override

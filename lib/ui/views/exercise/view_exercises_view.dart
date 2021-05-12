@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:work_around/components/rounded_button.dart';
-import 'package:work_around/models/exercise.dart';
 import 'package:work_around/models/user_exercise.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/ui/views/exercise/view_exercises_view_model.dart';
+
+final TextEditingController controller = TextEditingController();
 
 class ViewExercisesView extends StatefulWidget {
   @override
@@ -24,12 +25,13 @@ class _ViewExercisesViewState extends State<ViewExercisesView> {
         Provider.of<ExerciseService>(context, listen: false),
       ),
       builder: (context, model, child) => Scaffold(
-          body: Padding(
-        padding: EdgeInsets.only(left: 10.0, right: 10.0),
-        child: Material(
-          child: ExerciseViewList(),
+        body: Padding(
+          padding: EdgeInsets.only(left: 10.0, right: 10.0),
+          child: Material(
+            child: ExerciseViewList(),
+          ),
         ),
-      )),
+      ),
     );
   }
 }
@@ -40,7 +42,6 @@ class ExerciseViewList extends StatefulWidget {
 }
 
 class _ExerciseViewListState extends State<ExerciseViewList> {
-  TextEditingController controller = TextEditingController();
   List<UserExercise> searchableList = [];
   List<UserExercise> filteredList = [];
 
@@ -53,8 +54,6 @@ class _ExerciseViewListState extends State<ExerciseViewList> {
       ),
       onModelReady: (model) {
         model.initList();
-        searchableList = model.searchableList;
-        filteredList = searchableList;
       },
       builder: (context, model, child) => SafeArea(
         child: Column(
@@ -62,47 +61,139 @@ class _ExerciseViewListState extends State<ExerciseViewList> {
             SizedBox(
               height: 10,
             ),
-            TextField(
-              key: Key('searchField'),
-              controller: controller,
-              decoration: InputDecoration(
-                  labelText: "Search",
-                  hintText: "Search Exercises",
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(25.0)))),
-              onChanged: (value) {
-                setState(() {
-                  filteredList = searchableList
-                      .where((exercise) => (exercise.name
-                              .toLowerCase()
-                              .contains(value.toLowerCase()) ||
-                          exercise.muscleGroup
-                              .toLowerCase()
-                              .contains(value.toLowerCase())))
-                      .toList();
-                });
-              },
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  final exercise = filteredList[index];
-                  return ViewExerciseButton(exercise: exercise);
-                },
-                itemCount: filteredList.length,
-              ),
-            ),
+            _SearchField(),
+            _MuscleGroupButtonList(),
+            _EquipmentButtonList(),
+            _ExerciseButtons(),
             RoundedButton(
               widgetKey: Key('backButton'),
               title: 'Back',
               color: Colors.redAccent,
-              onPressed: (){
-              Navigator.pop(context);
-            },),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _EquipmentButtonList extends ViewModelWidget<ViewExercisesViewModel> {
+  const _EquipmentButtonList({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ViewExercisesViewModel model) {
+    return Container(
+      height: 70,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          _FilterButton('stretch'),
+          _FilterButton('bodyweight'),
+          _FilterButton('barbell'),
+          _FilterButton('kettlebell'),
+          _FilterButton('dumbbell'),
+        ],
+      ),
+    );
+  }
+}
+
+class _MuscleGroupButtonList extends ViewModelWidget<ViewExercisesViewModel> {
+  const _MuscleGroupButtonList({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ViewExercisesViewModel model) {
+    return Container(
+      height: 70,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          _FilterButton('biceps'),
+          _FilterButton('chest'),
+          _FilterButton('abdominals'),
+          _FilterButton('shoulders'),
+          _FilterButton('traps'),
+          _FilterButton('forearms'),
+          _FilterButton('quads'),
+          _FilterButton('triceps'),
+          _FilterButton('lats'),
+          _FilterButton('lower back'),
+          _FilterButton('glutes'),
+          _FilterButton('hamstring'),
+          _FilterButton('calves'),
+        ],
+      ),
+    );
+  }
+}
+
+class _FilterButton extends ViewModelWidget<ViewExercisesViewModel> {
+  final String text;
+
+  _FilterButton(this.text);
+
+  @override
+  Widget build(BuildContext context, ViewExercisesViewModel model) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+      child: RoundedButton(
+          title: text.toUpperCase(),
+          color: Colors.redAccent,
+          onPressed: () {
+            model.filterSearchResults(text);
+          }),
+    );
+  }
+}
+
+class _ExerciseButtons extends ViewModelWidget<ViewExercisesViewModel> {
+  const _ExerciseButtons({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ViewExercisesViewModel model) {
+    return Expanded(
+      child: Material(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Colors.grey[300],
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            final exercise = model.searchList[index];
+            return ViewExerciseButton(exercise: exercise);
+          },
+          itemCount: model.searchList.length,
+        ),
+      ),
+    );
+  }
+}
+
+class _SearchField extends ViewModelWidget<ViewExercisesViewModel> {
+  const _SearchField({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ViewExercisesViewModel model) {
+    return TextField(
+      key: Key('searchField'),
+      controller: controller,
+      decoration: InputDecoration(
+          labelText: "Search",
+          hintText: "Search Exercises",
+          prefixIcon: Icon(Icons.search),
+          border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+      onChanged: (value) {
+        model.filterSearchResults(value);
+      },
     );
   }
 }

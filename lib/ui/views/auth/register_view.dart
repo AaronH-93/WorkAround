@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +5,6 @@ import 'package:stacked/stacked.dart';
 import 'package:work_around/components/rounded_button.dart';
 import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/navigation_service.dart';
-
 import '../../../constants.dart';
 import 'register_view_model.dart';
 
@@ -16,7 +14,6 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  final _auth = FirebaseAuth.instance;
   String firstName;
   String lastName;
   String email;
@@ -112,7 +109,14 @@ class _RegisterViewState extends State<RegisterView> {
                   color: Colors.redAccent,
                   title: 'Register',
                   onPressed: () async {
-                    model.validateAndRegister();
+                    model.register();
+                  },
+                ),
+                TextButton(
+                  key: Key('redirectToLoginButton'),
+                  child: Text('Have an account? Sign in.'),
+                  onPressed: (){
+                    model.navigateToLoginView();
                   },
                 ),
               ],

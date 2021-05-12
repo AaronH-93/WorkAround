@@ -1,63 +1,49 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:work_around/models/user.dart' as workAroundUser;
-import 'package:work_around/services/authentication_service.dart';
+import 'package:work_around/models/user.dart';
 import 'package:work_around/services/repository/user_repository.dart';
+import 'package:work_around/util/functions.dart';
 
-class MockFirebaseUser extends Mock implements User {}
-
-MockFirebaseUser mockUser = MockFirebaseUser();
-
-class MockFirebaseAuth extends Mock implements FirebaseAuth {
-  @override
-  Stream<User> authStateChanges() {
-    return Stream.fromIterable([mockUser]);
-  }
-}
-class MockFirebaseUserCredentials extends Mock implements UserCredential {}
-class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
-class MockUserRepository extends Mock implements UserRepository {}
-class MockFirestore extends Mock implements FirebaseFirestore {}
+class MockFirestore extends Mock implements FirebaseFirestore{}
 class MockCollectionReference extends Mock implements CollectionReference{}
 class MockDocumentReference extends Mock implements DocumentReference{}
 class MockDocumentSnapshot extends Mock implements DocumentSnapshot{}
-class MockQuerySnapshot extends Mock implements QuerySnapshot{}
-class MockQueryDocumentSnapshot extends Mock implements QueryDocumentSnapshot{}
 
-void main() {
-  final MockFirebaseAuth mockFirebaseAuth = MockFirebaseAuth();
-  final MockUserRepository mockUserRepository = MockUserRepository();
-  final AuthenticationService auth = AuthenticationService(mockFirebaseAuth, mockUserRepository);
-  final Future<MockFirebaseUserCredentials> userCredentials = Future.value(MockFirebaseUserCredentials());
-  MockFirestore firestore;
-  MockDocumentSnapshot mockDocumentSnapshot;
-  MockCollectionReference mockCollectionReference;
-  MockDocumentReference mockDocumentReference;
-  MockQuerySnapshot mockQuerySnapshot;
-  MockQueryDocumentSnapshot mockQueryDocumentSnapshot;
+void main(){
+  final mockFirestore = MockFirestore();
+  final mockCollectionReference = MockCollectionReference();
+  final mockDocumentReference = MockDocumentReference();
+  final mockDocumentSnapshot = MockDocumentSnapshot();
+  final userRepository = UserRepository(mockFirestore);
 
-  final Map<String, dynamic> expected = {
-    'firstName' : 'Aaron',
+  final response = {
+    'firstName' : 'A',
     'lastName' : 'H',
-    'email' : 'aaron@gmail.com',
+    'email' : 'test@test.com',
   };
 
-  final expectedUser = workAroundUser.User.fromJson(expected);
+  final expectedUser = User.fromJson(response);
+  final success = Success();
 
-  setUp(() {
-    firestore = MockFirestore();
-    mockCollectionReference = MockCollectionReference();
-    mockDocumentReference = MockDocumentReference();
-    mockDocumentSnapshot = MockDocumentSnapshot();
-    mockQuerySnapshot = MockQuerySnapshot();
-    mockQueryDocumentSnapshot = MockQueryDocumentSnapshot();
+  test('getUser returns user', () async {
+    when(mockFirestore.collection('users')).thenAnswer((_) => mockCollectionReference);
+    when(mockCollectionReference.doc(any)).thenReturn(mockDocumentReference);
+    when(mockDocumentReference.get()).thenAnswer((_) async => mockDocumentSnapshot);
+    when(mockDocumentSnapshot.data()).thenReturn(response);
+
+    final result = await userRepository.getUser('user_id');
+    expect(expectedUser.firstName, result.firstName);
+    expect(expectedUser.lastName, result.lastName);
+    expect(expectedUser.email, result.email);
   });
 
-  tearDown() {}
+  test('addOrUpdateUsers returns success', () async {
+    when(mockFirestore.collection('users')).thenAnswer((_) => mockCollectionReference);
+    when(mockCollectionReference.doc(any)).thenReturn(mockDocumentReference);
+    when(mockDocumentReference.set(expectedUser.toJson())).thenAnswer((_) async => success);
 
-  test('Emit occurs', () async {
-    expectLater(auth.firebaseUser, emitsInOrder([mockUser]));
+    final result = await userRepository.addOrUpdateUser('uid', expectedUser);
+    expect(result.isError, false);
   });
 }

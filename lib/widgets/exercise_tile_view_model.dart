@@ -5,36 +5,32 @@ import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/services/repository/exercise_repository.dart';
-import 'package:work_around/services/repository/workout_repository.dart';
 
 class ExerciseTileViewModel extends StreamViewModel<List<UserSet>>{
   final NavigationService _navigationService;
   final ExerciseService _exerciseService;
-  final WorkoutRepository _workoutRepository;
   final ExerciseRepository _exerciseRepository;
   final AuthenticationService _authenticationService;
-  int _length = 0;
 
-  ExerciseTileViewModel(this._navigationService, this._exerciseService, this._workoutRepository, this._exerciseRepository, this._authenticationService);
+  ExerciseTileViewModel(this._navigationService, this._exerciseService, this._exerciseRepository, this._authenticationService);
 
-  String get exerciseId => _exerciseService.exerciseId;
+  String get exerciseId => _exerciseService.currentExerciseId;
 
   void setExerciseId(String id) => _exerciseService.setCurrentExerciseId(id);
 
   Future<void> deleteSet(String setId) async {
-    _exerciseRepository.deleteSet(_authenticationService.currentId, _exerciseService.workoutId, exerciseId, setId);
+    _exerciseRepository.deleteSet(_authenticationService.currentId, _exerciseService.currentWorkoutId, exerciseId, setId);
   }
 
   bool get setsExist => data != null;
 
   @override
-  Stream<List<UserSet>> get stream => _exerciseRepository.getExerciseSets(_authenticationService.currentId, _exerciseService.workoutId, exerciseId);
-
+  Stream<List<UserSet>> get stream => _exerciseRepository.getExerciseSets(_authenticationService.currentId, _exerciseService.currentWorkoutId, exerciseId);
   List<UserSet> get userSets => data;
 
   bool isSetWithinDuration(UserSet set) => _exerciseService.isSetWithinDuration(set);
 
-  void updateSet(UserSet set) => _exerciseRepository.updateSet(_authenticationService.currentId, _exerciseService.workoutId, set);
+  void updateSet(UserSet set) => _exerciseRepository.updateSet(_authenticationService.currentId, _exerciseService.currentWorkoutId, set);
 
   void addSetToBeResetAfterWorkout(UserSet set) => _exerciseService.addSetToResetList(set);
 
@@ -42,9 +38,7 @@ class ExerciseTileViewModel extends StreamViewModel<List<UserSet>>{
     content: Text('Rest!'),
     action: SnackBarAction(
       label: 'OK',
-      onPressed: (){
-
-      },
+      onPressed: (){},
     ),
   );
 

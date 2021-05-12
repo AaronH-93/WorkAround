@@ -60,49 +60,31 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
                   SizedBox(
                     height: 30,
                   ),
-                  Row(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Material(
-                        elevation: 5,
+                      RoundedButton(
+                        widgetKey: Key('finishWorkoutCreation'),
+                        title: 'Done',
                         color: Colors.redAccent,
-                        child: TextButton(
-                          key: Key('cancelWorkoutCreation'),
-                          onPressed: () {
-                            // _showDialog();
-                            //Maybe add a prompt asking if they're sure
-                            model.deleteWorkout(widget.newWorkout.workoutId);
-                            model.setTempWorkoutId('');
-                            model.navigateToHomeView();
-                          },
-                          child: Text(
-                            'Cancel',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
+                        onPressed: () {
+                          model.navigateToHomeView();
+                        },
                       ),
                       SizedBox(
                         width: 20,
                       ),
-                      Material(
-                        elevation: 5,
+                      RoundedButton(
+                        widgetKey: Key('cancelWorkoutCreation'),
+                        title: 'Back',
                         color: Colors.redAccent,
-                        child: TextButton(
-                          key: Key('finishWorkoutCreation'),
-                          onPressed: () {
-                            // _showDialog();
-                            //Maybe add a prompt asking if they're sure
-                            model.navigateToHomeView();
-                          },
-                          child: Text(
-                            'Done!',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
+                        onPressed: (){
+                          // _showDialog();
+                          //Maybe add a prompt asking if they're sure
+                          model.deleteWorkout(widget.newWorkout.workoutId);
+                          model.setTempWorkoutId('');
+                          model.navigateToHomeView();
+                        },
                       ),
                     ],
                   ),
@@ -133,14 +115,21 @@ class TempWorkoutList extends ViewModelWidget<CreateWorkoutViewModel> {
   @override
   Widget build(BuildContext context, CreateWorkoutViewModel model) {
     return Expanded(
-      child: ListView.builder(
-        key: Key('tempWorkoutList'),
-        itemBuilder: (context, index) {
-          return model.dataReady
-              ? ExerciseTile(name: model.exercises[index].name)
-              : SizedBox();
-        },
-        itemCount: model.dataReady ? model.exercises.length : 1,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Material(
+          borderRadius: BorderRadius.circular(10.0),
+          color: Colors.grey[300],
+          child: ListView.builder(
+            key: Key('tempWorkoutList'),
+            itemBuilder: (context, index) {
+              return model.dataReady
+                  ? ExerciseTile(name: model.exercises[index].name)
+                  : SizedBox();
+            },
+            itemCount: model.dataReady ? model.exercises.length : 1,
+          ),
+        ),
       ),
     );
   }
@@ -163,7 +152,7 @@ class ExerciseTile extends StatelessWidget {
         Material(
           elevation: 5,
           borderRadius: buildCircleBorderRadius(),
-          color: Colors.white,
+          color: Colors.redAccent,
           child: Column(
             children: [
               ExerciseContainer(
@@ -208,6 +197,7 @@ class TileText extends StatelessWidget {
       text,
       style: TextStyle(
         fontSize: 20,
+        color: Colors.white,
       ),
     );
   }

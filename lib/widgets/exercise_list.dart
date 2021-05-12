@@ -30,11 +30,8 @@ class _ExerciseListState extends State<ExerciseList> {
           model.dataReady ? model.addToExercisesHistory(model.exercises[index]) : (){};
           return model.dataReady
               ? ExerciseTile(
-                  name: model.exercises[index].name,
-                  exerciseId: model.exercises[index].exerciseId,
-                  reps: model.exercises[index].reps,
+                  exercise: model.exercises[index],
                   workoutDuration: widget.workoutDuration,
-                  instructions: model.exercises[index].instructions,
                 )
               : Container(
                   child: Text('Loading Exercise...'),

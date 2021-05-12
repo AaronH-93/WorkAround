@@ -137,13 +137,7 @@ class _SetsButtonsState extends State<SetsButtons> {
         MaterialButton(
           color: set.isCompleted ? Colors.green : defaultColor,
           shape: CircleBorder(),
-          onPressed: () {},
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Text(
-              set.setNumber.toString(),
-            ),
-          ),
+          onPressed: (){},
         ),
       );
     }

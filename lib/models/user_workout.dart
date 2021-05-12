@@ -5,7 +5,7 @@ part 'user_workout.g.dart';
 @JsonSerializable()
 class UserWorkout {
   String workoutId;
-  final String name;
+  String name;
   String workoutDuration;
   String date;
 

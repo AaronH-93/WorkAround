@@ -1,6 +1,5 @@
 import 'package:async/async.dart';
 
-//and get him to explain this
 class ResultExtended<T> {
   static Future<Result<T>> fromFutureWithTimeout<T>(
       Future<T> Function() computation) async {

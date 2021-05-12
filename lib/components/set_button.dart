@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:work_around/models/user_set.dart';
 import 'package:work_around/widgets/exercise_tile_view_model.dart';
-import 'package:work_around/widgets/rest_timer.dart';
 
 class SetButton extends ViewModelWidget<ExerciseTileViewModel> {
   final UserSet set;
@@ -27,21 +26,7 @@ class SetButton extends ViewModelWidget<ExerciseTileViewModel> {
         }
         ScaffoldMessenger.of(context).showSnackBar(model.snackBar);
         model.adjustWorkout();
-        //_showRestTimer(context);
       },
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Text(
-          set.setNumber.toString(),
-        ),
-      ),
     );
   }
-
-  // _showRestTimer(BuildContext context) async {
-  //   await showDialog<String>(
-  //     context: context,
-  //     builder: (_) => RestTimer(context: context),
-  //   );
-  // }
 }

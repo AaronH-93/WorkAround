@@ -1,6 +1,4 @@
 import 'package:stacked/stacked.dart';
-import 'package:work_around/models/ExerciseSet.dart';
-import 'package:work_around/models/exercise.dart';
 import 'package:work_around/models/user_exercise.dart';
 import 'package:work_around/models/user_workout.dart';
 import 'package:work_around/services/authentication_service.dart';
@@ -18,6 +16,13 @@ class ExerciseViewModel extends StreamViewModel<List<UserExercise>> {
   ExerciseViewModel(this._navigationService, this._exerciseService,
       this._authenticationService, this._exerciseRepository);
 
+  List<UserExercise> get searchableList => _exerciseService.exercises;
+  List<UserExercise> searchList = [];
+
+  void initList() {
+    searchList.addAll(searchableList);
+  }
+
   void pop() => _navigationService.pop();
   void navigateToSettingsView() => _navigationService.navigateToSettingsView();
   void navigateToAddExerciseView(UserWorkout newWorkout, UserExercise exercise) => _navigationService.navigateToAddExerciseView(newWorkout, exercise);
@@ -32,8 +37,7 @@ class ExerciseViewModel extends StreamViewModel<List<UserExercise>> {
   }
 
   @override
-  Stream<List<UserExercise>> get stream => _exerciseRepository.getExercises(
-      _authenticationService.currentId, _exerciseService.workoutId);
+  Stream<List<UserExercise>> get stream => _exerciseRepository.getExercises(_authenticationService.currentId, _exerciseService.currentWorkoutId);
 
   List<UserExercise> get exerciseList => _exerciseService.exercises;
 
@@ -46,4 +50,18 @@ class ExerciseViewModel extends StreamViewModel<List<UserExercise>> {
   void setExerciseId(String id) => _exerciseService.setCurrentExerciseId(id);
 
   void addToExercisesHistory(UserExercise exercise) => _exerciseService.addToHistoricExercises(exercise);
+
+  void filterSearchResults(String query) {
+    final exercises = searchableList
+        .where((exercise) {
+      final exerciseNameLower = exercise.name.toLowerCase();
+      final muscleGroupLower = exercise.muscleGroup.toLowerCase();
+      final equipmentLower = exercise.equipment.toLowerCase();
+      final searchQuery = query.toLowerCase();
+
+      return exerciseNameLower.contains(searchQuery) || muscleGroupLower.contains(searchQuery) || equipmentLower.contains(searchQuery);
+    }).toList();
+    searchList = exercises;
+    notifyListeners();
+  }
 }

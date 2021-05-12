@@ -16,7 +16,6 @@ class EditExerciseView extends StatefulWidget {
 
   const EditExerciseView({this.workout, this.exercise});
 
-
   @override
   _EditExerciseViewState createState() => _EditExerciseViewState();
 }
@@ -49,6 +48,13 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                     height: 20,
                   ),
                   _CompleteButton(widget.exercise, widget.workout),
+                  RoundedButton(
+                    title: 'Back',
+                    color: Colors.redAccent,
+                    onPressed: () {
+                      model.pop();
+                    },
+                  ),
                 ],
               ),
             ],
@@ -65,9 +71,6 @@ class _EditExerciseViewState extends State<EditExerciseView> {
   }
 }
 
-//This fields are recycled code from AddExerciseView, maybe extract them to their own file and add
-//onPressed parameter sometime?
-
 class _CompleteButton extends ViewModelWidget<EditExerciseViewModel> {
   final UserExercise exercise;
   final UserWorkout workout;
@@ -82,7 +85,7 @@ class _CompleteButton extends ViewModelWidget<EditExerciseViewModel> {
         widgetKey: Key('completeEditButton'),
         color: Colors.redAccent,
         title: 'Done',
-        onPressed: (){
+        onPressed: () {
           model.updateExercise(exercise);
           model.navigateToEditWorkoutView(workout);
         },
@@ -101,7 +104,7 @@ class _WeightField extends ViewModelWidget<EditExerciseViewModel> {
           key: Key('editWeightField'),
           controller: controller,
           decoration: InputDecoration(
-            hintText: 'Weight (Optional)',
+            hintText: 'Weight in KG (Optional)',
           ),
           onChanged: (value) {
             model.weight = int.parse(value);

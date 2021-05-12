@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:work_around/models/exercise.dart';
 import 'package:work_around/models/user_exercise.dart';
 import 'package:work_around/models/user_workout.dart';
 import 'package:work_around/ui/views/auth/login_view.dart';
 import 'package:work_around/ui/views/auth/register_view.dart';
+import 'package:work_around/ui/views/auth/reset_password_view.dart';
 import 'package:work_around/ui/views/exercise/add_exercise_view.dart';
 import 'package:work_around/ui/views/exercise/create_workout_view.dart';
 import 'package:work_around/ui/views/exercise/edit_exercise_view.dart';
@@ -16,8 +16,7 @@ import 'package:work_around/ui/views/exercise/workout_history_view.dart';
 import 'package:work_around/ui/views/exercise/workout_view.dart';
 import 'package:work_around/ui/views/home/home_view.dart';
 import 'package:work_around/ui/views/home/welcome_view.dart';
-import 'package:work_around/ui/views/settings/account_view.dart';
-import 'package:work_around/ui/views/settings/help_view.dart';
+import 'package:work_around/ui/views/settings/about_view.dart';
 import 'package:work_around/ui/views/settings/settings_view.dart';
 import 'package:work_around/ui/views/exercise/view_exercises_view.dart';
 
@@ -47,6 +46,17 @@ class NavigationService {
           settings: const RouteSettings(name: 'login_view'),
         ));
   }
+
+  void navigateToResetPasswordView() {
+    navigator.push(
+        MaterialPageRoute<void>(
+          builder: (context) {
+            return ResetPasswordView();
+          },
+          settings: const RouteSettings(name: 'reset_password_view'),
+        ));
+  }
+
 
   void navigateToRegisterView() {
     navigator.push(
@@ -98,16 +108,6 @@ class NavigationService {
         ));
   }
 
-  void navigateToAccountView() {
-    navigator.push(
-        MaterialPageRoute<void>(
-          builder: (context) {
-            return AccountView();
-          },
-          settings: const RouteSettings(name: 'account_view'),
-        ));
-  }
-
   void navigateToSettingsView() {
     navigator.push(
         MaterialPageRoute<void>(
@@ -118,11 +118,11 @@ class NavigationService {
         ));
   }
 
-  void navigateToHelpView() {
+  void navigateToAboutView() {
     navigator.push(
         MaterialPageRoute<void>(
           builder: (context) {
-            return HelpView();
+            return AboutView();
           },
           settings: const RouteSettings(name: 'help_view'),
         ));

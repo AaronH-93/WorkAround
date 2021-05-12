@@ -1,15 +1,5 @@
-import 'dart:collection';
-import 'package:flutter/material.dart';
-import 'package:work_around/models/ExerciseSet.dart';
-import 'package:work_around/models/exercise.dart';
-import 'package:work_around/models/exercise_data.dart';
 import 'package:work_around/models/user_exercise.dart';
 import 'package:work_around/models/user_set.dart';
-import 'package:work_around/models/workout.dart';
-import 'package:work_around/models/workout_data.dart';
-import 'package:work_around/services/authentication_service.dart';
-import 'package:work_around/services/repository/exercise_repository.dart';
-import 'package:work_around/services/repository/workout_repository.dart';
 
 class ExerciseService {
 
@@ -23,82 +13,81 @@ class ExerciseService {
   List<UserExercise> historyExercises = [];
   List<UserSet> historySets = [];
   List<UserExercise> newExercises = [];
-  List<UserSet> newExercisesSets = [];
-  String workoutId;
-  String get currentWorkoutId => workoutId;
+  String _workoutId;
+  String get currentWorkoutId => _workoutId;
 
-  String workoutIdToEdit;
-  String get getWorkoutIdToEdit => workoutIdToEdit;
+  String _workoutIdToEdit;
+  String get getWorkoutIdToEdit => _workoutIdToEdit;
 
-  String newTempWorkoutId;
-  String get getNewTempWorkoutId => newTempWorkoutId;
+  String _newTempWorkoutId;
+  String get getNewTempWorkoutId => _newTempWorkoutId;
 
-  String workoutHistoryId;
-  String get getWorkoutHistoryId => workoutHistoryId;
+  String _workoutHistoryId;
+  String get getWorkoutHistoryId => _workoutHistoryId;
 
-  String exerciseId;
-  String get currentExerciseId => exerciseId;
+  String _exerciseId;
+  String get currentExerciseId => _exerciseId;
 
-  String exerciseIdToEdit;
-  String get getExerciseIdToEdit => exerciseIdToEdit;
+  String _exerciseIdToEdit;
+  String get getExerciseIdToEdit => _exerciseIdToEdit;
 
-  String exerciseHistoryId;
-  String get getExerciseHistoryId => exerciseHistoryId;
+  String _exerciseHistoryId;
+  String get getExerciseHistoryId => _exerciseHistoryId;
 
-  String setId;
-  String get currentSetId => setId;
+  String _setId;
+  String get currentSetId => _setId;
 
-  String tempWorkoutId;
-  String get newWorkoutId => tempWorkoutId;
+  String _tempWorkoutId;
+  String get newWorkoutId => _tempWorkoutId;
 
-  String tempExerciseId;
-  String get newExerciseId => tempExerciseId;
+  String _tempExerciseId;
+  String get newExerciseId => _tempExerciseId;
 
-  String tempSetId;
-  String get newSetId => tempSetId;
+  String _tempSetId;
+  String get newSetId => _tempSetId;
 
   void setCurrentWorkoutId(String id) {
-    workoutId = id;
+    _workoutId = id;
   }
 
   void setCurrentEditWorkoutId(String id) {
-    workoutIdToEdit = id;
+    _workoutIdToEdit = id;
   }
 
   setNewTempWorkoutId(String id) {
-    newTempWorkoutId = id;
+    _newTempWorkoutId = id;
   }
 
   setWorkoutHistoryId(String id) {
-    workoutHistoryId = id;
+    _workoutHistoryId = id;
   }
 
   void setCurrentExerciseId(String id) {
-    exerciseId = id;
+    _exerciseId = id;
   }
 
   setCurrentExerciseIdToEdit(String id) {
-    exerciseIdToEdit = id;
+    _exerciseIdToEdit = id;
   }
 
   setExerciseHistoryId(String id) {
-    exerciseHistoryId = id;
+    _exerciseHistoryId = id;
   }
 
   void setCurrentSetId(String id) {
-    setId = id;
+    _setId = id;
   }
 
   void setNewWorkoutId(String id) {
-    tempWorkoutId = id;
+    _tempWorkoutId = id;
   }
 
   void setNewExerciseId(String id) {
-    tempExerciseId = id;
+    _tempExerciseId = id;
   }
 
   void setNewSetId(String id) {
-    tempExerciseId = id;
+    _tempExerciseId = id;
   }
 
   Stopwatch _workoutTimer = Stopwatch();
@@ -130,7 +119,7 @@ class ExerciseService {
   }
 
   String getCurrentWorkoutId() {
-    return workoutId;
+    return _workoutId;
   }
 
   void startWorkoutTimer() {
@@ -1145,7 +1134,7 @@ class ExerciseService {
       name: 'Single Leg Calf Raise',
       instructions: '1. Standing straight with a kettlebell in one hand, lift the same foot as the side without the kettlebell off the floor.\n2. Raise your heel upwards while keeping your knees stationary.\n3. Pause when your heels are fully extended and then slowly return to the starting position and repeat.',
       gifUrl: 'https://musclewiki.com/media/uploads/kettlebell-female-sl-calf-raises-front.gif',
-      muscleGroup: 'Hamstring',
+      muscleGroup: 'Calves',
       equipment: 'Kettlebell',
     ),
   ];

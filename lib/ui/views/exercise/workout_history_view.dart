@@ -7,7 +7,6 @@ import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/services/repository/history_repository.dart';
-import 'package:work_around/ui/views/exercise/exercise_information_view.dart';
 import 'package:work_around/ui/views/exercise/workout_history_view_model.dart';
 
 class WorkoutHistoryView extends StatefulWidget {

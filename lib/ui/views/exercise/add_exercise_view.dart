@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:work_around/components/rounded_button.dart';
-import 'package:work_around/models/exercise.dart';
 import 'package:work_around/models/user_exercise.dart';
 import 'package:work_around/models/user_workout.dart';
 import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/services/repository/exercise_repository.dart';
-import 'package:work_around/services/repository/workout_repository.dart';
 import 'package:work_around/ui/views/exercise/add_exercise_view_model.dart';
 
 class AddExerciseView extends StatefulWidget {
@@ -49,6 +47,13 @@ class _AddExerciseViewState extends State<AddExerciseView> {
                     height: 20,
                   ),
                   _CompleteButton(widget.workout, widget.exercise),
+                  RoundedButton(
+                    title: 'Back',
+                    color: Colors.redAccent,
+                    onPressed: () {
+                      model.pop();
+                    },
+                  ),
                 ],
               ),
             ],
@@ -59,7 +64,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
         Provider.of<NavigationService>(context, listen: false),
         Provider.of<AuthenticationService>(context, listen: false),
         Provider.of<ExerciseService>(context, listen: false),
-        Provider.of<WorkoutRepository>(context, listen: false),
         Provider.of<ExerciseRepository>(context, listen: false),
       ),
     );
@@ -101,7 +105,7 @@ class _WeightField extends ViewModelWidget<AddExerciseViewModel> {
           key: Key('weightField'),
           controller: controller,
           decoration: InputDecoration(
-            hintText: 'Weight (Optional)',
+            hintText: 'Weight in KG (Optional)',
           ),
           onChanged: (value) {
             model.weight = int.parse(value);

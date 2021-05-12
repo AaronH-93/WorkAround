@@ -2,7 +2,6 @@ import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:work_around/models/user_exercise.dart';
 import 'package:work_around/models/user_set.dart';
-import 'package:work_around/models/user_workout.dart';
 import 'package:work_around/util/functions.dart';
 import 'firestore_constants.dart';
 

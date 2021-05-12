@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:stacked/stacked.dart';
 import 'package:uuid/uuid.dart';
-import 'package:work_around/models/exercise.dart';
 import 'package:work_around/models/user_exercise.dart';
 import 'package:work_around/models/user_set.dart';
 import 'package:work_around/models/user_workout.dart';
-import 'package:work_around/models/workout.dart';
 import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
@@ -56,11 +54,9 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
   String getCurrentWorkoutId() =>_exerciseService.getCurrentWorkoutId();
   Duration getWorkoutTimeElapsed() => _exerciseService.getWorkoutTimeElapsed();
   Duration getInitialWorkoutDuration() => _exerciseService.getInitialWorkoutDuration();
-  //Need to convert the user_exercise object into exercise,
-  //maybe in the exercise service?
+
   void setWorkoutID(String id) => _exerciseService.setCurrentWorkoutId(id);
   void setWorkoutIdToEdit(String workoutIdToEdit) => _exerciseService.setCurrentEditWorkoutId(workoutIdToEdit);
-  //void setCurrentWorkout(UserWorkout workout) => _exerciseService.setCurrentWorkout(workout);
   void startWorkoutTimer() => _exerciseService.startWorkoutTimer();
   void setInitialWorkoutDuration(Duration duration) => _exerciseService. setInitialWorkoutDuration(duration);
 
@@ -75,10 +71,9 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
 
   @override
   Stream<List<UserWorkout>> get stream => _workoutRepository.getWorkouts(_authenticationService.currentId);
-
   List<UserWorkout> get workouts => data;
 
-  void addWorkoutToFirestore(UserWorkout newWorkout) => _workoutRepository.addOrUpdateWorkout(_authenticationService.currentId, newWorkout);
+  void addOrUpdateWorkout(UserWorkout newWorkout) => _workoutRepository.addOrUpdateWorkout(_authenticationService.currentId, newWorkout);
   void deleteWorkout(String workoutId) => _workoutRepository.deleteWorkout(_authenticationService.currentId, workoutId);
 
   void resetWorkout(String workoutId){

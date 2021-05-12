@@ -35,62 +35,7 @@ class _HomeViewState extends State<HomeView> {
       key: Key('homeView'),
       builder: (context, model, child) => Scaffold(
         body: Scaffold(
-          drawer: Container(
-            width: 250,
-            child: Drawer(
-              key: Key('homeViewDrawer'),
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: <Widget>[
-                  DrawerHeader(
-                    child: Row(
-                      children: [
-                        Text(
-                          model.isBusy
-                              ? 'Hello'
-                              : 'Welcome, ${model.data.firstName}',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.redAccent,
-                    ),
-                  ),
-                  _DrawerTile(
-                    //widgetKey: Key('historyButton'),
-                    text: 'History',
-                    onPressed: () {
-                      model.navigateToWorkoutHistoryView();
-                    },
-                  ),
-                  _DrawerTile(
-                    //widgetKey: Key('exercisesButton'),
-                    text: 'Exercises',
-                    onPressed: () {
-                      model.navigateToViewExercisesView();
-                    },
-                  ),
-                  _DrawerTile(
-                    widgetKey: Key('settingsButton'),
-                    text: 'Settings',
-                    onPressed: () {
-                      model.navigateToSettingsView();
-                    },
-                  ),
-                  _DrawerTile(
-                    widgetKey: Key('helpButton'),
-                    text: 'Help',
-                    onPressed: () {
-                      model.pop();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
+          drawer: _HomeDrawer(),
           appBar: AppBar(
             title: Text(
               'WorkAround',
@@ -105,38 +50,7 @@ class _HomeViewState extends State<HomeView> {
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: Center(
-                    child: model.isBusy
-                        ? Text(
-                        'Hello',
-                            style: TextStyle(
-                              fontSize: 25.0,
-                              color: Colors.redAccent,
-                            ))
-                        : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Welcome, ${model.data.firstName}',
-                                style: TextStyle(
-                                  fontSize: 25.0,
-                                  color: Colors.redAccent,
-                                ),
-                              ),
-                              TextButton(
-                                key: Key('signOut'),
-                                onPressed: () {
-                                  model.signOut();
-                                  model.navigateToWelcomeView();
-                                },
-                                child: Text('Sign Out'),
-                              )
-                            ],
-                          ),
-                  ),
-                ),
+                _GreetingContainer(),
                 Center(
                   child: RoundedButton(
                     widgetKey: Key('historyButton'),
@@ -209,6 +123,105 @@ class _HomeViewState extends State<HomeView> {
   }
 }
 
+class _GreetingContainer extends ViewModelWidget<HomeViewModel> {
+  const _GreetingContainer({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, HomeViewModel model) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: Center(
+        child: model.isBusy
+            ? Text(
+            'Hello',
+                style: TextStyle(
+                  fontSize: 25.0,
+                  color: Colors.redAccent,
+                ))
+            : Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Welcome, ${model.data.firstName}',
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      color: Colors.redAccent,
+                    ),
+                  ),
+                  TextButton(
+                    key: Key('signOut'),
+                    onPressed: () {
+                      model.signOut();
+                      model.navigateToWelcomeView();
+                    },
+                    child: Text('Sign Out'),
+                  )
+                ],
+              ),
+      ),
+    );
+  }
+}
+
+class _HomeDrawer extends ViewModelWidget<HomeViewModel> {
+  const _HomeDrawer({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, HomeViewModel model) {
+    return Container(
+      width: 250,
+      child: Drawer(
+        key: Key('homeViewDrawer'),
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Row(
+                children: [
+                  Text(
+                    model.isBusy
+                        ? 'Hello'
+                        : 'Welcome, ${model.data.firstName}',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+              decoration: BoxDecoration(
+                color: Colors.redAccent,
+              ),
+            ),
+            _DrawerTile(
+              text: 'History',
+              onPressed: () {
+                model.navigateToWorkoutHistoryView();
+              },
+            ),
+            _DrawerTile(
+              text: 'Exercises',
+              onPressed: () {
+                model.navigateToViewExercisesView();
+              },
+            ),
+            _DrawerTile(
+              widgetKey: Key('helpButton'),
+              text: 'About',
+              onPressed: () {
+                model.navigateToAboutView();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _CreateWorkoutDialogBox extends StatelessWidget {
   final BuildContext context;
   final controller = TextEditingController();
@@ -248,7 +261,7 @@ class _CreateWorkoutDialogBox extends StatelessWidget {
               UserWorkout newWorkout =
                   UserWorkout(Uuid().v4(), controller.text);
               model.setTempWorkoutId(newWorkout.workoutId);
-              model.addWorkoutToFirestore(newWorkout);
+              model.addOrUpdateWorkout(newWorkout);
               model.navigateToCreateWorkoutView(newWorkout);
             },
           ),
@@ -272,6 +285,23 @@ class _CreateWorkoutDialogButton extends StatelessWidget {
   final Function onPressed;
 
   _CreateWorkoutDialogButton({this.text, this.onPressed, this.widgetKey});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      key: widgetKey,
+      child: Text(text),
+      onPressed: onPressed,
+    );
+  }
+}
+
+class _RenameWorkoutDialogButton extends StatelessWidget {
+  final Key widgetKey;
+  final String text;
+  final Function onPressed;
+
+  _RenameWorkoutDialogButton({this.text, this.onPressed, this.widgetKey});
 
   @override
   Widget build(BuildContext context) {
@@ -309,6 +339,7 @@ class _WorkoutListState extends State<WorkoutList> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<WorkoutViewModel>.reactive(
+      key: Key('workoutList'),
       builder: (context, model, child) => ListView.builder(
         itemBuilder: (context, index) {
           return model.dataReady
@@ -372,18 +403,12 @@ class _WorkoutContainerState extends State<WorkoutContainer> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<WorkoutViewModel>.nonReactive(
+      key: Key('workoutContainer'),
       builder: (context, model, child) => Container(
         padding: EdgeInsets.all(5.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            TextButton(
-              key: Key('${widget.workout.name}_deleteWorkoutButton'),
-              onPressed: () {
-                model.deleteWorkout(widget.workout.workoutId);
-              },
-              child: Text('Delete'),
-            ),
             TextButton(
               key: Key('${widget.workout.name}_startWorkoutButton'),
               child: WorkoutTileText(text: widget.workout.name),
@@ -391,7 +416,7 @@ class _WorkoutContainerState extends State<WorkoutContainer> {
                 _startWorkoutDialog(widget.workout);
               },
               onLongPress: () {
-                //TODO: add functionality to rename workout
+                _renameWorkoutDialog(widget.workout);
               },
             ),
             TextButton(
@@ -402,6 +427,13 @@ class _WorkoutContainerState extends State<WorkoutContainer> {
                 model.navigateToEditWorkoutView(widget.workout);
               },
               child: Text('Edit'),
+            ),
+            TextButton(
+              key: Key('${widget.workout.name}_deleteWorkoutButton'),
+              onPressed: () {
+                model.deleteWorkout(widget.workout.workoutId);
+              },
+              child: Text('Delete'),
             ),
           ],
         ),
@@ -424,6 +456,70 @@ class _WorkoutContainerState extends State<WorkoutContainer> {
           _StartWorkoutDialogBox(context: context, workout: workout),
     );
   }
+
+  _renameWorkoutDialog(UserWorkout workout) async {
+    await showDialog<String>(
+      context: context,
+      builder: (_) =>
+          _RenameWorkoutDialogBox(context: context, workout: workout),
+    );
+  }
+}
+
+class _RenameWorkoutDialogBox extends StatelessWidget {
+  final BuildContext context;
+  final UserWorkout workout;
+  final controller = TextEditingController();
+
+  _RenameWorkoutDialogBox({this.context, this.workout});
+
+  @override
+  Widget build(BuildContext context) {
+    return ViewModelBuilder<WorkoutViewModel>.reactive(
+      builder: (context, model, child) => AlertDialog(
+        contentPadding: EdgeInsets.all(16.0),
+        content: Row(
+          children: <Widget>[
+            Expanded(
+              child: TextField(
+                key: Key('renameWorkoutDialogBox'),
+                controller: controller,
+                autofocus: true,
+                decoration: InputDecoration(
+                    labelText: 'Enter new workout name', hintText: '${workout.name}'),
+              ),
+            )
+          ],
+        ),
+        actions: <Widget>[
+          _RenameWorkoutDialogButton(
+            widgetKey: Key('cancelRenameWorkoutButton'),
+            text: 'Cancel',
+            onPressed: () {
+              model.pop();
+            },
+          ),
+          _RenameWorkoutDialogButton(
+            widgetKey: Key('confirmRenameWorkoutButton'),
+            text: 'Confirm',
+            onPressed: () {
+              workout.name = controller.text;
+              model.addOrUpdateWorkout(workout);
+              model.pop();
+            },
+          ),
+        ],
+      ),
+      viewModelBuilder: () => WorkoutViewModel(
+        Provider.of<NavigationService>(context, listen: false),
+        Provider.of<ExerciseService>(context, listen: false),
+        Provider.of<WorkoutRepository>(context, listen: false),
+        Provider.of<AuthenticationService>(context, listen: false),
+        Provider.of<ExerciseRepository>(context, listen: false),
+        Provider.of<HistoryRepository>(context, listen: false),
+      ),
+    );
+  }
 }
 
 class WorkoutTileText extends StatelessWidget {
@@ -436,6 +532,7 @@ class WorkoutTileText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
+        color: Colors.redAccent,
         fontSize: 20,
       ),
     );

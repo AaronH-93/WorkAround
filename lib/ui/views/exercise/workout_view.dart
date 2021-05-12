@@ -25,11 +25,14 @@ class WorkoutView extends StatelessWidget {
         backgroundColor: Colors.grey,
         body: Column(
           children: [
-            Expanded(
+           Expanded(
               child: Container(
-                child: ExerciseList(
-                  workoutDuration: duration,
-                  workoutId: workoutId,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ExerciseList(
+                    workoutDuration: duration,
+                    workoutId: workoutId,
+                  ),
                 ),
               ),
             ),
@@ -58,3 +61,4 @@ class WorkoutView extends StatelessWidget {
     );
   }
 }
+

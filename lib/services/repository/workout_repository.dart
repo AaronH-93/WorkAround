@@ -17,7 +17,6 @@ class WorkoutRepository {
         return Success();
       });
 
-  //think of them like folders
   Stream<List<UserWorkout>> getWorkouts(String userId) {
     return _firestore
         .collection('$usersCollection/$userId/$workoutCollection')

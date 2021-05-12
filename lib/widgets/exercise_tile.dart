@@ -1,27 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
+import 'package:work_around/models/user_exercise.dart';
 import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/services/repository/exercise_repository.dart';
-import 'package:work_around/services/repository/workout_repository.dart';
 import 'exercise_tile_view_model.dart';
 import 'sets_buttons.dart';
 
 class ExerciseTile extends StatefulWidget {
-  final String exerciseId;
-  final String name;
-  final int reps;
+  final UserExercise exercise;
   final Duration workoutDuration;
-  final String instructions;
 
-  ExerciseTile(
-      {this.exerciseId,
-      this.name,
-      this.reps,
-      this.workoutDuration,
-      this.instructions});
+
+  ExerciseTile({this.exercise, this.workoutDuration});
 
   @override
   _ExerciseTileState createState() => _ExerciseTileState();
@@ -31,8 +24,7 @@ class _ExerciseTileState extends State<ExerciseTile> {
   @override
   void initState() {
     super.initState();
-    Provider.of<ExerciseService>(context, listen: false).exerciseId =
-        widget.exerciseId;
+    Provider.of<ExerciseService>(context, listen: false).setCurrentExerciseId(widget.exercise.exerciseId);
   }
 
   @override
@@ -41,7 +33,6 @@ class _ExerciseTileState extends State<ExerciseTile> {
       viewModelBuilder: () => ExerciseTileViewModel(
         Provider.of<NavigationService>(context, listen: false),
         Provider.of<ExerciseService>(context, listen: false),
-        Provider.of<WorkoutRepository>(context, listen: false),
         Provider.of<ExerciseRepository>(context, listen: false),
         Provider.of<AuthenticationService>(context, listen: false),
       ),
@@ -50,7 +41,6 @@ class _ExerciseTileState extends State<ExerciseTile> {
           SizedBox(
             height: 20,
           ),
-          //Material widgets is repeat code
           Material(
             elevation: 5,
             borderRadius: buildBorderRadiusTop(),
@@ -65,24 +55,29 @@ class _ExerciseTileState extends State<ExerciseTile> {
                       icon: Icon(Icons.info_sharp),
                       color: Colors.redAccent,
                       onPressed: () {
-                        _showExerciseInstructions(widget.instructions);
+                        _showExerciseInstructions(widget.exercise.instructions, widget.exercise.gifUrl);
                       },
                     ),
                     ExerciseContainer(
-                      text: widget.name,
+                      text: widget.exercise.name,
                     ),
                     IconButton(
                       icon: Icon(Icons.notes_sharp),
                       color: Colors.redAccent,
                       onPressed: () {
-
-                        //Open Exercise info/instructions
+                        //TODO: NOTES???
+                        },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.add_sharp),
+                      color: Colors.redAccent,
+                      onPressed: () {
                       },
                     ),
                   ],
                 ),
                 ExerciseContainer(
-                  text: 'Sets by ${widget.reps} reps',
+                  text: '${widget.exercise.reps} reps per set at ${widget.exercise.weight == null ? 'undefined weight.' : '${widget.exercise.weight} KG'}',
                 ),
               ],
             ),
@@ -105,12 +100,13 @@ class _ExerciseTileState extends State<ExerciseTile> {
     );
   }
 
-  _showExerciseInstructions(String instructions) async {
+  _showExerciseInstructions(String instructions, String gifUrl) async {
     await showDialog<String>(
       context: context,
       builder: (_) => _InstructionsDialogBox(
         context: context,
         instructions: instructions,
+        gifUrl: gifUrl,
       ),
     );
   }
@@ -119,27 +115,44 @@ class _ExerciseTileState extends State<ExerciseTile> {
 class _InstructionsDialogBox extends StatelessWidget {
   final BuildContext context;
   final String instructions;
+  final String gifUrl;
 
-  _InstructionsDialogBox({this.context, this.instructions});
+  _InstructionsDialogBox({this.context, this.instructions, this.gifUrl});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
       content: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            instructions,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              'OK',
+          GifLoader(gifUrl: gifUrl),
+          Material(
+            borderRadius: buildBorderRadiusBottom(),
+            color: Colors.grey[300],
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    instructions,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  key: Key('instructionsDialogBoxButton'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'OK',
+                  ),
+                ),
+              ],
             ),
           )
         ],
@@ -179,6 +192,27 @@ class TileText extends StatelessWidget {
       style: TextStyle(
         fontSize: 20,
       ),
+    );
+  }
+}
+
+class GifLoader extends StatelessWidget {
+  final String gifUrl;
+  GifLoader({this.gifUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.network(
+      gifUrl,
+      key: Key('gif'),
+      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent progress) {
+        if (progress == null) return child;
+        return Center(
+          child: CircularProgressIndicator(
+            value: progress.expectedTotalBytes != null ? progress.cumulativeBytesLoaded / progress.expectedTotalBytes : null,
+          ),
+        );
+      },
     );
   }
 }

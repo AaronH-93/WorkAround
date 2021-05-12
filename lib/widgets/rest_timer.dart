@@ -1,9 +1,6 @@
 import 'dart:core';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'dart:async';
-
 import 'package:stacked/stacked.dart';
 import 'package:work_around/components/rounded_button.dart';
 import 'package:work_around/services/authentication_service.dart';
@@ -53,14 +50,6 @@ class _RestTimerState extends State<RestTimer> {
                         model.cancelTimer();
                         },
                     ),
-                    // Text(
-                    //   'FINISH REST',
-                    //   style: TextStyle(
-                    //     fontWeight: FontWeight.bold,
-                    //     fontSize: 20.0,
-                    //     color: Colors.white,
-                    //   ),
-                    // )
                   ],
                 ),
               ),

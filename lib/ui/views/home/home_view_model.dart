@@ -1,7 +1,6 @@
 import 'package:stacked/stacked.dart';
 import 'package:work_around/models/user.dart';
 import 'package:work_around/models/user_workout.dart';
-import 'package:work_around/models/workout.dart';
 import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
@@ -13,7 +12,6 @@ class HomeViewModel extends FutureViewModel<User>{
   final AuthenticationService _authenticationService;
   final UserRepository _userRepository;
 
-
   HomeViewModel(this._navigationService, this._exerciseService, this._authenticationService, this._userRepository);
 
   void signOut() => _authenticationService.signOut();
@@ -24,16 +22,15 @@ class HomeViewModel extends FutureViewModel<User>{
   void navigateToViewExercisesView() => _navigationService.navigateToViewExercisesView();
   void navigateToWorkoutHistoryView() => _navigationService.navigateToWorkoutHistoryView();
   void navigateToWelcomeView() => _navigationService.navigateToWelcomeView();
+  void navigateToAboutView() => _navigationService.navigateToAboutView();
 
   void setWorkoutID(String id) => _exerciseService.setCurrentWorkoutId(id);
-  //void setCurrentWorkout(UserWorkout workout) => _exerciseService.setCurrentWorkout(workout);
   void startWorkoutTimer() => _exerciseService.startWorkoutTimer();
-  void setInitialWorkoutDuration(Duration duration) => _exerciseService. setInitialWorkoutDuration(duration);
+  void setInitialWorkoutDuration(Duration duration) => _exerciseService.setInitialWorkoutDuration(duration);
 
   @override
   Future<User> futureToRun() async {
     return _userRepository.getUser(_authenticationService.currentId);
   }
-
 
 }

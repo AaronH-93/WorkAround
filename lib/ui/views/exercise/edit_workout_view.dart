@@ -26,50 +26,61 @@ class _EditWorkoutViewState extends State<EditWorkoutView> {
       key: Key('editWorkoutView'),
       builder: (context, model, child) => Scaffold(
         body: SafeArea(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                '${widget.workout.name}'
-              ),
-              RoundedButton(onPressed: (){
-                model.setEditPath(true);
-                model.navigateToAddExerciseView(widget.workout);
-              },
-                title: 'Add Exercise',
-                color: Colors.redAccent,
-                widgetKey: Key('addExerciseButton'),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return model.dataReady
-                        ? EditExerciseTile(exercise: model.exercises[index], workout: widget.workout)
-                        : Container(
-                            child: Text('Loading...'),
-                          );
-                  },
-                  itemCount: model.dataReady ? model.exercises.length : 1,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 20,
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              RoundedButton(
-                widgetKey: Key('finishEditExerciseButton'),
-                onPressed: () {
-                  model.setEditPath(false);
-                  model.navigateToHomeView();
+                Text(
+                  '${widget.workout.name}',
+                  style: TextStyle(
+                    fontSize: 40.0,
+                    color: Colors.redAccent,
+                  ),
+                ),
+                RoundedButton(onPressed: (){
+                  model.setEditPath(true);
+                  model.navigateToAddExerciseView(widget.workout);
                 },
-                title: 'Done',
-                color: Colors.redAccent,
-              ),
-            ],
+                  title: 'Add Exercise',
+                  color: Colors.redAccent,
+                  widgetKey: Key('addExerciseButton'),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Expanded(
+                  child: Material(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.grey[300],
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return model.dataReady
+                            ? EditExerciseTile(exercise: model.exercises[index], workout: widget.workout)
+                            : Container(
+                                child: Text('Loading...'),
+                              );
+                      },
+                      itemCount: model.dataReady ? model.exercises.length : 1,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                RoundedButton(
+                  widgetKey: Key('finishEditExerciseButton'),
+                  onPressed: () {
+                    model.setEditPath(false);
+                    model.navigateToHomeView();
+                  },
+                  title: 'Done',
+                  color: Colors.redAccent,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -108,14 +119,6 @@ class EditExerciseContainer extends ViewModelWidget<EditWorkoutViewModel> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          TextButton(
-            key: Key('${exercise.name}_deleteExerciseButton'),
-            onPressed: () {
-              //TODO: add Prompt to delete exercise
-              model.deleteExercise(exercise.exerciseId);
-            },
-            child: Text('Delete'),
-          ),
           EditTileText(text: exercise.name),
           TextButton(
             key: Key('${exercise.name}_editExerciseButton'),
@@ -125,6 +128,13 @@ class EditExerciseContainer extends ViewModelWidget<EditWorkoutViewModel> {
               model.navigateToEditExerciseView(exercise, workout);
             },
             child: Text('Edit'),
+          ),
+          TextButton(
+            key: Key('${exercise.name}_deleteExerciseButton'),
+            onPressed: () {
+              model.deleteExercise(exercise.exerciseId);
+            },
+            child: Text('Delete'),
           ),
         ],
       ),
@@ -142,6 +152,7 @@ class EditTileText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
+        color: Colors.redAccent,
         fontSize: 20,
       ),
     );

@@ -18,12 +18,9 @@ class BaseAuthViewModel extends BaseViewModel {
   bool displayErrorMessage() =>
       _errorMessage != null && _errorMessage.isNotEmpty;
 
-  Future<void> validateAndSubmitAction(AsyncCallback performAction,
-      {bool validationPassed}) async {
+  Future<void> submitAction(AsyncCallback performAction) async {
     _errorMessage = "";
     setBusy(true);
-
-    //TODO: Add validation check
       try {
         await performAction();
       } on AuthenticationServiceException catch (exception) {

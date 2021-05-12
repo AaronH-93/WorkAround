@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:work_around/models/user.dart';
 import 'package:work_around/services/repository/user_repository.dart';

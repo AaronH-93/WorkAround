@@ -2,15 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:work_around/components/rounded_button.dart';
-import 'package:work_around/models/exercise.dart';
 import 'package:work_around/models/user_exercise.dart';
 
 class ExerciseInformationView extends StatelessWidget {
   final UserExercise exercise;
   ExerciseInformationView({this.exercise});
 
-  //This page will display all the information for an exercise, check musclewiki for ideas
-  //Include how-to instructions, gif/videos from musclewiki?, description of exercise
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,15 +119,11 @@ class GifLoader extends StatelessWidget {
     return Image.network(
       gifUrl,
       key: Key('gif'),
-      fit: BoxFit.cover,
-      loadingBuilder:
-          (BuildContext context, Widget child, ImageChunkEvent progress) {
+      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent progress) {
         if (progress == null) return child;
         return Center(
           child: CircularProgressIndicator(
-            value: progress.expectedTotalBytes != null
-                ? progress.cumulativeBytesLoaded / progress.expectedTotalBytes
-                : null,
+            value: progress.expectedTotalBytes != null ? progress.cumulativeBytesLoaded / progress.expectedTotalBytes : null,
           ),
         );
       },

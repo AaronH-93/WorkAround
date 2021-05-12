@@ -13,7 +13,6 @@ class EditExerciseViewModel extends StreamViewModel<List<UserSet>>{
   final NavigationService _navigationService;
   final ExerciseService _exerciseService;
   final ExerciseRepository _exerciseRepository;
-
   int weight;
   int reps;
   int sets;
@@ -33,12 +32,11 @@ class EditExerciseViewModel extends StreamViewModel<List<UserSet>>{
                 setId: Uuid().v4(),
                 effort: _exerciseService.effortMap[exercise.name],
                 isCompleted: false,
-                setNumber: i + 1,
-                weight: weight)
+            ),
         );
       }
 
-      UserExercise userExercise = UserExercise(exerciseId: exercise.exerciseId, name: exercise.name, reps: reps, muscleGroup: exercise.muscleGroup);
+      UserExercise userExercise = UserExercise(exerciseId: exercise.exerciseId, name: exercise.name, reps: reps, weight: weight, muscleGroup: exercise.muscleGroup);
       _exerciseRepository.addOrUpdateExercise(_authenticationService.currentId, _exerciseService.getWorkoutIdToEdit, userExercise);
 
       _exerciseRepository.clearSets(_authenticationService.currentId, _exerciseService.getWorkoutIdToEdit, _exerciseService.getExerciseIdToEdit);
@@ -49,6 +47,8 @@ class EditExerciseViewModel extends StreamViewModel<List<UserSet>>{
   }
 
   void navigateToEditWorkoutView(UserWorkout workout) => _navigationService.navigateToEditWorkoutView(workout);
+
+  void pop() => _navigationService.pop();
 }
 
 
