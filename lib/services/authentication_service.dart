@@ -51,10 +51,7 @@ class AuthenticationService{
       });
 
   String get currentEmail => _currentUser.email;
-
   String get currentId => _currentUser.uid;
-
-
 
   Future<T> _translatePlatformException<T>(
       firebaseAuthFunction<T> authFunction) async {
@@ -79,10 +76,6 @@ String _translatePlatformExceptionCode(PlatformException exception) {
       return "User with this email has been disabled.";
     case "ERROR_TOO_MANY_REQUESTS":
       return "Too many requests. Please try again later.";
-    case "ERROR_OPERATION_NOT_ALLOWED":
-      return "Signing in with Email and Password is not enabled.";
-    case "ERROR_WEAK_PASSWORD":
-      return "Password is not strong enough";
     case "ERROR_EMAIL_ALREADY_IN_USE":
       return "Email address is already in use";
     case "ERROR_NETWORK_REQUEST_FAILED":

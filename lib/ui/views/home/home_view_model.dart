@@ -17,13 +17,12 @@ class HomeViewModel extends FutureViewModel<User>{
   void signOut() => _authenticationService.signOut();
   void pop() => _navigationService.pop();
   void navigateToSettingsView() => _navigationService.navigateToSettingsView();
-  void navigateToWorkoutView(Duration duration, String workoutId) => _navigationService.navigateToWorkoutView(duration, workoutId);
+  void navigateToWorkoutView(String workoutId, Duration duration) => _navigationService.navigateToWorkoutView(workoutId, duration);
   void navigateToCreateWorkoutView(UserWorkout newWorkout) => _navigationService.navigateToCreateWorkoutView(newWorkout);
   void navigateToViewExercisesView() => _navigationService.navigateToViewExercisesView();
   void navigateToWorkoutHistoryView() => _navigationService.navigateToWorkoutHistoryView();
   void navigateToWelcomeView() => _navigationService.navigateToWelcomeView();
   void navigateToAboutView() => _navigationService.navigateToAboutView();
-
   void setWorkoutID(String id) => _exerciseService.setCurrentWorkoutId(id);
   void startWorkoutTimer() => _exerciseService.startWorkoutTimer();
   void setInitialWorkoutDuration(Duration duration) => _exerciseService.setInitialWorkoutDuration(duration);

@@ -20,7 +20,7 @@ class SetButton extends ViewModelWidget<ExerciseTileViewModel> {
           set.isCompleted = true;
           model.updateSet(set);
         }
-        else {
+        if(set.isCompleted) {
           set.isCompleted = false;
           model.updateSet(set);
         }

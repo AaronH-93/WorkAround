@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:work_around/models/user_exercise.dart';
 import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
@@ -65,14 +66,9 @@ class _ExerciseTileState extends State<ExerciseTile> {
                       icon: Icon(Icons.notes_sharp),
                       color: Colors.redAccent,
                       onPressed: () {
-                        //TODO: NOTES???
+                        model.setExerciseIdForNotes(widget.exercise.exerciseId);
+                        model.navigateToViewNotesView();
                         },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.add_sharp),
-                      color: Colors.redAccent,
-                      onPressed: () {
-                      },
                     ),
                   ],
                 ),
@@ -86,14 +82,7 @@ class _ExerciseTileState extends State<ExerciseTile> {
             borderRadius: buildBorderRadiusBottom(),
             elevation: 5,
             color: Colors.red[300],
-            child: Column(
-              children: [
-                model.dataReady
-                    ? SetsButtons(workoutDuration: widget.workoutDuration)
-                    : SizedBox(),
-                //Change this to render a loading indicator instead of a blank sizedbox
-              ],
-            ),
+            child: SetsButtons(),
           ),
         ],
       ),
@@ -143,6 +132,16 @@ class _InstructionsDialogBox extends StatelessWidget {
                     ),
                   ),
                 ),
+                Center(
+                  child: TextButton(
+                    child: Text(
+                        'Exercise Information Provided by MuscleWiki.'
+                    ),
+                    onPressed: (){
+                      _directToMuscleWiki();
+                    },
+                  ),
+                ),
                 TextButton(
                   key: Key('instructionsDialogBoxButton'),
                   onPressed: () {
@@ -160,6 +159,8 @@ class _InstructionsDialogBox extends StatelessWidget {
     );
   }
 }
+
+void _directToMuscleWiki() async => await canLaunch('https://musclewiki.com/') ? await launch('https://musclewiki.com/') : throw 'Could not launch https://musclewiki.com/';
 
 class ExerciseContainer extends StatelessWidget {
   final String text;

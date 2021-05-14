@@ -43,15 +43,17 @@ class ExerciseTileViewModel extends StreamViewModel<List<UserSet>>{
   );
 
   String getCurrentWorkoutId() =>_exerciseService.getCurrentWorkoutId();
-  void navigateToNewWorkoutView(Duration duration, String workoutId) => _navigationService.navigateToNewWorkoutView(duration, workoutId);
+  void navigateToNewWorkoutView(String workoutId, Duration duration) => _navigationService.navigateToNewWorkoutView(workoutId, duration);
   void setNewDuration(Duration duration) => _exerciseService.setWorkoutDuration(duration);
   Duration getWorkoutTimeElapsed() => _exerciseService.getWorkoutTimeElapsed();
   Duration getInitialWorkoutDuration() => _exerciseService.getInitialWorkoutDuration();
-  void navigateToWorkoutView(Duration duration, String workoutId) => _navigationService.navigateToWorkoutView(duration, workoutId);
+  void navigateToWorkoutView(String workoutId, Duration duration) => _navigationService.navigateToWorkoutView(workoutId, duration);
+  void navigateToViewNotesView() => _navigationService.navigateToViewNoteView();
 
   void adjustWorkout() {
     setNewDuration(newWorkoutDuration());
-    navigateToWorkoutView(newWorkoutDuration(), getCurrentWorkoutId());
+    notifyListeners();
+    navigateToWorkoutView(getCurrentWorkoutId(), newWorkoutDuration());
   }
 
   Duration newWorkoutDuration() {
@@ -59,4 +61,9 @@ class ExerciseTileViewModel extends StreamViewModel<List<UserSet>>{
   }
 
   void addToSetHistory(UserSet set) => _exerciseService.addToHistoricSets(set);
+
+  Duration getTestDuration() => _exerciseService.getTestDuration();
+
+  void setExerciseIdForNotes(String exerciseId) => _exerciseService.setExerciseIdForNotes(exerciseId);
+
 }

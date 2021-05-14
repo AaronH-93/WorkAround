@@ -31,7 +31,7 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
     _timer = Timer(Duration(seconds: _restCounter), (){
         _timer.cancel();
         setNewDuration(newWorkoutDuration());
-        navigateToWorkoutView(newWorkoutDuration(), getCurrentWorkoutId());
+        navigateToWorkoutView(getCurrentWorkoutId(), newWorkoutDuration());
       }
     );
     return _restCounter;
@@ -40,7 +40,7 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
   _cancelTimer(){
     _timer.cancel();
     setNewDuration(newWorkoutDuration());
-    navigateToWorkoutView(newWorkoutDuration(), getCurrentWorkoutId());
+    navigateToWorkoutView(getCurrentWorkoutId(), newWorkoutDuration());
   }
 
   Duration newWorkoutDuration() {
@@ -58,15 +58,14 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
   void setWorkoutID(String id) => _exerciseService.setCurrentWorkoutId(id);
   void setWorkoutIdToEdit(String workoutIdToEdit) => _exerciseService.setCurrentEditWorkoutId(workoutIdToEdit);
   void startWorkoutTimer() => _exerciseService.startWorkoutTimer();
-  void setInitialWorkoutDuration(Duration duration) => _exerciseService. setInitialWorkoutDuration(duration);
+  void setInitialWorkoutDuration(Duration duration) => _exerciseService.setInitialWorkoutDuration(duration);
 
   //Navigation
   void pop() => _navigationService.pop();
   void navigateToSettingsView() => _navigationService.navigateToSettingsView();
   void navigateToHomeView() => _navigationService.navigateToHomeView();
   void navigateToCreateWorkoutView(UserWorkout newWorkout) => _navigationService.navigateToCreateWorkoutView(newWorkout);
-  void navigateToNewWorkoutView(Duration duration, String workoutId) => _navigationService.navigateToNewWorkoutView(duration, workoutId);
-  void navigateToWorkoutView(Duration duration, String workoutId) => _navigationService.navigateToWorkoutView(duration, workoutId);
+  void navigateToWorkoutView(String workoutId, Duration duration) => _navigationService.navigateToWorkoutView(workoutId, duration);
   void navigateToEditWorkoutView(UserWorkout workout) => _navigationService.navigateToEditWorkoutView(workout);
 
   @override
@@ -103,4 +102,8 @@ class WorkoutViewModel extends StreamViewModel<List<UserWorkout>>{
       _historyRepository.addOrUpdateExerciseSets(_authenticationService.currentId, workout.workoutId, set);
     }
   }
+
+  void resetWorkoutTimer() => _exerciseService.resetWorkoutTimer();
+
+  Duration getTestDuration() => _exerciseService.getTestDuration();
 }

@@ -1,6 +1,5 @@
 import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/navigation_service.dart';
-
 import 'auth_components.dart';
 
 class LoginViewModel extends BaseAuthViewModel {
@@ -10,7 +9,6 @@ class LoginViewModel extends BaseAuthViewModel {
       : super(navigator);
 
   void navigateToHomeView() => navigator.navigateToHomeView();
-  void navigateToSignUp() => navigator.navigateToRegisterView();
   void navigateToResetPasswordView() => navigator.navigateToResetPasswordView();
   void navigateToRegisterView() => navigator.navigateToRegisterView();
   void pop() => navigator.pop();
@@ -22,5 +20,4 @@ class LoginViewModel extends BaseAuthViewModel {
           navigator.navigateToHomeView();
         }
       });
-
 }

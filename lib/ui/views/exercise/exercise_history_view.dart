@@ -84,7 +84,7 @@ class ExerciseHistoryContainer extends ViewModelWidget<ExerciseHistoryViewModel>
                 text: exercise.name,
               ),
               ExerciseContainer(
-                text: 'Sets by ${exercise.reps} reps',
+                text: '${exercise.reps} reps per set at ${exercise.weight == null ? 'undefined weight.' : '${exercise.weight} KG'}',
               ),
             ],
           ),

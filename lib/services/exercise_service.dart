@@ -34,6 +34,9 @@ class ExerciseService {
   String _exerciseHistoryId;
   String get getExerciseHistoryId => _exerciseHistoryId;
 
+  String _exerciseIdForNotes;
+  String get getExerciseIdForNotes => _exerciseIdForNotes;
+
   String _setId;
   String get currentSetId => _setId;
 
@@ -86,11 +89,20 @@ class ExerciseService {
     _tempExerciseId = id;
   }
 
+  setExerciseIdForNotes(String exerciseId) {
+    _exerciseIdForNotes = exerciseId;
+  }
+
   void setNewSetId(String id) {
     _tempExerciseId = id;
   }
 
   Stopwatch _workoutTimer = Stopwatch();
+  resetWorkoutTimer() {
+    _workoutTimer.stop();
+    _workoutTimer.reset();
+  }
+
   Duration _initialWorkoutDuration;
   Duration _workoutDuration;
 
@@ -143,15 +155,22 @@ class ExerciseService {
     return _initialWorkoutDuration;
   }
 
+
+  //TODO: REMOVE THIS
+  //Duration testDuration = getInitialWorkoutDuration() - getWorkoutTimeElapsed();
+  Duration getTestDuration(){
+    return _initialWorkoutDuration - _workoutTimer.elapsed;
+  }
+  //Duration get testDuration => getTestDuration();
+
+
   bool isSetWithinDuration(UserSet set) {
     bool withinDuration;
     if (set.isCompleted) {
       withinDuration = true;
       return withinDuration;
     }
-    if (_workoutDuration -
-            Duration(seconds: int.parse(set.effort.toString())) >=
-        Duration.zero) {
+    if (_workoutDuration - Duration(seconds: int.parse(set.effort.toString())) >= Duration.zero) {
       _workoutDuration -= Duration(seconds: int.parse(set.effort.toString()));
       withinDuration = true;
       return withinDuration;
@@ -161,7 +180,9 @@ class ExerciseService {
 
   List<UserSet> resetList = [];
   addSetToResetList(UserSet set) => resetList.add(set);
-  resetResetList() => resetList.clear();
+  resetResetList() {
+    resetList = [];
+  }
 
   Map<String, int> effortMap = {
     'Bicep Curl': 60,
@@ -1138,5 +1159,9 @@ class ExerciseService {
       equipment: 'Kettlebell',
     ),
   ];
+
+
+
+
 }
 

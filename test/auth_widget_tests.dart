@@ -22,14 +22,14 @@ class MockResetPasswordViewModel extends Mock implements ResetPasswordViewModel{
 class MockNavigationService extends Mock implements NavigationService{}
 class MockAuthenticationService extends Mock implements AuthenticationService{}
 
+final redirectToLoginButton = find.byKey(ValueKey('redirectToLoginButton'));
+final redirectToRegisterButton = find.byKey(ValueKey('redirectToRegisterButton'));
+final redirectToResetPasswordButton = find.byKey(ValueKey('redirectToResetPasswordButton'));
+
 void main() {
   final mockNavigationService = MockNavigationService();
   final mockAuth = MockAuthenticationService();
   final mockObserver = MockNavigatorObserver();
-
-  final redirectToLoginButton = find.byKey(ValueKey('redirectToLoginButton'));
-  final redirectToRegisterButton = find.byKey(ValueKey('redirectToRegisterButton'));
-  final redirectToResetPasswordButton = find.byKey(ValueKey('redirectToResetPasswordButton'));
 
   Widget _createWelcomeTestWidget({Widget view}) {
     return ViewModelBuilder<WelcomeViewModel>.reactive(
@@ -39,6 +39,22 @@ void main() {
       ),
       viewModelBuilder: () => WelcomeViewModel(mockNavigationService),
     );
+  }
+
+  Future<Null> _buildWelcomeView(WidgetTester tester) async {
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          Provider<NavigationService>.value(
+            value: mockNavigationService,
+          ),
+        ],
+        child: Builder(
+            builder: (_) => _createWelcomeTestWidget(view: WelcomeView())
+        ),
+      ),
+    );
+    verify(mockObserver.didPush(any, any));
   }
 
   Widget _createLoginTestWidget({Widget view}) {
@@ -122,22 +138,6 @@ void main() {
         ],
         child: Builder(
             builder: (_) => _createLoginTestWidget(view: LoginView())
-        ),
-      ),
-    );
-    verify(mockObserver.didPush(any, any));
-  }
-
-  Future<Null> _buildWelcomeView(WidgetTester tester) async {
-    await tester.pumpWidget(
-      MultiProvider(
-        providers: [
-          Provider<NavigationService>.value(
-            value: mockNavigationService,
-          ),
-        ],
-        child: Builder(
-            builder: (_) => _createWelcomeTestWidget(view: WelcomeView())
         ),
       ),
     );

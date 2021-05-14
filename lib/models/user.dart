@@ -10,10 +10,6 @@ class User {
 
   User(this.firstName, this.lastName, this.email);
 
-  test(String test){
-    return test;
-  }
-
   Map<String, dynamic> toJson() => _$UserToJson(this);
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }

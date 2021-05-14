@@ -187,10 +187,10 @@ class _SearchField extends ViewModelWidget<ViewExercisesViewModel> {
       key: Key('searchField'),
       controller: controller,
       decoration: InputDecoration(
-          labelText: "Search",
-          hintText: "Search Exercises",
-          prefixIcon: Icon(Icons.search),
-          border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+        labelText: "Search",
+        hintText: "Search Exercises",
+        prefixIcon: Icon(Icons.search),
+      ),
       onChanged: (value) {
         model.filterSearchResults(value);
       },

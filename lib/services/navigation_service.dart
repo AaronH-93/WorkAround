@@ -12,6 +12,7 @@ import 'package:work_around/ui/views/exercise/edit_workout_view.dart';
 import 'package:work_around/ui/views/exercise/exercise_history_view.dart';
 import 'package:work_around/ui/views/exercise/exercise_information_view.dart';
 import 'package:work_around/ui/views/exercise/exercises_view.dart';
+import 'package:work_around/ui/views/exercise/view_note_view.dart';
 import 'package:work_around/ui/views/exercise/workout_history_view.dart';
 import 'package:work_around/ui/views/exercise/workout_view.dart';
 import 'package:work_around/ui/views/home/home_view.dart';
@@ -76,22 +77,22 @@ class NavigationService {
         ));
   }
 
-  void navigateToWorkoutView(Duration duration, String workoutId) {
-    navigator.push(
+  void navigateToWorkoutView(String workoutId, Duration duration) {
+    navigator.pushReplacement(
         MaterialPageRoute<void>(
           builder: (context) {
-            return WorkoutView(duration, workoutId);
+            return WorkoutView(workoutId, duration);
           },
           settings: const RouteSettings(name: 'workout_view'),
         ),
     );
   }
 
-  void navigateToNewWorkoutView(Duration duration, String workoutId) {
-    navigator.pushReplacement(
+  void navigateToNewWorkoutView(String workoutId, Duration duration) {
+    navigator.push(
       MaterialPageRoute<void>(
         builder: (context) {
-          return WorkoutView(duration, workoutId);
+          return WorkoutView(workoutId, duration);
         },
         settings: const RouteSettings(name: 'workout_view'),
       ),
@@ -205,6 +206,16 @@ class NavigationService {
             return ExerciseHistoryView();
           },
           settings: const RouteSettings(name: 'exercise_history_view'),
+        ));
+  }
+
+  navigateToViewNoteView() {
+    navigator.push(
+        MaterialPageRoute<void>(
+          builder: (context) {
+            return ViewNoteView();
+          },
+          settings: const RouteSettings(name: 'view_note_view'),
         ));
   }
 }

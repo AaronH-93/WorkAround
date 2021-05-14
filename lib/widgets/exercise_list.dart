@@ -5,14 +5,13 @@ import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
 import 'package:work_around/services/repository/exercise_repository.dart';
-import 'package:work_around/ui/views/exercise/exercises_view_model.dart';
+import 'package:work_around/widgets/exercise_list_view_model.dart';
 import 'exercise_tile.dart';
 
 class ExerciseList extends StatefulWidget {
   final Duration workoutDuration;
-  final String workoutId;
 
-  ExerciseList({this.workoutDuration, this.workoutId});
+  const ExerciseList({this.workoutDuration});
 
   @override
   _ExerciseListState createState() => _ExerciseListState();
@@ -21,25 +20,15 @@ class ExerciseList extends StatefulWidget {
 class _ExerciseListState extends State<ExerciseList> {
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<ExerciseViewModel>.reactive(
-      onModelReady: (model) {
-        model.setWorkoutId(widget.workoutId);
-      },
+    return ViewModelBuilder<ExerciseListViewModel>.reactive(
       builder: (context, model, child) => ListView.builder(
         itemBuilder: (context, index) {
           model.dataReady ? model.addToExercisesHistory(model.exercises[index]) : (){};
-          return model.dataReady
-              ? ExerciseTile(
-                  exercise: model.exercises[index],
-                  workoutDuration: widget.workoutDuration,
-                )
-              : Container(
-                  child: Text('Loading Exercise...'),
-                );
+          return model.dataReady ? ExerciseTile(exercise: model.exercises[index], workoutDuration: widget.workoutDuration,) : Container(child: Text('Loading Exercise...'));
         },
         itemCount: model.dataReady ? model.exercises.length : 1,
       ),
-      viewModelBuilder: () => ExerciseViewModel(
+      viewModelBuilder: () => ExerciseListViewModel(
         Provider.of<NavigationService>(context, listen: false),
         Provider.of<ExerciseService>(context, listen: false),
         Provider.of<AuthenticationService>(context, listen: false),

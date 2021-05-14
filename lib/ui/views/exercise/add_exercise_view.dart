@@ -25,38 +25,47 @@ class _AddExerciseViewState extends State<AddExerciseView> {
     return ViewModelBuilder.reactive(
       key: Key('addExerciseView'),
       builder: (context, model, child) => Scaffold(
-        body: Form(
-          child: ListView(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _SetsField(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _RepsField(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _WeightField(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _CompleteButton(widget.workout, widget.exercise),
-                  RoundedButton(
-                    title: 'Back',
-                    color: Colors.redAccent,
-                    onPressed: () {
-                      model.pop();
-                    },
-                  ),
-                ],
-              ),
-            ],
+        body: SafeArea(
+          child: Form(
+            child: ListView(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${widget.exercise.name}',
+                      style: TextStyle(
+                        fontSize: 30.0,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    _SetsField(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    _RepsField(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    _WeightField(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    _CompleteButton(widget.workout, widget.exercise),
+                    RoundedButton(
+                      title: 'Back',
+                      color: Colors.redAccent,
+                      onPressed: () {
+                        model.pop();
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -11,12 +11,17 @@ import 'package:work_around/services/repository/workout_repository.dart';
 import 'package:work_around/widgets/exercise_list.dart';
 import 'workout_view_model.dart';
 
-class WorkoutView extends StatelessWidget {
-  final Duration duration;
+class WorkoutView extends StatefulWidget {
   final String workoutId;
+  final Duration workoutDuration;
 
-  WorkoutView(this.duration, this.workoutId);
+  WorkoutView(this.workoutId, this.workoutDuration);
 
+  @override
+  _WorkoutViewState createState() => _WorkoutViewState();
+}
+
+class _WorkoutViewState extends State<WorkoutView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<WorkoutViewModel>.reactive(
@@ -29,10 +34,7 @@ class WorkoutView extends StatelessWidget {
               child: Container(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ExerciseList(
-                    workoutDuration: duration,
-                    workoutId: workoutId,
-                  ),
+                  child: ExerciseList(workoutDuration: widget.workoutDuration,),
                 ),
               ),
             ),
@@ -42,9 +44,10 @@ class WorkoutView extends StatelessWidget {
                 title: 'Finish Workout',
                 color: Colors.red[300],
                 onPressed: () {
-                  model.addWorkoutToHistory(workoutId);
-                  model.resetWorkout(workoutId);
+                  model.addWorkoutToHistory(widget.workoutId);
+                  model.resetWorkout(widget.workoutId);
                   model.resetResetList();
+                  model.resetWorkoutTimer();
                   model.navigateToHomeView();
                 }),
           ],

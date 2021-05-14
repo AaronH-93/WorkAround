@@ -20,46 +20,48 @@ class _WorkoutHistoryViewState extends State<WorkoutHistoryView> {
     return ViewModelBuilder<WorkoutHistoryViewModel>.reactive(
       key: Key('historyView'),
       builder: (context, model, child) => Scaffold(
-        body: Column(
-          children: [
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Workout History',
-                  style: TextStyle(
-                    fontSize: 30.0,
-                    color: Colors.black,
+        body: SafeArea(
+          child: Column(
+            children: [
+              Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Workout History',
+                    style: TextStyle(
+                      fontSize: 30.0,
+                      color: Colors.redAccent,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Material(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.grey[300],
-                  child: ListView.builder(
-                    itemBuilder: (context, index) {
-                      return model.dataReady
-                          ? HistoricWorkoutContainer(model.workouts[index])
-                          : SizedBox();
-                    },
-                    itemCount: model.dataReady ? model.workouts.length : 1,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Material(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.grey[300],
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return model.dataReady
+                            ? HistoricWorkoutContainer(model.workouts[index])
+                            : SizedBox();
+                      },
+                      itemCount: model.dataReady ? model.workouts.length : 1,
+                    ),
                   ),
                 ),
               ),
-            ),
-            RoundedButton(
-              widgetKey: Key('backButton'),
-              title: "Back",
-              color: Colors.redAccent,
-              onPressed: () {
-                model.navigateToHomeView();
-              },
-            ),
-          ],
+              RoundedButton(
+                widgetKey: Key('backButton'),
+                title: "Back",
+                color: Colors.redAccent,
+                onPressed: () {
+                  model.navigateToHomeView();
+                },
+              ),
+            ],
+          ),
         ),
       ),
       viewModelBuilder: () => WorkoutHistoryViewModel(
@@ -142,7 +144,7 @@ class HistoricWorkoutContainer extends ViewModelWidget<WorkoutHistoryViewModel> 
                     Row(
                       children: [
                         Text(
-                          'Workout Duration: ${workout.workoutDuration}',
+                          'Workout Duration: ${workout.workoutDuration.split('.')[0]}',
                           style: TextStyle(
                             fontSize: 20.0,
                             color: Colors.white,

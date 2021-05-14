@@ -4,10 +4,11 @@ import 'package:test/test.dart';
 //The command to run the integration tests in the terminal is:
 // flutter drive --target=test_driver/app.dart
 
+//TODO ADD NOTES TEST
+
 void main() {
   FlutterDriver driver;
-
-  final String registrationEmail = 'test@test.com';
+  final String registrationEmail = 'test9@test.com';
 
   group('WorkAround App', () {
     setUpAll(() async {
@@ -15,9 +16,7 @@ void main() {
     });
 
     tearDownAll(() async {
-      if (driver != null) {
         driver.close();
-      }
     });
 
     test('Navigate to Register View', () async{
@@ -132,6 +131,7 @@ void main() {
     test('edit a workout -> add exercise', () async {
       await driver.tap(find.byValueKey('addExerciseButton'));
       await driver.waitFor(find.byValueKey('exercisesView'), timeout: Duration(seconds: 3));
+      //Add new exercise
       await driver.tap(find.byValueKey('Preacher Curl'));
       await driver.waitFor(find.byValueKey('addExerciseView'), timeout: Duration(seconds: 3));
       await driver.tap(find.byValueKey('setsField'));

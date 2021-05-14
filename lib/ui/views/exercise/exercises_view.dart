@@ -14,7 +14,6 @@ final TextEditingController controller = TextEditingController();
 class ExerciseView extends StatefulWidget {
   final UserWorkout workout;
   ExerciseView({this.workout});
-  
   @override
   _ExerciseViewState createState() => _ExerciseViewState();
 }
@@ -240,7 +239,7 @@ class _SearchField extends ViewModelWidget<ExerciseViewModel> {
           labelText: "Search",
           hintText: "Search Exercises",
           prefixIcon: Icon(Icons.search),
-          border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+         ),
       onChanged: (value) {
         model.filterSearchResults(value);
       },

@@ -120,14 +120,17 @@ class TempWorkoutList extends ViewModelWidget<CreateWorkoutViewModel> {
         child: Material(
           borderRadius: BorderRadius.circular(10.0),
           color: Colors.grey[300],
-          child: ListView.builder(
-            key: Key('tempWorkoutList'),
-            itemBuilder: (context, index) {
-              return model.dataReady
-                  ? ExerciseTile(name: model.exercises[index].name)
-                  : SizedBox();
-            },
-            itemCount: model.dataReady ? model.exercises.length : 1,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.builder(
+              key: Key('tempWorkoutList'),
+              itemBuilder: (context, index) {
+                return model.dataReady
+                    ? ExerciseTile(name: model.exercises[index].name)
+                    : SizedBox();
+              },
+              itemCount: model.dataReady ? model.exercises.length : 1,
+            ),
           ),
         ),
       ),

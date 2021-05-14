@@ -32,6 +32,13 @@ class _EditExerciseViewState extends State<EditExerciseView> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Text(
+                    '${widget.exercise.name}',
+                    style: TextStyle(
+                      fontSize: 30.0,
+                      color: Colors.redAccent,
+                    ),
+                  ),
                   SizedBox(
                     height: 20,
                   ),
