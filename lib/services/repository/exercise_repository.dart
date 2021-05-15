@@ -10,8 +10,7 @@ class ExerciseRepository {
 
   ExerciseRepository(this._firestore);
 
-  Future<Result<Success>> addOrUpdateExercise(String userId, String workoutId, UserExercise exercise) async =>
-      ResultExtended.fromFutureWithTimeout(() async {
+  Future<Result<Success>> addOrUpdateExercise(String userId, String workoutId, UserExercise exercise) async => ResultExtended.fromFutureWithTimeout(() async {
         await _firestore
             .collection('$usersCollection/$userId/$workoutCollection/$workoutId/$exerciseCollection')
             .doc(exercise.exerciseId)
@@ -23,6 +22,7 @@ class ExerciseRepository {
     return _firestore
         .collection(
         '$usersCollection/$userId/$workoutCollection/$workoutId/$exerciseCollection')
+        .orderBy('exerciseId')
         .snapshots()
         .map(
           (snapshot) =>
@@ -32,11 +32,11 @@ class ExerciseRepository {
     );
   }
 
-  Stream<List<UserSet>> getExerciseSets(String userId, String workoutId,
-      String exerciseId) {
+  Stream<List<UserSet>> getExerciseSets(String userId, String workoutId, String exerciseId) {
     return _firestore
         .collection(
         '$usersCollection/$userId/$workoutCollection/$workoutId/$exerciseCollection/$exerciseId/$setsCollection')
+        .orderBy('setId')
         .snapshots()
         .map(
           (snapshot) =>
@@ -46,9 +46,7 @@ class ExerciseRepository {
     );
   }
 
-  Future<Result<Success>> deleteSet(String userId, String workoutId,
-      String exerciseId, String setId) =>
-      ResultExtended.fromFutureWithTimeout(() async {
+  Future<Result<Success>> deleteSet(String userId, String workoutId, String exerciseId, String setId) => ResultExtended.fromFutureWithTimeout(() async {
         await _firestore
             .collection(
             '$usersCollection/$userId/$workoutCollection/$workoutId/$exerciseCollection/$exerciseId/$setsCollection')
@@ -66,8 +64,7 @@ class ExerciseRepository {
     return Success();
   });
 
-  Future<Result<Success>> addOrUpdateExerciseSets(String userId, String workoutId, UserSet set) async =>
-      ResultExtended.fromFutureWithTimeout(() async {
+  Future<Result<Success>> addOrUpdateExerciseSets(String userId, String workoutId, UserSet set) async => ResultExtended.fromFutureWithTimeout(() async {
         await _firestore
             .collection('$usersCollection/$userId/$workoutCollection/$workoutId/$exerciseCollection/${set.exerciseId}/$setsCollection/')
             .doc(set.setId)
@@ -75,8 +72,7 @@ class ExerciseRepository {
         return Success();
       });
 
-  Future<Result<Success>> clearSets(String currentId, String getWorkoutIdToEdit, String getWorkoutIdToEdit2) async =>
-      ResultExtended.fromFutureWithTimeout(() async  {
+  Future<Result<Success>> clearSets(String currentId, String getWorkoutIdToEdit, String getWorkoutIdToEdit2) async => ResultExtended.fromFutureWithTimeout(() async  {
         await _firestore
             .collection('$usersCollection/$currentId/$workoutCollection/$getWorkoutIdToEdit/$exerciseCollection/$getWorkoutIdToEdit2/$setsCollection/')
             .get()
@@ -88,9 +84,7 @@ class ExerciseRepository {
         return Success();
       });
 
-  Future<Result<Success>> deleteExercise(String userId, String workoutId,
-      String exerciseId) =>
-      ResultExtended.fromFutureWithTimeout(() async {
+  Future<Result<Success>> deleteExercise(String userId, String workoutId, String exerciseId) => ResultExtended.fromFutureWithTimeout(() async {
         await _firestore
             .collection(
             '$usersCollection/$userId/$workoutCollection/$workoutId/$exerciseCollection/')

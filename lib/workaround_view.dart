@@ -49,7 +49,6 @@ class WorkAroundView extends StatelessWidget {
               ],
               child: GetMaterialApp(
                 title: 'WorkAround',
-                //home: model.isUserLoggedIn ? HomeView() : SignInView(),
                 home: WelcomeView(),
               ));
         });

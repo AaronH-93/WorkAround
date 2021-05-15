@@ -40,6 +40,7 @@ class HistoryRepository {
   Stream<List<UserWorkout>> getWorkouts(String userId) {
     return _firestore
         .collection('$usersCollection/$userId/$workoutHistoryCollection')
+        .orderBy('date')
         .snapshots()
         .map(
           (snapshot) => snapshot.docs

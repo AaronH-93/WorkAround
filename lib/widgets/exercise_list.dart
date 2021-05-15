@@ -9,10 +9,6 @@ import 'package:work_around/widgets/exercise_list_view_model.dart';
 import 'exercise_tile.dart';
 
 class ExerciseList extends StatefulWidget {
-  final Duration workoutDuration;
-
-  const ExerciseList({this.workoutDuration});
-
   @override
   _ExerciseListState createState() => _ExerciseListState();
 }
@@ -24,7 +20,7 @@ class _ExerciseListState extends State<ExerciseList> {
       builder: (context, model, child) => ListView.builder(
         itemBuilder: (context, index) {
           model.dataReady ? model.addToExercisesHistory(model.exercises[index]) : (){};
-          return model.dataReady ? ExerciseTile(exercise: model.exercises[index], workoutDuration: widget.workoutDuration,) : Container(child: Text('Loading Exercise...'));
+          return model.dataReady ? ExerciseTile(exercise: model.exercises[index]) : Container(child: Text('Loading Exercise...'));
         },
         itemCount: model.dataReady ? model.exercises.length : 1,
       ),

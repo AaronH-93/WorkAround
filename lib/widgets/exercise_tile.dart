@@ -3,25 +3,20 @@ import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:work_around/models/user_exercise.dart';
-import 'package:work_around/services/authentication_service.dart';
 import 'package:work_around/services/exercise_service.dart';
 import 'package:work_around/services/navigation_service.dart';
-import 'package:work_around/services/repository/exercise_repository.dart';
 import 'exercise_tile_view_model.dart';
 import 'sets_buttons.dart';
 
 class ExerciseTile extends StatefulWidget {
   final UserExercise exercise;
-  final Duration workoutDuration;
-
-
-  ExerciseTile({this.exercise, this.workoutDuration});
-
+  ExerciseTile({this.exercise});
   @override
   _ExerciseTileState createState() => _ExerciseTileState();
 }
 
 class _ExerciseTileState extends State<ExerciseTile> {
+
   @override
   void initState() {
     super.initState();
@@ -34,8 +29,6 @@ class _ExerciseTileState extends State<ExerciseTile> {
       viewModelBuilder: () => ExerciseTileViewModel(
         Provider.of<NavigationService>(context, listen: false),
         Provider.of<ExerciseService>(context, listen: false),
-        Provider.of<ExerciseRepository>(context, listen: false),
-        Provider.of<AuthenticationService>(context, listen: false),
       ),
       builder: (context, model, child) => Column(
         children: [
@@ -67,7 +60,7 @@ class _ExerciseTileState extends State<ExerciseTile> {
                       color: Colors.redAccent,
                       onPressed: () {
                         model.setExerciseIdForNotes(widget.exercise.exerciseId);
-                        model.navigateToViewNotesView();
+                        model.navigateToViewNotesView(widget.exercise.name);
                         },
                     ),
                   ],

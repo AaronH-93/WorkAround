@@ -39,12 +39,6 @@ class AuthenticationService{
     await _firebaseAuth.signOut();
   }
 
-  Future<bool> isUserLoggedIn() async {
-    final auth.User user = _firebaseAuth.currentUser;
-    _currentUser = user;
-    return user?.uid != null;
-  }
-
   Future<void> passwordReset(String email) async =>
       _translatePlatformException(() async {
         await _firebaseAuth.sendPasswordResetEmail(email: email);

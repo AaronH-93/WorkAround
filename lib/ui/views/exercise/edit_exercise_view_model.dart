@@ -46,9 +46,8 @@ class EditExerciseViewModel extends StreamViewModel<List<UserSet>>{
       }
   }
 
-  void navigateToEditWorkoutView(UserWorkout workout) => _navigationService.navigateToEditWorkoutView(workout);
-
   void pop() => _navigationService.pop();
+  void navigateToEditWorkoutView(UserWorkout workout) => _navigationService.navigateToEditWorkoutView(workout);
 }
 
 

@@ -20,10 +20,6 @@ class WorkAroundViewModel extends BaseViewModel{
   HistoryRepository historyRepository;
   NotesRepository noteRepository;
 
-  bool _isUserLoggedIn;
-
-  bool get isUserLoggedIn => _isUserLoggedIn;
-
   Future<void> initialise() async {
     userRepository = UserRepository(FirebaseFirestore.instance);
     workoutRepository = WorkoutRepository(FirebaseFirestore.instance);
@@ -33,7 +29,5 @@ class WorkAroundViewModel extends BaseViewModel{
     navigationService = NavigationService();
     auth = AuthenticationService(FirebaseAuth.instance, userRepository);
     exerciseService = ExerciseService();
-
-    _isUserLoggedIn = await auth.isUserLoggedIn();
   }
 }

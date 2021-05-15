@@ -584,7 +584,7 @@ class _StartWorkoutDialogBox extends StatelessWidget {
               model.setWorkoutID(workout.workoutId);
               model.startWorkoutTimer();
               model.setInitialWorkoutDuration(Duration(minutes: int.parse(controller.text)));
-              model.navigateToWorkoutView(workout.workoutId, model.getTestDuration());
+              model.navigateToWorkoutView(workout.workoutId, Duration(minutes: int.parse(controller.text)));
             },
           ),
         ],

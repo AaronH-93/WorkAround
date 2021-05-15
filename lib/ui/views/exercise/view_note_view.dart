@@ -11,9 +11,9 @@ import 'package:work_around/services/repository/notes_repository.dart';
 import 'package:work_around/ui/views/exercise/view_note_view_model.dart';
 
 class ViewNoteView extends StatefulWidget {
-  final String exerciseId;
+  final String exerciseName;
 
-  ViewNoteView({this.exerciseId});
+  ViewNoteView({this.exerciseName});
 
   @override
   _ViewNoteViewState createState() => _ViewNoteViewState();
@@ -32,9 +32,9 @@ class _ViewNoteViewState extends State<ViewNoteView> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'Notes',
+                    '${widget.exerciseName} Notes',
                     style: TextStyle(
-                      fontSize: 40.0,
+                      fontSize: 30.0,
                       color: Colors.redAccent,
                     ),
                   ),
@@ -100,11 +100,6 @@ class NotesList extends ViewModelWidget<ViewNoteViewModel> {
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             children: [
-                              IconButton(
-                                icon: Icon(Icons.edit_sharp),
-                                color: Colors.redAccent,
-                                onPressed: () {},
-                              ),
                               Expanded(
                                 child: Text(
                                   '${model.notes[index].noteText}',
@@ -172,8 +167,8 @@ class _CreateNoteDialogBox extends StatelessWidget {
             widgetKey: Key('confirmCreateNoteButton'),
             text: 'Confirm',
             onPressed: () {
-              Note newNote =
-                  Note(Uuid().v4(), model.exerciseId, controller.text);
+              String noteText = controller.text.isEmpty ? 'Empty note.' : controller.text;
+              Note newNote = Note(Uuid().v4(), model.exerciseId, noteText);
               model.updateOrAddNote(newNote);
               model.pop();
             },

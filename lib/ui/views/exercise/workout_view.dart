@@ -34,7 +34,7 @@ class _WorkoutViewState extends State<WorkoutView> {
               child: Container(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ExerciseList(workoutDuration: widget.workoutDuration,),
+                  child: ExerciseList(),
                 ),
               ),
             ),

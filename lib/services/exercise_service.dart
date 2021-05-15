@@ -155,25 +155,13 @@ class ExerciseService {
     return _initialWorkoutDuration;
   }
 
-
-  //TODO: REMOVE THIS
-  //Duration testDuration = getInitialWorkoutDuration() - getWorkoutTimeElapsed();
-  Duration getTestDuration(){
-    return _initialWorkoutDuration - _workoutTimer.elapsed;
-  }
-  //Duration get testDuration => getTestDuration();
-
-
   bool isSetWithinDuration(UserSet set) {
-    bool withinDuration;
     if (set.isCompleted) {
-      withinDuration = true;
-      return withinDuration;
+      return true;
     }
     if (_workoutDuration - Duration(seconds: int.parse(set.effort.toString())) >= Duration.zero) {
       _workoutDuration -= Duration(seconds: int.parse(set.effort.toString()));
-      withinDuration = true;
-      return withinDuration;
+      return true;
     }
     return false;
   }

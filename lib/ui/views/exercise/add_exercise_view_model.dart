@@ -25,7 +25,6 @@ class AddExerciseViewModel extends BaseViewModel{
     _exerciseService.addToTempWorkout(exercise);
   }
 
-  //Lots of this can probably go in a service
   void generateExercise(UserWorkout newWorkout, UserExercise exercise) {
     exercise.exerciseId = Uuid().v4();
     exercise.reps = reps;

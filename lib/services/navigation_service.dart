@@ -209,11 +209,11 @@ class NavigationService {
         ));
   }
 
-  navigateToViewNoteView() {
+  navigateToViewNoteView(String exerciseName) {
     navigator.push(
         MaterialPageRoute<void>(
           builder: (context) {
-            return ViewNoteView();
+            return ViewNoteView(exerciseName: exerciseName);
           },
           settings: const RouteSettings(name: 'view_note_view'),
         ));
