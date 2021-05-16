@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 
 void main() {
   FlutterDriver driver;
-  final String registrationEmail = 'test01@test.com';
+  final String registrationEmail = 'test001@test.com';
 
   group('WorkAround App', () {
     setUpAll(() async {

@@ -122,7 +122,7 @@ class GifLoader extends StatelessWidget {
       loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent progress) {
         if (progress == null) return child;
         return Center(
-          child: CircularProgressIndicator(
+          child: LinearProgressIndicator(
             value: progress.expectedTotalBytes != null ? progress.cumulativeBytesLoaded / progress.expectedTotalBytes : null,
           ),
         );
