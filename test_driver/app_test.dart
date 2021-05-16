@@ -4,11 +4,13 @@ import 'package:test/test.dart';
 //The command to run the integration tests in the terminal is:
 // flutter drive --target=test_driver/app.dart
 
-//TODO ADD NOTES TEST
+//For integration test to work, registration email must be changed before every test
+//as the integration test checks against a function application and database. If it tries
+//to register an account with a duplicate email, the integration test will fail.
 
 void main() {
   FlutterDriver driver;
-  final String registrationEmail = 'test9@test.com';
+  final String registrationEmail = 'test01@test.com';
 
   group('WorkAround App', () {
     setUpAll(() async {
@@ -151,12 +153,21 @@ void main() {
       await driver.waitFor(find.byValueKey('homeView'), timeout: Duration(seconds: 3));
     });
 
-    test('perform workout', () async {
+    test('perform workout and add note', () async {
       await driver.tap(find.byValueKey('Workout 1_startWorkoutButton'));
       await driver.waitFor(find.byValueKey('workoutDurationField'), timeout: Duration(seconds: 3));
       await driver.tap(find.byValueKey('workoutDurationField'));
       await driver.enterText('7');
       await driver.tap(find.byValueKey('beginWorkoutButton'));
+      await driver.waitFor(find.byValueKey('workoutView'), timeout: Duration(seconds: 3));
+      await driver.tap(find.byValueKey('Preacher Curl_notesViewButton'));
+      await driver.waitFor(find.byValueKey('viewNoteView'), timeout: Duration(seconds: 3));
+      await driver.tap(find.byValueKey('addNoteButton'));
+      await driver.waitFor(find.byValueKey('createNoteDialogBox'), timeout: Duration(seconds: 3));
+      await driver.tap(find.byValueKey('createNoteText'));
+      await driver.enterText('Keep form!');
+      await driver.tap(find.byValueKey('confirmCreateNoteButton'));
+      await driver.tap(find.byValueKey('backButton'));
       await driver.waitFor(find.byValueKey('workoutView'), timeout: Duration(seconds: 3));
       await driver.tap(find.byValueKey('finishWorkoutButton'));
       await driver.waitFor(find.byValueKey('homeView'), timeout: Duration(seconds: 3));

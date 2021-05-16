@@ -56,6 +56,7 @@ class _ExerciseTileState extends State<ExerciseTile> {
                       text: widget.exercise.name,
                     ),
                     IconButton(
+                      key: Key('${widget.exercise.name}_notesViewButton'),
                       icon: Icon(Icons.notes_sharp),
                       color: Colors.redAccent,
                       onPressed: () {

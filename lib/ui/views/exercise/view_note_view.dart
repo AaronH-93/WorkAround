@@ -147,7 +147,7 @@ class _CreateNoteDialogBox extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: TextField(
-                key: Key('createNoteDialogBox'),
+                key: Key('createNoteText'),
                 controller: controller,
                 autofocus: true,
                 decoration: InputDecoration(labelText: 'Enter Note'),
